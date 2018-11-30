@@ -1,0 +1,246 @@
+<template>
+  <view class="container">
+  <view class="no-collect" wx:if="{{collectList.length <= 0}}">
+    <view class="c">
+      <image src="http://nos.netease.com/mailpub/hxm/yanxuan-wap/p/20150730/style/img/icon-normal/noCart-a8fe3f12e5.png" />
+      <text>还没有收藏</text>
+    </view>
+  </view>
+  <view class="collect-list" wx:else>
+    <view class="item" bindtap="openGoods"  bindtouchstart="touchStart" bindtouchend="touchEnd" wx:for="{{collectList}}" wx:key="id" data-index="{{index}}">
+      <image class="img" src="{{item.picUrl}}"></image>
+      <view class="info">
+        <view class="name">{{item.name}}</view>
+        <view class="subtitle">{{item.brief}}</view>
+        <view class="price">￥{{item.retailPrice}}</view>
+      </view>
+    </view>
+  </view>
+
+</view>
+
+</template>
+
+<script>
+var daaty =  require("../../utils/api2.js")
+var app = getApp();
+export default {
+  config: {
+    navigationBarTitleText: '我的收藏',
+    usingComponents: {}
+  },
+   data: {
+    type: 0,
+    collectList: [],
+    offset: 0,
+    limit: 10,
+    totalPages: 1
+  },
+  getCollectList() {
+    wx.showLoading({
+      title: '加载中...',
+    });
+    let that = this;
+    daaty.CollectList( that.data.type,that.data.offset,that.data.limit,null,successFay)
+      function successFay(res, sourceObj){
+        console.log(res.data.collectList)
+              that.setData({
+                collectList: that.data.collectList.concat(res.data.collectList),
+                totalPages: res.data.totalPages
+              });
+             wx.hideLoading();
+      }
+  },
+  onLoad: function (options) {
+     var userid = app.globalData.user.userId
+     this.setData({userid:userid})
+     this.getCollectList();
+  },
+  onReachBottom() {
+    if (this.data.totalPages > this.data.page) {
+      this.setData({
+        page: this.data.page + 1
+      });
+      this.getCollectList();
+    } else {
+      wx.showToast({
+        title: '没有更多用户收藏了',
+        icon: 'none',
+        duration: 2000
+      });
+      return false;
+    }
+  },  
+  onReady: function () {
+
+  },
+  onShow: function () {
+
+  },
+  onHide: function () {
+    // 页面隐藏
+
+  },
+  onUnload: function () {
+    // 页面关闭
+  },
+  openGoods(event) {
+    
+    let that = this;
+    let index = event.currentTarget.dataset.index;
+    let goodsId = this.data.collectList[index].valueId;
+
+    //触摸时间距离页面打开的毫秒数  
+    var touchTime = that.data.touchEnd - that.data.touchStart;
+    //如果按下时间大于350为长按  
+    if (touchTime > 350) {
+      wx.showModal({
+        title: '',
+        content: '确定删除吗？',
+        success: function (res) {
+          if (res.confirm) {
+         daaty.CollectAddOrDelete(goodsId,that.data.type,null,successFay)
+           function successFay(res, sourceObj){
+              wx.showToast({
+                  title: '删除成功',
+                  icon: 'success',
+                  duration: 2000
+                });
+                that.data.collectList.splice(index, 1)
+                that.setData({
+                  collectList: that.data.collectList
+                });
+             }
+         
+          }
+        }
+      })
+    } else {
+      
+      wx.navigateTo({
+        url: '/pages/goods/goods?id=' + goodsId,
+      });
+    }  
+  },
+  //按下事件开始  
+  touchStart: function (e) {
+    let that = this;
+    that.setData({
+      touchStart: e.timeStamp
+    })
+  },
+  //按下事件结束  
+  touchEnd: function (e) {
+    let that = this;
+    that.setData({
+      touchEnd: e.timeStamp
+    })
+  }
+}
+</script>
+
+<style>
+page{
+    background: #f4f4f4;
+    min-height: 100%;
+}
+
+.container{
+    background: #f4f4f4;
+    min-height: 100%;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+}
+
+
+.no-collect{
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+}
+
+.no-collect .c{
+    width: 100%;
+    height: auto;
+    margin-top: 200rpx;
+}
+
+.no-collect .c image{
+    margin: 0 auto;
+    display: block;
+    text-align: center;
+    width: 258rpx;
+    height: 258rpx;
+}
+
+.no-collect .c text{
+    margin: 0 auto;
+    display: block;
+    width: 258rpx;
+    height: 29rpx;
+    line-height: 29rpx;
+    text-align: center;
+    font-size: 29rpx;
+    color: #999;
+}
+
+.collect-list{
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  background: #fff;
+  padding-left: 30rpx;
+  border-top: 1px solid #e1e1e1;
+}
+
+.item{
+  height: 212rpx;
+  width: 720rpx;
+  background: #fff;
+  padding: 30rpx 30rpx 30rpx 0;
+  border-bottom: 1px solid #e1e1e1;
+}
+
+.item:last-child{
+  border-bottom: 1px solid #fff;
+}
+
+.item .img{
+  float: left;
+  width: 150rpx;
+  height: 150rpx;
+}
+
+.item .info{
+  float: right;
+  width: 540rpx;
+  height: 150rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 20rpx;
+}
+
+.item .info .name{
+  font-size: 28rpx;
+  color: #333;
+  line-height: 40rpx;
+}
+
+
+.item .info .subtitle{
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #888;
+  line-height: 40rpx;
+}
+
+.item .info .price{
+  margin-top: 8rpx;
+  font-size: 28rpx;
+  color: #333;
+  line-height: 40rpx;
+}
+
+</style>

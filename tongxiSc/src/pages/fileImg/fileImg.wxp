@@ -1,0 +1,165 @@
+<template>
+  <view class="gallery">
+    <view class="item" wx:for="{{images}}" wx:key="">
+        <image src="{{item}}" data-src="{{item}}" bindtap="previewImage" mode="aspectFill" />
+
+        <!-- 删除按钮 -->
+        <view class="delete" bindtap="delete" data-index="{{index}}"><text>X</text></view>
+    </view>
+    <view class="item" bindtap="chooseImage">
+        <view class='addIcon'>+</view>
+    </view>
+</view>
+<button type="primary" bindtap="submit" id="bttom">保存</button>
+
+</template>
+
+<script>
+var that;
+var app = getApp();
+var pathds =  require("../../utils/navigator.js")
+export default {
+  config: {
+    navigationBarTitleText: '上传多张图片',
+    usingComponents: {}
+  },
+ data: {
+    images: [],
+    uploadedImages: [],
+    imgsizi:false
+    //imageWidth: getApp().screenWidth / 4 - 10
+  },
+  onLoad: function (options) {
+    that = this; var objectId = options.objectId; 
+    // console.log(objectId);
+  },
+  chooseImage: function () {
+    // 选择图片
+    var thidy = this
+    wx.chooseImage({
+      count: 9, // 默认9
+      sizeType: ['compressed'],
+      sourceType: ['album', 'camera'],
+      // 可以指定来源是相册还是相机，默认二者都有
+      success: function (res) {
+        // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+        var tempFilePaths = res.tempFilePaths;
+        // console.log(tempFilePaths);
+        //   console.log(res);
+        
+
+        // for(var i=0;i<res.tempFiles.length;i++){      //检查图片是否大于4M
+        //       if(parseInt(res.tempFiles[i].size/1000) > 4096){
+        //         console.log(parseInt(res.tempFiles[i].size/1000),"ig")
+        //           thidy.setData({imgsizi:true})
+        //       }
+        // }
+
+        that.setData({
+          images: that.data.images.concat(tempFilePaths)
+        });
+      }
+    })
+  },
+  // 图片预览
+  previewImage: function (e) {
+    // console.log(this.data.images);
+    var current = e.target.dataset.src
+    wx.previewImage({
+      current: current,
+      urls: this.data.images
+    })
+  },
+  submit: function () {       
+    //  console.log(this.data.images);
+    app.globalData.imglength = this.data.images
+    pathds.navigateBack(1)
+
+  //   // 提交图片，事先遍历图集数组
+  //   that.data.images.forEach(function (tempFilePath) {
+  //     new AV.File('file-name', {
+  //       blob: {
+  //         uri: tempFilePath,
+  //       },
+  //     }).save().then(                
+  //       // file => console.log(file.url())
+  //     function (file) {                    
+  //       // 先读取
+  //       var uploadedImages = that.data.uploadedImages;
+  //       uploadedImages.push(file.url());                    
+  //       // 再写入
+  //       that.setData({
+  //         uploadedImages: uploadedImages
+  //       }); console.log(uploadedImages);
+  //     }
+  //     ).catch(console.error);
+  //   });
+  //   wx.showToast({
+  //     title: '评价成功', success: function () {
+  //       wx.navigateBack();
+  //     }
+  //   });
+  }, 
+  delete: function (e) {
+    var index = e.currentTarget.dataset.index; var images = that.data.images;
+    images.splice(index, 1);
+    that.setData({
+      images: images
+    });
+  }
+
+}
+</script>
+
+<style>
+/*画廊*/
+.gallery {    
+  width:680rpx;
+  margin: 0 auto;
+  display: flex;    
+  justify-content: flex-start;    
+  flex-wrap: wrap;
+  margin-top:32rpx;
+}
+/*每张图片所占容器*/
+.item {    
+  position: relative;    
+  margin:10rpx;
+  margin-right: 17rpx;
+  width: 200rpx;
+  height: 200rpx;
+}
+.item image{
+  width: 100%;
+  height: 100%;
+}
+/*add按钮*/
+.item .addIcon{
+  position:relative;
+  width:200rpx;
+  height:200rpx;
+  text-align:center;
+  line-height:200rpx;
+  font-size:80rpx;
+  background: #f2f2f2;
+  color: #555;
+}
+/*删除按钮*/
+.delete {    
+  position:absolute;
+  right:0;
+  top:0;
+  /* background:#ccc; */
+  opacity:1;
+  height: 36rpx;
+  font-size:22rpx;
+  font-weight:700;
+  padding:0 8rpx 0 10rpx;
+  background:#000;
+}
+.delete text{color:#fff;}
+#bttom{
+  width:686rpx;
+  background:#e94a69;
+  }
+</style>

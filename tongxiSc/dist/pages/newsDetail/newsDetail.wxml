@@ -1,0 +1,103 @@
+<view>
+    <!--<layout-head></layout-head>-->
+
+    <!-- wxp template -->
+    <scroll-view scroll-into-view="{{toView}}" scroll-y="true" scroll-with-animation="true">
+        <view class="wboxy">
+            <view class="topcontengt">
+                <image src="../../common/assets/tab/zan(1).png" class="titie_img"></image>
+                <view class="box_xq">
+                    <text class="nung">2018-20-22-45-13.55</text>
+                    <text decode="{{true}}">狂奔的他昂远&ensp;&ensp;&ensp;&ensp;&ensp;充值</text>
+                </view>
+            </view>
+
+            <view class="midiie_conteng">
+                <text>成语欧紫锥洗车机</text>
+                <view class="z_conty">
+                    小程序空白模板介绍_搜狐科技_搜狐网小程序空白模板介绍_搜狐科技_搜狐网小程序空白模板介绍_搜狐科技_搜狐网 小程序空白模板介绍_搜狐科技_搜狐网小程序空白模板介绍_搜狐科技_搜狐网小程序空白模板介绍_搜狐科技_搜狐网 小程序空白模板介绍_搜狐科技_搜狐网小程序空白模板介绍_搜狐科技_搜狐网小程序空白模板介绍_搜狐科技_搜狐网
+                </view>
+            </view>
+
+            <view class="conten_img">
+                <image src="../../common/assets/tab/zan(1).png" class="titie_imgs"></image>
+                <image src="../../common/assets/tab/zan(1).png" class="titie_imgs"></image>
+                <image src="../../common/assets/tab/zan(1).png" class="titie_imgs"></image>
+            </view>
+
+            <view class="conten_vd">
+                <video class="conty_vd"></video>
+            </view>
+
+            <view class="cin_z">
+                <image src="../../common/assets/tab/xicheji_image_@2x.png"></image>
+                <image src="../../common/assets/tab/xicheji_image_@2x.png"></image>
+                <image src="../../common/assets/tab/xicheji_image_@2x.png"></image>
+                <image src="../../common/assets/tab/xicheji_image_@2x.png"></image>
+                <image src="../../common/assets/tab/xicheji_image_@2x.png"></image>
+                <image src="../../common/assets/tab/xicheji_image_@2x.png"></image>
+                <image src="../../common/assets/tab/xicheji_image_@2x.png"></image>
+                <image src="../../common/assets/tab/xicheji_image_@2x.png"></image>
+                <image src="../../common/assets/tab/xicheji_image_@2x.png"></image>
+                <image src="../../common/assets/tab/xicheji_image_@2x.png"></image>
+                <image src="../../common/assets/tab/xicheji_image_@2x.png"></image>
+                <image src="../../common/assets/tab/xicheji_image_@2x.png"></image>
+                <image src="../../common/assets/tab/xicheji_image_@2x.png"></image>
+                <image src="../../common/assets/tab/xicheji_image_@2x.png"></image>
+                <image src="../../common/assets/tab/xicheji_image_@2x.png"></image>
+                <image src="../../common/assets/tab/xicheji_image_@2x.png"></image>
+                <image src="../../common/assets/tab/xicheji_image_@2x.png"></image>
+                <image src="../../common/assets/tab/xicheji_image_@2x.png"></image>
+                <image src="../../common/assets/tab/xicheji_image_@2x.png"></image>
+                <image src="../../common/assets/tab/xicheji_image_@2x.png"></image>
+            </view>
+
+            <view class="csy_p" id="{{toView}}">
+                <view class="ty_l">评论(36)</view>
+                <view class="hy_conty">
+                    <image src="../../common/assets/tab/xicheji_image_@2x.png"></image>
+                    <view class="hy_jt">
+                        <text>收发货的速度</text>
+                        <view> 小程序空白模板介绍_搜狐科技_搜狐网小程序空白模板介绍_搜狐科技_搜狐网小程序空白模板介绍_搜狐科技_搜狐网 小程序空白模板介绍_搜狐科技_搜狐网小程序空白模板介绍_搜狐科技_搜狐网小程序空白模板介绍_搜狐科技_搜狐网
+                        </view>
+                    </view>
+                </view>
+
+                <view class="hy_conty">
+                    <image src="../../common/assets/tab/xicheji_image_@2x.png"></image>
+                    <view class="hy_jt">
+                        <text>收发货的速度</text>
+                        <view> 小程序空白模板介绍_搜狐科技_搜狐网小程序空白模板介绍_搜狐科技_搜狐网小程序空白模板介绍_搜狐科技_搜狐网 小程序空白模板介绍_搜狐科技_搜狐网小程序空白模板介绍_搜狐科技_搜狐网小程序空白模板介绍_搜狐科技_搜狐网
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view class="almey" wx:if="{{almety}}" catchtap="almey">
+
+        </view>
+        <view class="conyu" wx:if="{{almety}}">
+            <form bindsubmit="formSubmit">
+                <textarea placeholder="请输入要发布的内容" maxlength="10" name="txt2" focus="{{aloky}}" cursor-spacing="100"></textarea>
+                <button class="btnly" formType="submit">发表</button>
+            </form>
+        </view>
+        <view class="bom_gd">
+            <view>
+                <image src="../../common/assets/tab/ty.png" alt=""></image>
+                分享
+            </view>
+            <view bindtap="scrollToViewFn" data-isy="ty">
+                <image src="../../common/assets/tab/io.png" alt=""></image>
+                评论
+            </view>
+            <view>
+                <image src="../../common/assets/tab/yu.png" alt=""></image>
+                点赞
+            </view>
+            <view class="last_cy">联系TA</view>
+        </view>
+    </scroll-view>
+
+    <!--<layout-foot></layout-foot>-->
+</view>

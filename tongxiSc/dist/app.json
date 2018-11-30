@@ -1,0 +1,104 @@
+{
+  "pages": [
+    "pages/nameCar/nameCar",
+    "pages/abnormal/abnormal",
+    "pages/about/about",
+    "pages/address/address",
+    "pages/addressAdd/addressAdd",
+    "pages/addtxt/addtxt",
+    "pages/brand/brand",
+    "pages/brandDetail/brandDetail",
+    "pages/Business/Business",
+    "pages/Business/Businesslist",
+    "pages/cart/cart",
+    "pages/category/category",
+    "pages/checkout/checkout",
+    "pages/collect/collect",
+    "pages/comment/comment",
+    "pages/commentPost/commentPost",
+    "pages/contentmode/contentmode",
+    "pages/details/details",
+    "pages/discuss/discuss",
+    "pages/editor/editor",
+    "pages/fileImg/fileImg",
+    "pages/footprint/footprint",
+    "pages/goods/goods",
+    "pages/home/index",
+    "pages/hotGoods/hotGoods",
+    "pages/login/login",
+    "pages/machine/machine",
+    "pages/manage/manage",
+    "pages/my/my",
+    "pages/myEarnings/myEarnings",
+    "pages/myWidthdraw/myWidthdraw",
+    "pages/newfil/newfil",
+    "pages/newGoods/newGoods",
+    "pages/newPass/newPass",
+    "pages/newsDetail/newsDetail",
+    "pages/order/order",
+    "pages/orderDetail/orderDetail",
+    "pages/outPage/outpage",
+    "pages/payResult/payResult",
+    "pages/presentRecord/presentRecord",
+    "pages/product/product",
+    "pages/release/release",
+    "pages/seminar/seminar",
+    "pages/shoping/shoping",
+    "pages/site/site",
+    "pages/topic/topic",
+    "pages/topicComment/topicComment",
+    "pages/topicCommentPost/topicCommentPost",
+    "pages/topicDetail/topicDetail",
+    "pages/washingUsers/washingUsers",
+    "pages/washtwo/washtwo"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "backgroundColor": "#efefef",
+    "navigationBarBackgroundColor": "#E94A69",
+    "navigationBarTitleText": "商务端",
+    "navigationBarTextStyle": "#fff",
+    "enablePullDownRefresh": true
+  },
+  "tabBar": {
+    "color": "#686868",
+    "selectedColor": "#ec4468",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/nameCar/nameCar",
+        "iconPath": "common/assets/tab/card_default.png",
+        "selectedIconPath": "common/assets/tab/card_focus.png",
+        "text": "服务"
+      },
+      {
+        "pagePath": "pages/shoping/shoping",
+        "iconPath": "common/assets/tab/icon_mall_default.png",
+        "selectedIconPath": "common/assets/tab/icon_mall_focus.png",
+        "text": "商城"
+      },
+      {
+        "pagePath": "pages/home/index",
+        "iconPath": "common/assets/tab/icon_dymamic_default.png",
+        "selectedIconPath": "common/assets/tab/icon_dymamic_focus.png",
+        "text": "动态"
+      },
+      {
+        "pagePath": "pages/product/product",
+        "iconPath": "common/assets/tab/icon_product_default.png",
+        "selectedIconPath": "common/assets/tab/icon_product_focus.png",
+        "text": "产品"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "iconPath": "common/assets/tab/icon_my_default.png",
+        "selectedIconPath": "common/assets/tab/icon_my_focus.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "networkTimeout": {
+    "request": 10000
+  }
+}

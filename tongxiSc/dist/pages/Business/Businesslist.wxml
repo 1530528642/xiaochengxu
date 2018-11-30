@@ -1,0 +1,44 @@
+<view>
+    <!--<layout-head></layout-head>-->
+
+    <!-- wxp template -->
+    <view class="search-wrap">
+        <wxc-search class="search" showClear="{{false}}" bg-color="rgba(255, 255, 255, 0.18)" color="#fff" icon-color="#cacff1" ph-color="#cacff1" placeholder="请输入 名称/手机/职称" _pid="{{_pid}}"></wxc-search>
+    </view>
+    <view class="business ">
+        <view class="buslist">
+            <view class="mewcwe" wx:for="{{cardList}}" wx:for-item="item" data-uid="{{item.uid}}" bindtap="mewcwe">
+                <view>
+                    <image src="{{item.headImg}}" class="titie_img"></image>
+                    <view>
+                        <view>{{item.name}}</view>
+                        <view>{{item.cardTitle}}</view>
+                        <view>
+                            <text>微信:</text>{{item.wxNo}}</view>
+                        <view>
+                            <text>电话:</text>{{item.cardPhone}}</view>
+                    </view>
+                    <image src="../../common/assets/tab/617089712863701151.png" class="ky_dv"></image>
+                </view>
+                <view class="mewcwebox">
+                    <view>
+                        <image src="{{path1[0]}}" data-indec="{{index}}" data-cars="{{item.uid}}" catchtap="mewcwebox1" wx:if="{{item.isCollections==0}}"></image>
+                        <image src="{{path2[0]}}" data-indec="{{index}}" data-cars="{{item.uid}}" catchtap="mewcwebox1" wx:else=""></image>
+                        <text>收藏</text>
+                        <text>{{item.collections}}</text>
+                    </view>
+                    <view>
+                        <image src="{{path1[1]}}" catchtap="mewcwebox2" data-indec="{{index}}" data-cars="{{item.uid}}" wx:if="{{item.isGood==0}}"></image>
+                        <image src="{{path2[1]}}" catchtap="mewcwebox2" data-indec="{{index}}" data-cars="{{item.uid}}" wx:else=""></image>
+                        <text>点赞</text>
+                        <text>{{item.goods}}</text>
+                    </view>
+                    <!-- <view><image src='{{binindex == index?(item.isGood == good?path1[1]:path2):(item.isGood == good?path1[1]:path2)}}' data-indec="{{index}}" data-cars={{item.uid}}  data-god={{item.isGood}} catchtap="mewcwebox2"></image><text>点赞</text><text>{{item.goods}}</text></view> -->
+                </view>
+            </view>
+            <wxc-loadmore is-end="{{isend}}" wx:if="{{isend}}" text="到底了～" icon="{{isend}}" _pid="{{_pid}}"></wxc-loadmore>
+        </view>
+    </view>
+
+    <!--<layout-foot></layout-foot>-->
+</view>

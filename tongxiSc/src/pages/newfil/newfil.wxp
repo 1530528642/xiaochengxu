@@ -1,0 +1,55 @@
+<template>
+  <form bindsubmit="formSubmit" bindreset="formReset">
+      <view class="vewfil"> 
+          <view class="vewfilone">{{bts == 1?"新建分组":"更改组名"}}</view>
+          <view class="vewfiltwo"><input type="text" name="infos" placeholder="请输入组名"></view>
+          <view class="vewfilthee"><button formType="submit">保存</button></view>
+        </view>
+    </form>
+</template>
+
+<script>
+ var daaty =  require("../../utils/api2.js")
+export default {
+  config: {
+    navigationBarTitleText: '新建列表',
+    usingComponents: {}
+  },
+  data: {
+    bts:'',
+    uids:''
+  },
+  onLoad:function(options){
+      console.log(options)
+      this.setData({bts:options.a,uids:options.uisy})
+  },
+  formSubmit:function(e){
+    console.log(e.detail.value.infos,3333)
+    if(this.data.bts == 1){
+      daaty.addGroup(e.detail.value.infos,5,0,successFa)
+        function successFa(data, sourceObj){
+          // console.log(data,8799)
+        }
+    }else{
+      console.log(this.data.uids,87887)
+      daaty.updateGroup(this.data.uids,e.detail.value.infos,5,0,successFa)
+        function successFa(data, sourceObj){
+          // console.log(data,8799)
+        }
+    }
+    
+  }
+}
+</script>
+
+<style>
+page{width: 100%;}
+page>view{width: 100%;height: 100%;}
+.vewfil{width: 100%;height: 100%;position: relative;}
+.vewfil view{width: 100%;}
+.vewfil .vewfilone{height: 80rpx;line-height: 80rpx;font-size: 24rpx; color: #979494;padding-left: 30rpx;}
+.vewfil .vewfiltwo{height: 90rpx;line-height: 90rpx;font-size: 28rpx; color: #686868;background: #fff;}
+.vewfil .vewfiltwo input{height: 100%;margin-left: 30rpx;}
+.vewfil .vewfilthee{position: absolute;bottom: 0;}
+.vewfil .vewfilthee button{width: 686rpx;height:78rpx;background: #e94a69;font-size: 32rpx;color: #fff;text-align: center;}
+</style>

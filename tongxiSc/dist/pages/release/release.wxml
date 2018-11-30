@@ -1,0 +1,30 @@
+<view>
+    <!--<layout-head></layout-head>-->
+
+    <!-- wxp template -->
+    <view class="wa_box">
+        <view class="top_box">
+            <view class="box_txt">
+                <input type="text" bindblur="tty" placeholder="请输入标题" name="txt1"></input>
+            </view>
+            <view class="box_xty">
+                <textarea bindblur="bindTextAreaBlur" placeholder="请输入要发布的内容" maxlength="10" name="txt2"></textarea>
+            </view>
+            <view class="sc_img">
+                <image src="{{item}}" wx:for="{{src}}" wx:for-item="item" alt=""></image>
+            </view>
+            <view class="cyt_lui" bindtap="getImageInfo">
+                <image src="../../common/assets/tab/icon_add.png" alt=""></image>
+            </view>
+        </view>
+    </view>
+    <view class="ky_wz">
+        <image src="../../common/assets/tab/icon_address.png" alt=""></image>
+        <input type="text" placeholder="请输入地址"></input>
+    </view>
+    <view class="botm_box">
+        <button bindtap="submit">确认发布</button>
+    </view>
+
+    <!--<layout-foot></layout-foot>-->
+</view>

@@ -1,0 +1,30 @@
+<template>
+  <view class='uiuh' bindtap="tapnamey"><slot></slot></view>
+</template>
+
+<script>
+var app = getApp();
+// console.log(app.globalData.appgolble,1111)
+export default {
+  config: {
+    navigationBarTitleText: '组件',
+    "component": true,
+    usingComponents: {}
+  },
+  data: {},
+  onLoad:function(){
+    // console.log(app.globalData.appgolble,2222)
+  },
+  tapnamey:function(){
+    // console.log(app.globalData.appgolble)
+    // console.log(66666)
+    this.triggerEvent("cancelEvent");
+  }
+}
+</script>
+
+<style >
+.uiuh{
+  color:red;
+  }
+</style>

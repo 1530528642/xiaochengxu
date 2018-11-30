@@ -1,0 +1,225 @@
+<template>
+<view class="search-wrap">
+    <wxc-search class="search" showClear="{{false}}" bg-color="rgba(255, 255, 255, 0.18)" color="#fff" icon-color="#cacff1" ph-color="#cacff1" placeholder="请输入 名称/手机/职称"></wxc-search>
+  </view>
+<wxc-tab
+    bind:tabchange="onClick"
+    default-index="{{0}}"
+    component-id="c4"
+  >
+    <wxc-tab-panel
+      wx:for="{{dasylist}}"
+      wx:for-item="tab"
+      wx:key="{{tab.uid}}"
+      tab-index="{{index}}"
+      component-id="c4"
+      label="{{tab.groupName}}({{tab.count}})"
+    >
+    <view class="business ">
+      <view class="buslist">
+          <view class="mewcwe" wx:if="{{tab.uid==item.groupId}}" wx:for={{cardList}} wx:for-item="item" >
+              <view bindtap='mewcwe' data-uids="{{item.uid}}">
+                  <image src="{{item.headImg}}" class="titie_img"></image>
+                  <view>
+                      <view>{{item.name}}</view>
+                      <view>{{item.cardTitle}}</view>
+                      <view><text>微信:</text>{{item.wxNo}}</view>
+                      <view><text>电话:</text>{{item.cardPhone}}</view>
+                  </view>
+                  <image src="../../common/assets/tab/617089712863701151.png" class="ky_dv"></image>
+              </view>
+              <view class="mewcwebox">
+                <view>
+                  <image src='{{path1[0]}}' data-indec="{{index}}" data-cars={{item.uid}}  catchtap="mewcwebox1" wx:if="{{item.isCollections==0}}"></image>
+                  <image src='{{path2[0]}}' data-indec="{{index}}" data-cars={{item.uid}}  catchtap="mewcwebox1" wx:else></image>
+                  <text>收藏</text><text>{{item.collections}}</text>
+               </view>
+                <view>
+                  <image src="{{path1[1]}}" catchtap="mewcwebox2" data-indec='{{index}}' data-cars="{{item.uid}}" wx:if="{{item.isGood==0}}"></image>
+                  <image src="{{path2[1]}}" catchtap="mewcwebox2" data-indec='{{index}}' data-cars="{{item.uid}}" wx:else></image>
+                  <text>点赞</text><text>{{item.goods}}</text>
+                </view>
+                <!-- <view><image src='{{binindex == index?(item.isGood == good?path1[1]:path2):(item.isGood == good?path1[1]:path2)}}' data-indec="{{index}}" data-cars={{item.uid}}  data-god={{item.isGood}} catchtap="mewcwebox2"></image><text>点赞</text><text>{{item.goods}}</text></view> -->
+            </view>
+          </view>
+        </view>
+          <wxc-loadmore is-end="{{isend}}" wx:if="{{isend}}" text="到底了～" icon="{{isend}}"></wxc-loadmore>
+          </view>
+    </wxc-tab-panel>
+
+  </wxc-tab>
+</template>
+
+<script>
+// var daaty =  require("../../utils/data.js")
+var daaty =  require("../../utils/api2.js")
+var uitil = require("../../utils/util.js")
+var app = getApp();
+export default {
+  config: {
+    navigationBarTitleText: '名片夹',
+    usingComponents: {
+      'wxc-tab': '@minui/wxc-tab',
+      'wxc-tab-panel': '@minui/wxc-tab/panel',
+      'wxc-loadmore': '@minui/wxc-loadmore',
+      'wxc-icon': '@minui/wxc-icon',
+      'wxc-search': '@minui/wxc-search'
+    }
+  },
+  data: {
+    // asondata:daaty.datajsondb
+    dasylist:[],
+    cardList:'',
+    selectIndex:0,
+    isend:false,
+    path1:['../../common/assets/tab/kca1.png','../../common/assets/tab/akb1.png'],
+    path2:['../../common/assets/tab/844090894838752016.png','../../common/assets/tab/dianzan_icon_default@2x.png'],
+    user:''
+  },
+  onClick: function(e) {
+      console.log(`ComponentId:${e.detail.componentId},you selected:${e.detail.key}`);
+      console.log(`==================================`);
+  },
+  acsitong:function(num,aiy){
+       var thery = this
+      var user=app.globalData.user;
+       //分组
+       daaty.groupList(user.userId,aiy,successFa)
+       function successFa(data, sourceObj){
+        app.globalData.mygropuList=data.data
+        thery.setData({dasylist:data.data})
+       
+       }
+      
+  },
+  cardList:function(){
+     app.loading();
+      wx.showNavigationBarLoading() //在标题栏中显示加载
+      var thery = this
+      var user=app.globalData.user;
+      // console.log(user,'user')
+      daaty.myCollectionList(user.userId,0,0,300,null,successFa2);
+      function successFa2(data, sourceObj){
+        if(data.data==0||data.data==null||data.data==''){
+          wx.hideLoading();
+          wx.hideNavigationBarLoading() //完成停止加载
+          wx.stopPullDownRefresh() //停止下拉刷新
+          app.hideLing();
+          thery.setData({isend:true})
+          return
+        }
+        let length=data.data.length;
+        if(length<300){
+          thery.setData({isend:true})
+        }
+        console.log(data,'cardList')
+
+        
+        for(var i=0;i<data.data.length;i++){
+          data.data[i].headImg=thery.getImg(data.data[i].fileList,data.data[i].headImg);
+        }
+        thery.setData({cardList:data.data,user:user})
+        wx.hideLoading();
+        wx.hideNavigationBarLoading() //完成停止加载
+        wx.stopPullDownRefresh() //停止下拉刷新
+        app.hideLing();
+      }
+  },
+  getImg:function(fileList,headImg){
+    if(fileList==null||fileList==''){
+      return headImg;
+    }
+    for(var i=0;i<fileList.length;i++){
+      let f=fileList[i];
+      if(f.scoureType==11){
+        headImg=app.globalData.imgUrl+f.fileUrl;
+        break;
+      }
+    }
+    return headImg;
+  },
+  onShow:function(){
+    var thery = this
+    app.checkLoginStatus();
+    var mygropuList=app.globalData.mygropuList;
+    console.log('mygropuList',mygropuList);
+    if(mygropuList!=null&&mygropuList.length>0){
+      thery.setData({dasylist:mygropuList})
+    }else{
+      thery.acsitong(5,0)
+    }
+    thery.cardList();
+  },
+  mewcwebox1:function(e){
+    var indec = e.currentTarget.dataset.indec
+    var cars = e.currentTarget.dataset.cars
+    var thy = this
+    uitil.camcewr(cars,1,indec,thy)
+  },
+  mewcwebox2:function(e){
+        var indec = e.currentTarget.dataset.indec
+        var cars = e.currentTarget.dataset.cars
+        var thy = this
+        uitil.camcewr(cars,2,indec,thy)
+        this.setData({binindex:indec})
+  },
+  aksening:function(){
+    wx.navigateTo({
+      url:'../manage/manage'
+    })
+  },
+  mewcwe:function(e){
+    var uid = e.currentTarget.dataset.uids
+    // console.log(e)
+    wx.navigateTo({
+      url:'../details/details?uid='+uid
+    })
+  },
+  onReachBottom:function(){
+    console.log(6666)
+  },
+  zddly:function(){
+    // console.log(77777)
+  }
+}
+</script>
+
+<style>
+  page{width: 100%;}
+  page>view{width: 100%;height: 100%;}
+  .business{width: 100%;height: 100%;}
+  .business .bustop{width: 100%;background: #fff;}
+  .business .bustop .busserch{width: 100%;height: 110rpx;display: flex;align-items: center;text-align: center;}
+  .business .bustop .busserch .buscontent{width: 80%;height: 58rpx;border-radius: 20rpx;background: #eee;font-size: 24rpx;color: #b6b6b6;line-height: 58rpx;margin: 0 auto;}
+  .business .bustop .busserch .buscontent image{width: 36rpx;height: 36rpx;vertical-align: middle;margin-right: 20rpx;}
+  .business .bustop .busserch .buscontent input{width: 200rpx;display: inline-block;vertical-align: middle;text-align:left;}
+  .business .bustop .buseves{width: 100%;height: 110rpx;display: flex;align-items: center;}
+  .business .bustop .buseves>view{width: 90%;margin: 0 auto;}
+  .business .bustop .buseves>view .scrllcontent{width:450rpx;display: inline-block;}
+  .business .bustop .buseves>view .scrllcontent scroll-view{white-space: nowrap;width: 600rpx;display: inline-block;border-right:2px solid red;}
+  .business .bustop .buseves>view .scrllcontent scroll-view view{display: inline-block;width: 160rpx;}
+  .business .bustop .buseves>view text{vertical-align: top;display: inline-block;}
+  .business .bustop .buseves>view image{width: 40rpx;height: 39rpx;float:right;vertical-align: middle;margin-top: 5rpx;}
+
+ .business .buslist .mewcwe{width: 100%;border: 1px solid #ccc;width: 90%;margin: 0 auto;border-radius: 15rpx;padding: 15rpx 0 15rpx 0;margin-top: 20rpx;background: #fff;}
+ .business .buslist .mewcwe view view{display: inline-block;width: 420rpx;}
+ .business .buslist .mewcwe view view view{margin-bottom: 10rpx;font-size: 24rpx;color: #070707;display: block;}
+ .business .buslist .mewcwe view .titie_img{width: 78rpx;height: 78rpx;border-radius:50%;margin-right: 20rpx;margin-left: 30rpx;margin-bottom: 20rpx;vertical-align:top;}
+ .business .buslist .mewcwe view .ky_dv{width: 100rpx;height: 36rpx;vertical-align:top;margin-top: 20rpx;}
+ .business .buslist .mewcwe .mewcwebox{width: 100%;margin-left: 0;}
+ .business .buslist .mewcwe .mewcwebox view{margin: 0;width: 49%;height: 60rpx;line-height: 60rpx;text-align: center;display: inline-block;font-size: }
+ .business .buslist .mewcwe .mewcwebox view image{width: 34rpx;height: 32rpx;margin-right: 12rpx;vertical-align: middle;}
+ .business .buslist .mewcwe .mewcwebox view text{margin-right: 12rpx;vertical-align: middle;font-size: 25rpx;}
+  .search-wrap {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 90rpx;
+    color: #fff;
+    background: #f6f6f6;
+  }
+  .search {
+    flex: 1;
+    margin: 0 24rpx;
+  }
+</style>

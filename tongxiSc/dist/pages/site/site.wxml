@@ -1,0 +1,27 @@
+<view>
+    <!--<layout-head></layout-head>-->
+
+    <!-- wxp template -->
+    <view class="box">
+        <view class="wash" wx:for="{{washnumber}}" wx:key="id" wx:for-item="item" bindtap="tipUrl" data-uid="{{item.uid}}">
+            <view class="wash_view">
+                <view class="view_one">
+                    <image src="../../common/assets/tab/xicheji_image_@2x.png"></image>
+                    <text>站点：{{item.siteName}}</text>
+                </view>
+                <view class="view_two">
+                    <text>地址:{{item.province}}</text>
+                    <text>{{item.city}}</text>
+                    <text>{{item.area}}</text>
+                    <text>{{item.street}}</text>
+                </view>
+            </view>
+        </view>
+    </view>
+    <wxc-loadmore text="正在努力加载中..." icon="{{true}}" wx:if="{{condition==1}}" _pid="{{_pid}}">
+    </wxc-loadmore>
+    <wxc-loadmore is-end="{{true}}" text="到底啦" wx:if="{{condition==0}}" _pid="{{_pid}}">
+    </wxc-loadmore>
+
+    <!--<layout-foot></layout-foot>-->
+</view>

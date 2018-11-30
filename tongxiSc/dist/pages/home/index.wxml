@@ -1,0 +1,86 @@
+<view>
+    <!--<layout-head></layout-head>-->
+
+    <!-- wxp template -->
+    <view class="faidel">
+        <text wx:for="{{topList}}" wx:for-item="infos" wx:key="uid" bindtap="topClick" style="background:{{infos.colors}};color:{{infos.texColor}}" data-i_bs="{{infos.I_b}}" data-bsh="{{infos.tagCode}}">{{infos.common}}</text>
+    </view>
+    <wxc-panel title="" wx:for="{{washnumber}}" wx:key="uid" wx:for-item="item" id="txt_list" _pid="{{_pid}}">
+        <view bindtap="newty" data-zcoty="{{item}}">
+
+            <view class="title_user">
+                <image src="{{item.headImg}}" class="titie_img"></image>
+                <view class="tem_cotny {{item.productType == 5?'alwos':''}}">{{item.nickName}}
+                    <text>{{item.shortTime}}</text>
+                </view>
+                <text class="temble" catchtap="temble" data-number="{{item.userPhone}}">联系TA</text>
+            </view>
+
+            <!-- <view class="content" wx:if="{{item.infoType == 5}}"> -->
+            <view class="content">
+                <view class="hander_txt">
+                    <image wx:if="{{item.isHot == 1}}" src="../../common/assets/tab/hot.png"></image>
+                    <text wx:for="{{item.tagsList}}" wx:key="uid" bindtap="topClick" data-i_bs="{{tags.uid}}" data-bsh="{{tags.tagCode}}" style="display: inline-block;padding:0 10px 0 10px;height:33rpx;border:1px solid red;text-align:center;line-height:33rpx;border-radius:10rpx;font-family:'PingFang';font-size: 25rpx;" wx:for-item="tags">{{tags.tagName}}</text>
+                    <text class="all_txt">{{item.productTitle}}</text>
+                </view>
+                <wxc-elip line="2" _pid="{{_pid}}">{{item.productDesc}}</wxc-elip>
+                <image wx:if="{{item.productType == 2}}" src="{{imgUrl}}{{item.cover}}" class="wx_img" catchtap="bigImg" data-src="{{imgUrl}}{{item.cover}}"></image>
+                <image wx:if="{{item.productType == 4}}" src="{{imgUrl}}{{item.cover}}" class="wx_img"></image>
+                <video wx:if="{{item.productType == 3}}" src="{{imgUrl}}{{item.cover}}" class="viidews" style="height: 392rpx;"></video>
+                <view class="wx_btn">
+                    <view class="txt_one">
+                        <text>{{item.shortTime}}</text>
+                    </view>
+                    <view class="txt_two">
+                        <image src="../../common/assets/tab/dianzan_icon_focus_@2x.png"></image>
+                        <text class="zn">{{item.goods}}</text>
+                        <image src="../../common/assets/tab/pinglun_icon_focus.png"></image>
+                        <text>{{item.comments}}</text>
+                    </view>
+                </view>
+            </view>
+
+            <view class="mewcwe" wx:if="{{item.productType == 5}}">
+                <view>
+                    <image src="{{item.custImg}}" class="titie_img"></image>
+                    <view>
+                        <view>腾讯董事会主席</view>
+                        <view>
+                            <text>微信:</text>mahuateng</view>
+                        <view>
+                            <text>电话:</text>15634165533</view>
+                    </view>
+                    <image src="../../common/assets/tab/ptdv.png" class="ky_dv"></image>
+                </view>
+                <view class="mewcwebox">
+                    <view>
+                        <image src="../../common/assets/tab/kca1.png"></image>
+                        <text>收藏</text>
+                        <text>1.2万</text>
+                    </view>
+                    <view>
+                        <image src="../../common/assets/tab/akb1.png"></image>
+                        <text>点赞</text>
+                        <text>1.2万</text>
+                    </view>
+                </view>
+            </view>
+
+            <!-- <view class="product">
+              <view class="productone">
+                  <image src="../../common/assets/tab/808949327007070460.png" class="titie_img"></image>
+              </view>
+             <!-- <view class="productbox">
+                 <view><image src='../../common/assets/tab/kca1.png'></image><text>收藏</text><text>1.2万</text></view>
+                 <view><image src='../../common/assets/tab/akb1.png'></image><text>点赞</text><text>1.2万</text></view>
+             </view> 
+          </view> -->
+
+        </view>
+    </wxc-panel>
+    <view class="costy" bindtap="costy">
+        <image src="../../common/assets/tab/safds.png"></image>
+    </view>
+
+    <!--<layout-foot></layout-foot>-->
+</view>

@@ -1,0 +1,629 @@
+<template>
+ <view class="container">
+    <view class="order-info">
+        <view class="item-a">下单时间：{{orderInfo.addTime}}</view>
+        <view class="item-b">订单编号：{{orderInfo.orderSn}}</view>
+        <view class="item-c">
+            <view class="l">实付：<text class="cost">￥{{orderInfo.actualPrice}}</text></view>
+            <view class="r">
+                <view class="btn active" bindtap="cancelOrder" wx:if="{{handleOption.cancel}}">取消订单</view>
+                <view class="btn active" bindtap="payOrder" wx:if="{{handleOption.pay}}">去付款</view>
+                <view class="btn active" bindtap="confirmOrder" wx:if="{{handleOption.confirm}}">确认收货</view>
+                <view class="btn active" bindtap="deleteOrder" wx:if="{{handleOption.delete}}">删除订单</view>
+                <view class="btn active" bindtap="refundOrder" wx:if="{{handleOption.refund}}">申请退款</view>
+            </view>
+        </view>
+    </view>
+
+    <view class="order-goods">
+        <view class="h">
+            <view class="label">商品信息</view>
+            <view class="status">{{orderInfo.orderStatusText}}</view>
+        </view>
+        <view class="goods">
+            <view class="item" wx:for="{{orderGoods}}" wx:key="id">
+                <view class="img">
+                    <image src="{{item.picUrl}}"></image>
+                </view>
+                <view class="info">
+                    <view class="t">
+                        <text class="name">{{item.goodsName}}</text>
+                        <text class="number">x{{item.number}}</text>
+                    </view>
+                    <view class="attr">{{item.goodsSpecificationValues}}</view>
+                    <view class="price">￥{{item.retailPrice}}</view>
+                    <view class="btn active" wx:if="{{handleOption.comment}}">
+                      <navigator url="../commentPost/commentPost?orderId={{item.orderId}}&&valueId={{item.goodsId}}&type=0">去评价</navigator>
+                    </view>
+                    <view class="btn active" wx:if="{{handleOption.rebuy}}">
+                      <navigator url="../goods/goods?id={{item.goodsId}}">再次购买</navigator>
+                    </view>
+                </view>
+            </view>
+        </view>
+  <!-- 展开 -->
+  <!-- <view class="data-expand p10 border-bottom" wx:if="{{ flag }}">
+
+ </view> -->
+
+    <view class="order-bottom">
+        <view class="address">
+            <view class="t">
+                <text class="name">{{orderInfo.consignee}}</text>
+                <text class="mobile">{{orderInfo.mobile}}</text>
+            </view>
+            <view class="b">{{orderInfo.address}}</view>
+        </view>
+        <view class="total">
+            <view class="t">
+                <text class="label">商品合计：</text>
+                <text class="txt">￥{{orderInfo.goodsPrice}}</text>
+            </view>
+            <view class="t">
+                <text class="label">运费：</text>
+                <text class="txt">￥{{orderInfo.freightPrice}}</text>
+            </view>
+        </view>
+        <view class="pay-fee">
+            <text class="label">实付：</text>
+            <text class="txt">￥{{orderInfo.actualPrice}}</text>
+        </view>
+    </view>
+</view>
+
+ <!-- 物流信息,仅收货状态下可见 -->
+ <view class="order-express" bindtap="expandDetail" wx:if="{{ handleOption.confirm }}">
+  <view class="order-express">
+   <view class="title">
+    <view class="t">快递公司：{{expressInfo.expName}}</view>
+    <view class="b">物流单号：{{expressInfo.expCode}}</view>
+   </view>
+   <image class="ti" src="../../common/assets/tab/address_right.png" background-size="cover"></image>
+  </view>
+
+  <!-- <view class="order-express" > -->
+  <view class="traces" wx:for="{{expressInfo.Traces}}" wx:key="item" wx:for-item="iitem" wx:if="{{ flag }}">
+   <view class="trace">
+    <view class="acceptStation">{{iitem.AcceptStation}}</view>
+    <view class="acceptTime">{{iitem.AcceptTime}}</view>
+   </view>
+  </view>
+ </view>
+ <!-- </view> -->
+</view>
+</template>
+
+<script>
+var daaty =  require("../../utils/api2.js")
+var tip = require("../../utils/tip.js")
+var navigator =  require("../../utils/navigator.js")
+var app = getApp()
+export default {
+  config: {
+    navigationBarTitleText: '物流详情',
+    usingComponents: {}
+  },
+   data: {
+    orderId: 0,
+    orderInfo: {},
+    orderGoods: [],
+    expressInfo: {},
+    flag: false,
+    handleOption: {}
+  },
+  onLoad: function (options) {
+    // 页面初始化 options为页面跳转所带来的参数
+    this.setData({
+      orderId: options.id
+    });
+    this.getOrderDetail();
+  },
+ onPullDownRefresh() {
+  wx.showNavigationBarLoading() //在标题栏中显示加载
+  this.getOrderDetail();
+  wx.hideNavigationBarLoading() //完成停止加载
+  wx.stopPullDownRefresh() //停止下拉刷新
+ },
+  getOrderExpress: function() {
+    let that = this;
+    daaty.ExpressQuery(that.data.orderInfo.expCode,that.data.orderInfo.expNo,null,successFay)
+      function successFay(res, sourceObj){
+            that.setData({
+              expressInfo: res.data
+            });
+      }
+  },
+  expandDetail: function() {
+    let that = this;
+    this.setData({
+      flag: !that.data.flag
+    })
+  },
+  getOrderDetail: function () {
+    let that = this;
+    daaty.OrderDetail(that.data.orderId,null,successFay)
+      function successFay(res, sourceObj){
+               that.setData({
+                  orderInfo: res.data.orderInfo,
+                  orderGoods: res.data.orderGoods,
+                  handleOption: res.data.orderInfo.handleOption
+                  });
+
+              // 请求物流信息,仅当订单状态为发货时才请求
+              console.log(res,'res')
+              if (res.data.orderInfo.handleOption.confirm) {
+                 that.getOrderExpress();
+              }
+      }
+ },
+ // “去付款”按钮点击效果
+ payOrder: function() {
+  let that = this;
+    daaty.OrderPrepay(that.data.orderId,null,successFay)
+      function successFay(res, sourceObj){
+              const payParam = res.data;
+              console.log("支付过程开始");
+              wx.requestPayment({
+              'timeStamp': payParam.timeStamp,
+              'nonceStr': payParam.nonceStr,
+              'package': payParam.packageValue,
+              'signType': payParam.signType,
+              'paySign': payParam.paySign,
+              'success': function(res) {
+                console.log("支付过程成功");
+                setTimeout(function(){
+                    navigator.redirectTo('../order/order');
+                  },1500)
+              },
+              'fail': function(res) {
+                console.log("支付过程失败");
+                    setTimeout(function(){
+                    navigator.redirectTo('../order/order');
+                  },1500)
+              },
+              'complete': function(res) {
+                console.log("支付过程结束")
+              }
+              });
+      }
+  },
+  // “取消订单”点击效果
+  cancelOrder: function () {
+    let that = this;
+    let orderInfo = that.data.orderInfo;
+
+    wx.showModal({
+      title: '',
+      content: '确定要取消此订单？',
+      success: function (res) {
+        if (res.confirm) {
+        daaty.OrderCancel(orderInfo.id,null,successFay)
+          function successFay(res, sourceObj){
+               wx.showToast({
+                title: '取消订单成功'
+              });
+              // util.redirect('../order/order');
+              setTimeout(function(){
+                navigator.redirectTo('../order/order');
+              },1500)
+          }
+        }
+      }
+    });
+  },
+  // “取消订单并退款”点击效果
+  refundOrder: function () {
+    let that = this;
+    let orderInfo = that.data.orderInfo;
+
+    wx.showModal({
+      title: '',
+      content: '确定要取消此订单？',
+      success: function (res) {
+        if (res.confirm) {
+       daaty.OrderRefund(orderInfo.id,null,successFay)
+          function successFay(res, sourceObj){
+              wx.showToast({
+                title: '取消订单成功'
+              });
+              setTimeout(function(){
+                navigator.redirectTo('../order/order');
+              },1500)
+          }
+        }
+      }
+    });
+  },  
+  // “删除”点击效果
+  deleteOrder: function () {
+    let that = this;
+    let orderInfo = that.data.orderInfo;
+
+    wx.showModal({
+      title: '',
+      content: '确定要删除此订单？',
+      success: function (res) {
+        if (res.confirm) {
+      daaty.OrderDelete(orderInfo.id,null,successFay)
+          function successFay(res, sourceObj){
+               wx.showToast({
+                title: '删除订单成功'
+              });
+              setTimeout(function(){
+                navigator.redirectTo('../order/order');
+              },1500)
+          }
+        }
+      }
+    });
+  },  
+  // “确认收货”点击效果
+  confirmOrder: function () {
+    let that = this;
+    let orderInfo = that.data.orderInfo;
+
+    wx.showModal({
+      title: '',
+      content: '确认收货？',
+      success: function (res) {
+        if (res.confirm) {
+       daaty.OrderConfirm(orderInfo.id,null,successFay)
+          function successFay(res, sourceObj){
+                wx.showToast({
+                title: '确认收货成功！'
+              });
+              setTimeout(function(){
+                navigator.redirectTo('../order/order');
+              },1500)
+          }
+        }
+      }
+    });
+  },
+  onReady: function () {
+    // 页面渲染完成
+  },
+  onShow: function () {
+    // 页面显示
+  },
+  onHide: function () {
+    // 页面隐藏
+  },
+  onUnload: function () {
+    // 页面关闭
+  }
+}
+</script>
+
+<style>
+page{
+    height: 100%;
+    width: 100%;
+    background: #f4f4f4;
+}
+
+.order-info{
+    padding-top: 25rpx;
+    background: #fff;
+    height: auto;
+    overflow: hidden;
+}
+
+.item-a{
+    padding-left: 31.25rpx;
+    height: 42.5rpx;
+    padding-bottom: 12.5rpx;
+    line-height: 30rpx;
+    font-size: 30rpx;
+    color: #666;
+}
+
+.item-b{
+    padding-left: 31.25rpx;
+    height: 29rpx;
+    line-height: 29rpx;
+    margin-top: 12.5rpx;
+    margin-bottom: 41.5rpx;
+    font-size: 30rpx;
+    color: #666;
+}
+
+.item-c{
+    margin-left: 31.25rpx;
+    border-top: 1px solid #f4f4f4;
+    height: 103rpx;
+    line-height: 103rpx;
+}
+
+.item-c .l{
+    float: left;
+}
+
+.item-c .r{
+    height: 103rpx;
+    float: right;
+    display: flex;
+    align-items: center;
+    padding-right: 16rpx;
+}
+
+.item-c .r .btn{
+    float: right;
+}
+
+.item-c .cost{
+    color: #b4282d;
+}
+
+.item-c .btn{
+    line-height: 66rpx;
+    border-radius: 5rpx;
+    text-align: center;
+    margin: 0 15rpx;
+    padding: 0 20rpx;
+    height: 66rpx;
+}
+
+.item-c .btn.active{
+    background: #b4282d;
+    color: #fff;
+}
+
+.order-goods{
+    margin-top: 20rpx;
+    background: #fff;
+}
+
+.order-goods .h{
+    height: 93.75rpx;
+    line-height: 93.75rpx;
+    margin-left: 31.25rpx;
+    border-bottom: 1px solid #f4f4f4;
+    padding-right: 31.25rpx;
+}
+
+.order-goods .h .label{
+    float: left;
+    font-size: 30rpx;
+    color: #333;
+}
+
+.order-goods .h .status{
+    float: right;
+    font-size: 30rpx;
+    color: #b4282d;
+}
+
+.order-goods .item{
+    display: flex;
+    align-items: center;
+    height: 192rpx;
+    margin-left: 31.25rpx;
+    padding-right: 31.25rpx;
+    border-bottom: 1px solid #f4f4f4;
+}
+
+.order-goods .item:last-child{
+    border-bottom: none;
+}
+
+.order-goods .item .img{
+    height: 145.83rpx;
+    width: 145.83rpx;
+    background: #f4f4f4;
+}
+
+.order-goods .item .img image{
+    height: 145.83rpx;
+    width: 145.83rpx;
+}
+
+.order-goods .item .info{
+    flex: 1;
+    height: 145.83rpx;
+    margin-left: 20rpx;
+}
+
+.order-goods .item .t{
+    margin-top: 8rpx;
+    height: 33rpx;
+    line-height: 33rpx;
+    margin-bottom: 10.5rpx;
+}
+
+.order-goods .item .t .name{
+    display: block;
+    float: left;
+    height: 33rpx;
+    line-height: 33rpx;
+    color: #333;
+    font-size: 30rpx;
+}
+
+.order-goods .item .t .number{
+    display: block;
+    float: right;
+    height: 33rpx;
+    text-align: right;
+    line-height: 33rpx;
+    color: #333;
+    font-size: 30rpx;
+}
+
+.order-goods .item .attr{
+    height: 29rpx;
+    line-height: 29rpx;
+    color: #666;
+    margin-bottom: 25rpx;
+    font-size: 25rpx;
+}
+
+.order-goods .item .price{
+    display: block;
+    float: left;
+    height: 30rpx;
+    line-height: 30rpx;
+    color: #333;
+    font-size: 30rpx;
+}
+
+.order-goods .item .btn{
+    height: 50rpx;
+    line-height: 50rpx;
+    border-radius: 5rpx;
+    text-align: center;
+    display: block;
+    float: right;
+    margin: 0 15rpx;
+    padding: 0 20rpx;
+}
+
+.order-goods .item .btn.active{
+    background: #b4282d;
+    color: #fff;
+}
+
+.order-bottom{
+    margin-top: 20rpx;
+    padding-left: 31.25rpx;
+    height: auto;
+    overflow: hidden;
+    background: #fff;
+}
+
+.order-bottom .address{
+    height: 128rpx;
+    padding-top: 25rpx;
+    border-bottom: 1px solid #f4f4f4;
+}
+
+.order-bottom .address .t{
+    height: 35rpx;
+    line-height: 35rpx;
+    margin-bottom: 7.5rpx;
+}
+
+.order-bottom .address .name{
+    display: inline-block;
+    height: 35rpx;
+    width: 140rpx;
+    line-height: 35rpx;
+    font-size: 30rpx;
+}
+
+.order-bottom .address .mobile{
+    display: inline-block;
+    height: 35rpx;
+    line-height: 35rpx;
+    font-size: 30rpx;
+}
+
+.order-bottom .address .b{
+    height: 35rpx;
+    line-height: 35rpx;
+    font-size: 30rpx;
+}
+
+.order-bottom .total{
+    height: 106rpx;
+    padding-top: 20rpx;
+    border-bottom: 1px solid #f4f4f4;
+}
+
+.order-bottom .total .t{
+    height: 30rpx;
+    line-height: 30rpx;
+    margin-bottom: 7.5rpx;
+    display: flex;
+}
+
+.order-bottom .total .label{
+    width: 150rpx;
+    display: inline-block;
+    height: 35rpx;
+    line-height: 35rpx;
+    font-size: 30rpx;
+}
+
+.order-bottom .total .txt{
+    flex: 1;
+    display: inline-block;
+    height: 35rpx;
+    line-height: 35rpx;
+    font-size: 30rpx;
+}
+
+.order-bottom .pay-fee{
+    height: 81rpx;
+    line-height: 81rpx;
+}
+
+.order-bottom .pay-fee .label{
+    display: inline-block;
+    width: 140rpx;
+    color: #b4282d;
+}
+
+.order-bottom .pay-fee .txt{
+    display: inline-block;
+    width: 140rpx;
+    color: #b4282d;
+}
+
+.order-express {
+ margin-top: 20rpx;
+ width: 100%;
+ height: 100rpx;
+ background: #fff;
+}
+
+.order-express .title {
+ float: left;
+ margin-bottom: 20rpx;
+ padding: 10rpx;
+}
+
+.order-express .ti {
+ float: right;
+ width: 52rpx;
+ height: 52rpx;
+ margin-right: 16rpx;
+ margin-top: 28rpx;
+}
+
+.order-express .t {
+ font-size: 29rpx;
+ margin-left: 10.25rpx;
+ color: #a78845;
+}
+
+.order-express .b {
+ font-size: 29rpx;
+ margin-left: 10.25rpx;
+ color: #a78845;
+}
+
+.order-express .traces {
+ padding: 17.5rpx;
+ background: #fff;
+ border-bottom: 1rpx solid #f1e6cdcc;
+}
+
+.order-express .trace {
+ padding-bottom: 17.5rpx;
+ padding-top: 17.5rpx;
+ background: #fff;
+}
+
+.order-express .acceptTime {
+ margin-top: 20rpx;
+ margin-right: 40rpx;
+ text-align: right;
+ font-size: 26rpx;
+}
+
+.order-express .acceptStation {
+ font-size: 26rpx;
+}
+
+</style>

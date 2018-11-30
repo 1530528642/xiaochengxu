@@ -1,0 +1,42 @@
+<view>
+    <!--<layout-head></layout-head>-->
+
+    <!-- wxp template -->
+    <!-- <view class="box">
+        <view class="wash" wx:for="{{washnumber}}" wx:key="id" wx:for-item="item" bindtap="tipUrl" data-uid="{{item.uid}}">
+        <view class="wash_view">
+            <view class="view_one">
+              <text>站点:{{item.machineName}}</text>
+            </view>
+            <view class="view_two">
+               <text>地址:{{item.province}} {{item.city}} {{item.area}} {{item.street}}</text>
+            </view> 
+        </view>
+    </view>
+   </view> -->
+
+    <!-- <view class="wash" wx:for="{{washnumber}}" wx:key="id" wx:for-item="item" bindtap="tipUrl" data-uid="{{item.uid}}"> -->
+    <wxc-cc class="demo" wx:for="{{washnumber}}" wx:key="id" wx:for-item="item" bindtap="tipUrl" data-uid="{{item.uid}}" _pid="{{_pid}}">
+        <view class="demo__wrapper" bindtap="tipUrl" data-uid="{{item.uid}}">
+            <image class="demo__pic" src="{{item.qrPath}}" mode="aspectFit"></image>
+            <view class="demo__text text_one">
+                <text class="yt">设备名称:{{item.machineName}}</text>
+                <text class="ends">设备编码:{{item.machineCode}}</text>
+            </view>
+            <view class="demo__text text_one">
+                <text class="yt">洗车次数:{{item.allCount}}</text>
+                <text class="ends">洗车收入:{{item.allMoney/100}}</text>
+            </view>
+            <view class="demo__text text_two">
+                <text>地址:{{item.province}} {{item.city}} {{item.area}} {{item.street}}</text>
+            </view>
+        </view>
+    </wxc-cc>
+    <!-- </view> -->
+    <wxc-loadmore text="正在努力加载中..." icon="{{true}}" wx:if="{{condition==1}}" _pid="{{_pid}}">
+    </wxc-loadmore>
+    <wxc-loadmore is-end="{{true}}" text="到底啦" wx:if="{{condition==0}}" _pid="{{_pid}}">
+    </wxc-loadmore>
+
+    <!--<layout-foot></layout-foot>-->
+</view>

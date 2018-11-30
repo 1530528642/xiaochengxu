@@ -1,0 +1,287 @@
+<template>
+  <view class="container">
+    <view class="orders-switch">
+        <view class="item {{ showType == 0 ? 'active' : ''}}" bindtap="switchTab" data-index='0'>
+            <view class="txt">全部</view>
+        </view>
+        <view class="item {{ showType == 1 ? 'active' : ''}}" bindtap="switchTab" data-index='1'>
+            <view class="txt">待付款</view>
+        </view>
+        <view class="item {{ showType == 2 ? 'active' : ''}}" bindtap="switchTab" data-index='2'>
+            <view class="txt">待发货</view>
+        </view>
+        <view class="item {{ showType == 3 ? 'active' : ''}}" bindtap="switchTab" data-index='3'>
+            <view class="txt">待收货</view>
+        </view>
+        <view class="item {{ showType == 4 ? 'active' : ''}}" bindtap="switchTab" data-index='4'>
+            <view class="txt">待评价</view>
+        </view>
+    </view>
+    <view class="no-order" wx:if="{{orderList.length <= 0}}">
+      <view class="c">
+        <image src="http://nos.netease.com/mailpub/hxm/yanxuan-wap/p/20150730/style/img/icon-normal/noCart-a8fe3f12e5.png" />
+        <text>还没有任何订单呢</text>
+      </view>
+    </view>
+
+    <view class="orders">
+      <navigator url="../orderDetail/orderDetail?id={{item.id}}" class="order" open-type="redirect" wx:for="{{orderList}}" wx:key="id">
+            <view class="h">
+                <view class="l">订单编号：{{item.orderSn}}</view>
+                <view class="r">{{item.orderStatusText}}</view>
+            </view>
+            <view class="goods" wx:for="{{item.goodsList}}" wx:key="id" wx:for-item="gitem">
+                <view class="img">
+                    <image src="{{gitem.picUrl}}"></image>
+                </view>
+                <view class="info">
+                    <text class="name">{{gitem.goodsName}}</text>
+                    <text class="number">共{{gitem.number}}件商品</text>
+                </view>
+                <view class="status"></view>
+            </view>
+            <view class="b">
+                <view class="l">实付：￥{{item.actualPrice}}</view>
+            </view>
+      </navigator>
+    </view>
+</view>
+
+</template>
+
+<script>
+var daaty =  require("../../utils/api2.js")
+var app = getApp();
+export default {
+  config: {
+    navigationBarTitleText: '我的订单',
+    usingComponents: {}
+  },
+ data: {
+  orderList: [],
+  showType: 0,
+  offset:0,
+  limit:10
+ },
+ onLoad: function(options) {
+    var userid = app.globalData.user.userId
+     this.setData({userid:userid})
+  // 页面初始化 options为页面跳转所带来的参数
+ },
+
+ onPullDownRefresh() {
+  wx.showNavigationBarLoading() //在标题栏中显示加载
+  this.getOrderList();
+  wx.hideNavigationBarLoading() //完成停止加载
+  wx.stopPullDownRefresh() //停止下拉刷新
+ },
+ getOrderList() {
+  let that = this;
+    daaty.OrderList(that.data.userid,that.data.showType,that.data.offset,that.data.limit,null,successFay)
+      function successFay(res,sourceObj){
+          that.setData({
+               orderList: res.data.data
+          });
+    }
+  },
+ switchTab: function(event) {
+  let showType = event.currentTarget.dataset.index;
+  this.setData({
+   showType: showType
+  });
+  this.getOrderList();
+ },
+ onReady: function() {
+  // 页面渲染完成
+ },
+ onShow: function() {
+  // 页面显示
+  this.getOrderList();
+ },
+ onHide: function() {
+  // 页面隐藏
+ },
+ onUnload: function() {
+  // 页面关闭
+ }
+}
+</script>
+
+<style>
+page{
+    height: 100%;
+    width: 100%;
+    background: #f4f4f4;
+}
+
+
+.orders-switch{
+    width: 100%;
+    background: #fff;
+    height: 84rpx;
+    border-bottom: 1px solid rgba(0,0,0,.15);
+}
+
+.orders-switch .item{
+    display: inline-block;
+    height: 82rpx;
+    width: 15%;
+    padding: 0 15rpx;
+    text-align: center;
+}
+
+.orders-switch .item .txt{
+    display: inline-block;
+    height: 82rpx;
+    padding: 0 20rpx;
+    line-height: 82rpx;
+    color: #333;
+    font-size: 30rpx;
+    width: 105rpx;
+}
+
+.orders-switch .item.active .txt{
+    color: #ab2b2b;
+    border-bottom: 4rpx solid #ab2b2b;
+}
+
+
+.no-order{
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+}
+
+.no-order .c{
+    width: 100%;
+    height: auto;
+    margin-top: 200rpx;
+}
+
+.no-order .c image{
+    margin: 0 auto;
+    display: block;
+    text-align: center;
+    width: 258rpx;
+    height: 258rpx;
+}
+
+.no-order .c text{
+    margin: 0 auto;
+    display: block;
+    width: 258rpx;
+    height: 29rpx;
+    line-height: 29rpx;
+    text-align: center;
+    font-size: 29rpx;
+    color: #999;
+}
+
+.orders{
+    height: auto;
+    width: 100%;
+    overflow: hidden;
+}
+
+.order{
+    margin-top: 20rpx;
+    background: #fff;
+}
+
+.order .h{
+    height: 83.3rpx;
+    line-height: 83.3rpx;
+    margin-left: 31.25rpx;
+    padding-right: 31.25rpx;
+    border-bottom: 1px solid #f4f4f4;
+    font-size: 30rpx;
+    color: #333;
+}
+
+.order .h .l{
+    float: left;
+}
+
+.order .h .r{
+    float: right;
+    color: #b4282d;
+    font-size: 24rpx;
+}
+
+.order .goods{
+    display: flex;
+    align-items: center;
+    height: 199rpx;
+    margin-left: 31.25rpx;
+}
+
+.order .goods .img{
+    height:145.83rpx;
+    width:145.83rpx;
+    background: #f4f4f4;
+}
+
+.order .goods .img image{
+    height:145.83rpx;
+    width:145.83rpx;
+}
+
+.order .goods .info{
+    height: 145.83rpx;
+    flex: 1;
+    padding-left: 20rpx;
+}
+
+.order .goods .name{
+    margin-top: 30rpx;
+    display: block;
+    height: 44rpx;
+    line-height: 44rpx;
+    color: #333;
+    font-size: 30rpx;
+}
+
+.order .goods .number{
+    display: block;
+    height: 37rpx;
+    line-height: 37rpx;
+    color: #666;
+    font-size: 25rpx;
+}
+
+.order .goods .status{
+    width:105rpx;
+    color: #b4282d;
+    font-size: 25rpx;
+}
+
+.order .b{
+    height: 103rpx;
+    line-height: 103rpx;
+    margin-left: 31.25rpx;
+    padding-right: 31.25rpx;
+    border-top: 1px solid #f4f4f4;
+    font-size: 30rpx;
+    color: #333;
+}
+
+.order .b .l{
+    float: left;
+}
+
+.order .b .r{
+    float: right;
+}
+
+.order .b .btn{
+    margin-top: 19rpx;
+    height: 64.5rpx;
+    line-height: 64.5rpx;
+    text-align: center;
+    padding: 0 20rpx;
+    border-radius: 5rpx;
+    font-size: 28rpx;
+    color: #fff;
+    background: #b4282d;
+}
+</style>

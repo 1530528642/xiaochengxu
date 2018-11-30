@@ -1,0 +1,156 @@
+<template>
+   <view class="box">
+      <view class="ims_box"><image src="../../common/assets/tab/qiye_icon_@2x.png" ></image><image class="styg" src="../../common/assets/tab/weixin_icon_@2x.png"></image></view>
+       <wxc-select items="{{items}}" color="#E94A69" checked="2" bind:change="onChange"></wxc-select>
+        <view class="input-wrap">
+            <text>提现方式</text>
+            <wxc-input type="number" mode="normal" placeholder="请输入提现金额" title="￥" value="{{mony}}" bind:blur="onBlur" id="setFont"></wxc-input> 
+          </view>
+        <button bindtap="temnneas" id='login_btn'>提现</button>
+        <view class="footManual">
+             <view class="foot_one">提现说明:</view>
+             <view class="foot_two">
+                <view>1.提现说明提现说明提现说明提现说明提现说明</view>
+                <view>1.提现说明提现说明提现说明提现说明提现说明</view>
+                <view>1.提现说明提现说明提现说明提现说明vvv提现说明提现说明提现说明现说明提现说明提现说明提现说明提现说明提现说明提</view>
+             </view>
+        </view>
+        <wxc-dialog class="wxc-dialog" confirm-text="确定" cancel-text="取消" bindconfirm="onConfirm" bindcancel="onCancel"><text class="my_txt">您当前提现的金额为{{mony}}元</text></wxc-dialog>
+         <wxc-toast
+            is-show="{{$toast.show}}"
+            text="提交成功" 
+            icon="yes"
+            icon-color="#ff5777">
+          </wxc-toast>
+    </view>
+</template>
+
+<script>
+var apis =  require("../../utils/api.js")
+var dates =  require("../../utils/dateutils.js")
+var converts =  require("../../utils/convert.js")
+var estate = wx.getStorageSync("uid");
+export default {
+  config: {
+    navigationBarTitleText: '我的收益',
+    usingComponents: {
+       'wxc-list': '@minui/wxc-list',
+       'wxc-loadmore': '@minui/wxc-loadmore',
+       'wxc-select': '@minui/wxc-select',
+       'wxc-input': '@minui/wxc-input',
+       'wxc-dialog': '@minui/wxc-dialog',
+       'wxc-toast': '@minui/wxc-toast'
+    }
+  },
+  data: {
+     washnumber:[],
+       items: [
+      {value: '2', title: '企业转账'},
+      {value: '1', title: '微信提现'},
+    ],
+     offset:0,
+     limit:10,
+     condition:2,
+     mony:"",
+     values:'2',
+     $toast: {
+        show: false
+      }
+   },
+  
+   onBlur(e) {
+         this.setData({mony:e.detail.value}) 
+            },
+   onChange(e) {
+      const types = e.detail.value
+      this.setData({values:types})
+    },
+  temnneas:function(){
+    let dialogComponent = this.selectComponent('.wxc-dialog')
+      dialogComponent && dialogComponent.show();
+          },
+  hideDialog() {
+      let dialogComponent = this.selectComponent('.wxc-dialog')
+      dialogComponent && dialogComponent.hide();
+         },
+  onConfirm () {
+    const _this =this;
+    const money =  this.data.mony*100;
+    this.setData({
+          $toast: {
+            show: true
+          }
+        })
+        setTimeout(() => {
+          this.setData({
+          $toast: {
+            show: false
+          }
+        })
+      }, 1500)
+      wx.navigateTo({
+         url:"../presentRecord/presentRecord"
+                })
+    this.hideDialog()
+       apis.addWithdrawals({estateId:estate,money:money,withdrawalsType:this.data.values},1,successFa, null, null);
+        function successFa(data, sourceObj){
+            var datay = data.data
+            var datas;
+                datay.money = converts.huansuan( datay.money );
+                datay.createTime = dates.getDate( datay.createTime );
+                datay.auditStatus = converts.zhaungtai(datay.auditStatus);
+                _this.data.washnumber.push(datay)
+            _this.setData({washnumber:_this.data.washnumber})
+            }
+    },
+    onCancel:function(){
+       this.hideDialog()
+    }
+  
+}
+</script>
+
+<style>
+  page{
+    background: #fff;
+  }
+  .box {
+   padding-top:5%;
+  }
+  .box .wash{
+     width:99%;
+     height:100rpx;
+     padding-bottom:15px;
+     border:1px solid red;
+     margin-bottom:15rpx;
+   }
+  .box .ims_box{display:inline-block;
+        margin-left:2%;
+        height:240rpx;
+        }
+  .box .ims_box image{width:48rpx;
+        height:48rpx;
+        display:block;
+        margin-top:60%;
+        }
+  .box .wash .wash_img{width:80rpx;height:105rpx;}
+  .box .wash .wash_view{display:inline-block;}
+  .box .wash .wash_view .view_two text{font-size:26rpx;}
+  .tixian{font-size:20rpx;border:1px solid red;margin-bottom:15px;}
+  .input-wrap{
+        width:50%;
+        position: relative;
+        margin: 0 auto;
+        display: inline-block;
+        margin-top: 18%;
+        margin-left: 13%;
+    }
+  .input-wrap text{display:block;margin-bottom: 56rpx;} 
+  .my_txt{margin-bottom:40rpx;}
+  #login_btn{width:95%;height:85rpx;border-radius:20rpx;background: #E94A69;color: #fff;font-size: 40rpx;line-height: 85rpx;margin-top:60rpx;}
+  .box .ims_box .styg{margin-top:120%;}
+  .footManual{width:93%;margin:30rpx 0 0 30rpx;font-size:26rpx;}
+  .footManual .foot_one{font-size:28rpx;color:#353535;margin-bottom:20rpx;}
+  .footManual .foot_two{font-size:20rpx;color:#6c6b6b;line-height:30rpx;}
+  #setFont{font-size:60rpx;}
+</style>

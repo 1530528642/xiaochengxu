@@ -1,0 +1,27 @@
+page{
+    background: #eee;
+  }
+  .box .wash{
+     width:99%;
+     height:100rpx;
+     padding-bottom:15rpx;
+     border:1rpx solid red;
+     margin-bottom:15rpx;
+   }
+  .box .wash .wash_img{width:80rpx;height:105rpx;}
+  .box .wash .wash_view{display:inline-block;}
+  .box .wash .wash_view .view_two text{font-size:26rpx;}
+  .tixian{font-size:20rpx;padding: 22rpx 0 22rpx 0;margin-top: 6rpx;background: #fff;}
+  .tixian .tixian_one{font-size: 28rpx;margin-left: 30rpx;color:#686868}
+  .tixian .tixian_two text{margin-left: 35rpx;font-size: 28rpx;}
+  .txy{font-size: 50rpx;}
+  .input-wrap {
+        width:50%;
+        position: relative;
+        margin: 0 auto;
+        display: inline-block;
+    }
+  .my_txt{margin-bottom:40rpx;}
+  .aty{display: inline-block;width:200rpx;margin-left:40rpx;text-align: center;}
+  .alrt{width: 30%;height: 75rpx;background: #E94A69;border-radius: 10rpx;margin-bottom: 28rpx;color: #fff;line-height: 75rpx;margin-left: 65%;font-size:38rpx;
+}

@@ -1,0 +1,10 @@
+<view>
+    <!--<layout-head></layout-head>-->
+
+    <!-- wxp template -->
+    <view class="uiuh" bindtap="tapnamey">
+        <slot></slot>
+    </view>
+
+    <!--<layout-foot></layout-foot>-->
+</view>

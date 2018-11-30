@@ -1,0 +1,366 @@
+<template>
+  <view class="Editor">
+      <form bindsubmit="formSubmit" bindreset="formReset">
+        <view class="lsrr">
+            <view class="lsrr_box">
+                <image src="{{upimg !=''?upimg:(bcontent == ''?imgy:url+imgsy)}}" bindtap='update'></image>
+                <image src="../../common/assets/tab/icon_camera.png" class="mbig"></image>
+                <view class="min_box">
+                    <input name="input" placeholder="*姓名(必填项)" value="{{bcontent.name}}"/>
+                    <input name="input1" placeholder="*手机(必填项)" value="{{bcontent.cardPhone}}"/>
+                </view>
+                <view class="topflex">
+                    <text>图片过大点击重新上传</text>
+                    <!-- <text></text> -->
+                </view>
+            </view>
+        </view>
+
+        <view class="lsrr lsrrdb">
+            <view class="lsrr_box">
+                <image src="{{upimgtwo != ''?upimgtwo:(bcontent == ''?'../../common/assets/tab/icon_uploalogo.png':url+imgsdb)}}" bindtap="updatetwo"></image>
+                <image src="../../common/assets/tab/icon_camera.png" class="mbig"></image>
+                <view class="min_box">
+                    <input name="input2" placeholder="*公司(必填项)" value="{{bcontent.company}}"/>
+                    <input name="input3" placeholder="*职务(必填项)" value="{{bcontent.cardTitle}}"/>
+                </view>
+            </view>
+            <view class="any_box"><input name="input4" disabled="disabled" placeholder="行业(必填项)" value="{{hlist}}" bindtap="anyBox"/></view>
+        </view>
+
+        <view class="antipm">
+            <view class="antipmone">
+                <text>名片名称</text><input name="input5" type="text" placeholder="请输入名片名称" value="{{bcontent.cardTitle}}">
+            </view>
+            <view class="antipmtwo">
+                <text>公司电话</text><input name="input9" type="text" placeholder="请输入公司电话" value="{{bcontent.companyTel}}">
+            </view>
+            <view class="antipmtwo">
+                <text>地址</text><input name="input6" type="text" placeholder="请输入地址" >
+            </view>
+            <view class="antipmtwo">
+                <text>网址</text><input name="input7" type="text" placeholder="请输入网址" value="{{bcontent.website1}}" >
+            </view>
+            <view class="antipmtwo">
+                <text>微信</text><input name="input8" type="text" placeholder="请输入微信(必填项)" value="{{bcontent.wxNo}}" >
+            </view>
+            <view class="antipmtwo anmetion">
+                <text>业务介绍</text><view bindtap="inputning"><input name="input10" disabled="disabled" type="text" value="{{iptxt1}}" placeholder="{{bcontent == ''?'请输入业务介绍':bcontent.businessText}}" ><image src="../../common/assets/tab/icon_riarrow.png"></image></view>
+            </view>
+            <!-- <view class="antipmtwo anmetion">
+                <text>印象标签</text><view bindtap="inputten"><input name="input11" disabled="disabled" type="text" value="{{iptxt2}}" placeholder="{{bcontent == ''?'请输入个性签名':bcontent.tags}}" ><image src="../../common/assets/tab/icon_riarrow.png"></image></view>
+            </view> -->
+            <view class="antipmtwo anmetion">
+                <text>图片风采</text><view bindtap="inputimg"><input disabled="disabled" type="text" placeholder="点击上传图片" ><image src="../../common/assets/tab/icon_riarrow.png"></image></view>
+            </view>
+            <view class="antipmone antipmonetwo">
+                    <view>选择标签</view>
+                    <view><text class="{{txtuid == item.uid?'label':''}}" wx:for="{{taglist}}" wx:key="index" wx:for-item="item" data-uid={{item.uid}} data-txt={{item.tagValue}} bindtap="label">{{item.tagValue}}</text></view>
+                    <input type="text" name="input18" value="{{txtTy}}" style="display:none">
+            </view>
+        </view>
+        
+        <view class="eycomte">
+            <text>允许别人分享我的名片</text> <switch name="input12"></switch>
+        </view>
+
+        <view class="submit">
+            <button formType="submit" class="btnmie">保存</button>
+        </view>
+
+        <view class="achplus" wx:if={{hkstate}}>
+            <view class="viey">
+                 <view wx:for="{{hking}}" wx:for-item="item" wx:key="index" data-name="{{item.name}}" data-uid="{{item.uid}}" bindtap="achplus">{{item.name}}</view>
+                 <image src="../../common/assets/tab/223264645530621479.png" class="errimg" bindtap="errimg"></image>
+            </view>
+        </view>
+      </form>
+  </view>
+</template>
+
+<script>
+var daaty =  require("../../utils/api2.js")
+var cache =  require("../../utils/cache.js")
+var pathds =  require("../../utils/navigator.js")
+var tip = require("../../utils/tip.js")
+var app = getApp();
+export default {
+  config: {
+    navigationBarTitleText: '编辑名片',
+    usingComponents: {
+      'wxc-label': '@minui/wxc-label',
+      'wxc-icon': '@minui/wxc-icon'
+    }
+  },
+  data: {
+      upimg:'', //个人头像
+      sn:"",   //文本sn
+      upimgtwo:"",//公司图片
+      userId:'', //个人user
+      hking:'', //行业列表
+      hlist:'',//点击选中行业值
+      hkstate:false,
+      bcontent:'',//当从编辑点进来时对应的数据
+      txtuid:''//标签选择uid
+  },
+  onLoad:function(options){
+      console.log(options,"option")
+    var type = decodeURIComponent(options.type)
+    var typetwo = decodeURIComponent(options.imgsy)
+    var thist = this
+    var uese = cache.get("user",thist.fun)
+      
+      if(type == 2){
+        this.setData({bcontent:''})
+      }
+
+      if(type == 1){
+          var dataObj = app.globalData.dataObj
+        //   console.log(dataObj,"dataObj")
+          for(var i=0;i<dataObj.fileList.length;i++){
+                    if(dataObj.fileList[i].scoureType == 12){
+                      this.setData({imgsdb:dataObj.fileList[i].fileUrl})
+                }
+            }
+        this.setData({bcontent:dataObj,url:app.globalData.imgUrl,imgsy:typetwo,types:type,index:options.index})
+      }
+      app.checkLoginStatus()
+  },
+  onShow:function(){
+    var gbtxt = app.globalData.txt
+        if(gbtxt == undefined){
+            gbtxt = "--"
+        }
+        var newgbtxt = gbtxt.split("--")
+        if(newgbtxt[1] == 1){
+            this.setData({iptxt1:newgbtxt[0]}) 
+        }else{
+            this.setData({iptxt2:newgbtxt[0]}) 
+        }
+  },
+ fun:function(r){
+        var thisty = this
+        this.setData({imgy:r.data.headImg,userId:r.data.userId})
+
+        daaty.getProductSN(thisty.data.userId,2,null,successFa)
+        function successFa(data, sourceObj){
+            thisty.setData({sn:data.data.sn})
+        }
+
+        daaty.taglist(1,1,null,successFay)
+        function successFay(data, sourceObj){
+            // console.log(data,"55444")
+            thisty.setData({taglist:data.data})
+        }
+        
+        thisty.setData({hking:app.globalData.strylist})
+    },
+  formSubmit: function (e) {
+    // console.log('form发生了submit事件，携带数据为：', e.detail.value)
+                var thisy = this
+                var a = e.detail.value  //表单内容
+                var sn = thisy.data.sn  //文件sn
+                var ninimg = app.globalData.imglength  //9宫格图片
+                var txt;
+                // console.log(thisy.data.index,'index')
+                if(thisy.data.types == 1){
+                    app.globalData.newDataObj = {name:a.input,cardTitle:a.input3,cardPhone:a.input1,wxNo:a.input8,company:a.input2,uid:thisy.data.bcontent.uid,index:thisy.data.index,state:true}
+                }
+                //   var reg=!!a.input7.match(/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/);
+                    //  console.log(reg)
+
+                if(thisy.data.types == 1 ){  //等于1时是从详情进入默认有头像
+                    
+                }else{  //等于2时是从首页列表添加进入用户没有添加图片需要提示
+                    if(thisy.data.upimg == ''){
+                            tip.showToast("必须上传个人图片")
+                            return
+                        }
+                }
+                    
+                //     if(a.input == ''||a.input1 == ''||a.input2 == ''||a.input3 == ''||a.input4 == ''||a.input8 == ''||a.input9 == ''){
+                //     if(a.input == ''){
+                //         tip.showToast("姓名不能为空")
+                //         return
+                //     }else if(a.input1 == ''){
+                //         tip.showToast("个人手机不能为空")
+                //             return
+                //     }else if(a.input2 == ''){
+                //         tip.showToast("公司不能为空")
+                //             return
+                //     }else if(a.input4 == ''){
+                //          tip.showToast("行业不能为空")
+                //         return
+                //     }else if(a.input8 == ''){
+                //         tip.showToast("微信号不能为空")
+                //         return
+                //     }else if(a.input9 == ''){
+                //         tip.showToast("公司电话不能为空")
+                //         return
+                //     }else{
+                //         tip.showToast("职务不能为空")
+                //             return
+                //     }
+                    
+                // }
+
+                //  if(a.input1){
+                //         var telReg = !!a.input1.match(/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/);
+                //         if(telReg == false){
+                //             tip.showToast("个人手机号输入有误")
+                //              return false
+                //         }
+                //     }
+        
+        thisy.data.bcontent == ''?txt="确认保存":txt="确认修改"
+        tip.showModalcencll("提示",txt,funyy)
+        function funyy(res){
+            if(res.confirm == true){
+                    if(thisy.data.bcontent == ''){
+                        if(thisy.data.uid == undefined){  //行业没有选择时默认选1
+                            thisy.data.uid = 1
+                        }
+                        daaty.addCard(sn,thisy.data.userId,a.input,a.input1,a.input3,a.input2,a.input7,"网址2", a.input9,a.input8,a.input18,thisy.data.uid,a.input10,0,a.input11,null,successFa)
+                        
+                    }else{
+                        daaty.updateCard(thisy.data.userId,thisy.data.bcontent.uid,a.input,a.input1,a.input3,a.input2,a.input7,"网址2", a.input9,a.input8,a.input18,4,a.input10,0,a.input11,null,successFa)
+                    }
+                    
+                    function successFa(data, sourceObj){
+                        for(var i=0;i<3;i++){
+                            if(i == 0&&thisy.data.upimg != ''){
+                                thisy.upimg(thisy.data.upimg,thisy.data.upimg.length,11)
+                            }else if(i == 1&&thisy.data.upimgtwo != ''){
+                                thisy.upimg(thisy.data.upimgtwo,thisy.data.upimgtwo.length,12)
+                            }else if(i == 2&&ninimg != undefined){
+                                thisy.upimg(ninimg,ninimg.length,13)
+                            }
+                        }
+
+                    }
+
+                    setTimeout(function(){
+                        pathds.switchTab('../nameCar/nameCar')
+                    },1500)
+                }
+
+             }
+       
+    
+  },
+  upimg:function(filePaths,length,sourceType){
+      var thyyu = this
+    if(filePaths != ''){
+        var sns = this.data.sn
+        if(this.data.bcontent != ''){
+            sns = app.globalData.dataObj.cardSn
+            daaty.deleteFile(app.globalData.dataObj.cardSn,thyyu.data.userId,sourceType,successFa)
+            function successFa(data, sourceObj){
+            }
+        }
+        daaty.uploadFile(filePaths,0,0,0,length,sns,this.data.userId,sourceType,successFa)
+            function successFa(data, sourceObj){
+                // console.log(data,"data")
+                // var pages =getCurrentPages();//当前页面栈
+                //     if (pages.length >1) {
+                //     var beforePage = pages[pages.length- 2];//获取上一个页面实例对象
+                //     beforePage.changeData();//触发父页面中的方法
+                //     }
+            }
+    }
+    // console.log()
+    setTimeout(function(){
+        pathds.switchTab('../nameCar/nameCar')
+    },2500)
+  },
+  update:function(){
+    this.updateImg(1)
+  },
+  updatetwo:function(){
+    this.updateImg(2)
+  },
+  updateImg:function(numy){
+    var thyy = this; 
+    wx.chooseImage({
+      count: 1, // 默认9
+      sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+      sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+      success: function success(res) {
+        // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+        // console.log(res);
+        var tempFilePaths = res.tempFilePaths;
+        if(numy == 1){
+            thyy.setData({ upimg: tempFilePaths });
+        }else{
+            thyy.setData({ upimgtwo: tempFilePaths });
+        }
+      }
+    });
+  },
+  inputning:function(){
+    let obj  = {emy:"1"}
+    pathds.navigateTo("../addtxt/addtxt",obj)
+  },
+  inputten:function(){
+    let obj1  = {emy:"2"}
+    pathds.navigateTo("../addtxt/addtxt",obj1)
+  },
+  inputimg:function(){
+    pathds.navigateTo("../fileImg/fileImg")
+  },
+  anyBox:function(){
+    this.setData({hkstate:true})
+  },
+  achplus:function(e){
+    //   console.log(e.currentTarget.dataset.uid)
+      this.setData({hlist:e.currentTarget.dataset.name,uid:e.currentTarget.dataset.uid,hkstate:false})
+  },
+  errimg:function(){
+    this.setData({hkstate:false})
+  },
+  label:function(e){
+    //   console.log(e.currentTarget.dataset.uid)
+      this.setData({txtuid:e.currentTarget.dataset.uid,txtTy:e.currentTarget.dataset.txt})
+  }
+}
+</script>
+
+<style>
+  page{width: 100%;height: 100%;}
+  page>view{width: 100%;height: 100%;}
+  .Editor{width: 100%;height: 100%;background: #eee;position: relative;}
+  .Editor .lsrr{width: 100%;background: #fff;margin-top: 20rpx;}
+  .Editor .lsrr .lsrr_box{width: 100%;height: 136rpx;margin: 0 auto;padding: 18rpx 0 18rpx 0;position: relative;}
+  .Editor .lsrr .lsrr_box image{width: 136rpx;height: 136rpx;vertical-align: middle;margin-right: 62rpx;margin-left: 32rpx;}
+  .Editor .lsrr .lsrr_box .mbig{width: 48rpx;height: 41rpx;position: absolute;bottom: 30rpx;left: 80rpx;}
+  .Editor .lsrr .lsrr_box view{display: inline-block;vertical-align: middle;width: 480rpx;}
+  .Editor .lsrr .lsrr_box view input{color: #000;height: 68rpx;}
+  .Editor .lsrr .lsrr_box view input:nth-child(1){border-bottom: 1px solid #eee;}
+  .Editor .lsrr .lsrr_box .topflex{width: 136rpx;height: 136rpx;background: rgba(0, 0, 0, 0.2);position: absolute;top: 18rpx;left: 45rpx;font-size: 28rpx;color: #fff;display: flex;justify-content: center;align-items: center;display:none;}
+  .Editor .lsrr .lsrr_box .topflex text{display: block;}
+  .Editor .lsrrdb{margin-top: 20rpx;}
+  .Editor .lsrrdb .lsrr_box{border-bottom: 1px solid #eee;}
+  .Editor .lsrrdb .any_box{height: 88rpx;padding-top: 25rpx;}
+  .Editor .lsrrdb .any_box input{margin-left: 32rpx;}
+  .Editor .antipm{width: 100%;}
+  .Editor .antipm view{width: 100%;color: #686868;font-size: 32rpx;}
+  .Editor .antipm view text{display: block;height: 64rpx;line-height: 64rpx;padding-left: 32rpx;}
+  .Editor .antipm view input{width: 100%;background: #fff;height: 88rpx;padding-left: 32rpx;}
+  .Editor .antipm .anmetion view{width: 100%;background: #fff;}
+  .Editor .antipm .anmetion view input{width:85%;display: inline-block;}
+  .Editor .antipm .anmetion view image{width:15rpx;height:27rpx;vertical-align: top;margin-top:40rpx;}
+  .Editor .antipm .antipmonetwo{width: 100%;height: 150rpx;background: #eee;}
+  .Editor .antipm .antipmonetwo view{height: 40rpx;}
+  .Editor .antipm .antipmonetwo view:nth-child(1){background: #eee;height: 64rpx;line-height: 64rpx;margin-left: 20rpx;}
+  .Editor .antipm .antipmonetwo view:nth-child(2){padding: 15rpx 20rpx 15rpx 20rpx;background: #fff;}
+  .Editor .antipm .antipmonetwo view text{padding: 5rpx 10rpx;border:1rpx solid #e94a69;display: inline-block;height: 30rpx;width: 67rpx;font-size: 25rpx;line-height:30rpx;margin-left: 15rpx;}
+  .Editor .antipm .antipmonetwo view .label{border: 1px solid red;color: red;}
+  .Editor .submit{position: fixed;bottom:0;width: 100%;height: 106rpx;text-align: center;background: #fff;display: flex;align-items:center;z-index:10;}
+  .Editor .submit .btnmie{width: 686rpx;height: 76rpx;border-radius: 10rpx;background: #e94a69;line-height: 76rpx;color: #fff;}
+  .Editor .eycomte{width: 100%;height: 88rpx;display: flex;align-items: center;font-size: 30rpx;background: #fff;margin-top: 100rpx;}
+  .Editor .eycomte text{margin-left: 32rpx;margin-right:35%;}
+  .Editor .achplus{position: fixed;top:0;left:0;width: 100%;height: 100%;background:rgba(0,0,0,.3);z-index: 15;display:flex;justify-content:center;}
+  .Editor .achplus .viey{width: 80%;height: 80%;background: #fff;position: relative;margin-top: 50rpx;}
+  .Editor .achplus .viey view{height: 82rpx;line-height: 82rpx;width:572rpx;margin: 0 auto;border-bottom:1px solid #dcdcdc;text-align: center;}
+  .Editor .achplus .viey image{width: 72rpx;height:72rpx;position: absolute;top:102%;left: 50%;margin-left: -36rpx;}
+</style>

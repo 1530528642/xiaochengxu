@@ -1,0 +1,98 @@
+<template>
+   <view class="box">
+        <view class="wash" wx:for="{{washnumber}}" wx:key="id" wx:for-item="item">
+        <image src="{{item.custImg}}" class="wash_img"></image>
+        <view class="wash_view">
+          <text class="wash_ex">{{item.custNname}}</text><view class="wash_view_one"><image src="../../common/assets/tab/xiche_icon_@2x.png"></image>洗车次数:<text class="two_txt">{{item.count}}</text></viwe>
+        </view>
+    </view>
+   </view>
+   <wxc-loadmore
+    text="正在努力加载中..."
+    icon="{{true}}"
+    wx:if="{{condition==1}}"
+  >
+  </wxc-loadmore>
+    <wxc-loadmore
+      is-end="{{true}}"
+      text="到底啦"
+      wx:if="{{condition==0}}"
+    >
+    </wxc-loadmore>
+</template>
+
+<script>
+var apis =  require("../../utils/api.js")
+var dates =  require("../../utils/dateutils.js")
+var utilss =  require("../../utils/util.js")
+export default {
+  config: {
+    navigationBarTitleText: '洗车用户',
+    usingComponents: {
+       'wxc-list': '@minui/wxc-list',
+       'wxc-loadmore': '@minui/wxc-loadmore'
+    }
+  },
+   paging:function(){
+      const _this = this;
+      this.setData({condition:1})
+      var estate = wx.getStorageSync("uid")
+    apis.washUsers({estateId:estate,offset:_this.data.offset,limit:_this.data.limit},1,successFa, null, null);
+    function successFa(data, sourceObj){
+          const offsets = _this.data.offset+_this.data.limit;
+          var datas;
+           for(var i=0;i<data.data.length;i++){
+            data.data[i].custNname=utilss.filderName(data.data[i].custNname)
+               data.data[i].custImg = utilss.imgUrl(data.data[i].custImg )
+              data.data[i].createTime=dates.getDate(data.data[i].createTime);
+             _this.data.washnumber.push(data.data[i])
+           }
+            var lengths = data.data.length;
+           if(lengths < _this.data.limit){
+            _this.setData({condition:0})
+          }else{
+            _this.setData({condition:2})
+          }
+          _this.setData({washnumber:_this.data.washnumber,offset:offsets})
+         }
+         
+   },
+   onLoad:function(option){
+    this.paging()
+    },
+  data: {
+     washnumber:[],
+     offset:0,
+     limit:10,
+     condition:2
+   },
+  onReachBottom: function () {
+      this.paging()
+  },
+  tipUrl:function(e){
+    var uid = e.currentTarget.dataset.uid;
+    wx.navigateTo({
+                    url:"../washtwo/washtwo?siteId="+uid
+                })
+  }
+  
+}
+</script>
+
+<style>
+  .box .wash{
+     width:99%;
+     height:100rpx;
+     line-height: 100rpx;
+     padding-bottom:15px;
+     border-bottom:5px solid #ccc;
+     margin-bottom:15rpx;
+     vertical-align: middle
+   }
+  .box .wash .wash_img{width:80rpx;height:81rpx;border-radius:50%;margin:0 20rpx 0 36rpx;vertical-align: middle;}
+  .box .wash .wash_view{display:inline-block;width:75%;}
+  .box .wash .wash_view image{width: 52rpx;height: 42rpx;margin: 0 20rpx 0 0rpx;}
+  .box .wash .wash_view .two_txt{color: #E94A69;}
+  .box .wash .wash_view .wash_ex{display:inline-block;width:280rpx;}
+  .box .wash .wash_view .wash_view_one{display:inline-block; text-align:lefe;}
+</style>

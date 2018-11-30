@@ -1,0 +1,11 @@
+{
+  "usingComponents": {
+    "wxc-list": "../../packages/@minui/wxc-list/dist/index",
+    "wxc-loadmore": "../../packages/@minui/wxc-loadmore/dist/index",
+    "wxc-select": "../../packages/@minui/wxc-select/dist/index",
+    "wxc-input": "../../packages/@minui/wxc-input/dist/index",
+    "wxc-dialog": "../../packages/@minui/wxc-dialog/dist/index",
+    "wxc-toast": "../../packages/@minui/wxc-toast/dist/index"
+  },
+  "navigationBarTitleText": "我的收益"
+}

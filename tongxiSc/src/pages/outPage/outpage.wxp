@@ -1,0 +1,23 @@
+<template>
+  <web-view src="{{tyurl}}"></web-view>
+</template>
+
+<script>
+export default {
+  config: {
+    navigationBarTitleText: '外部页面',
+    usingComponents: {}
+  },
+  data: {
+    tyurl:""
+  },
+  onLoad: function (options) {
+     this.setData({
+       tyurl:options.inur+"?times="+options.timew
+     })
+},
+}
+</script>
+
+<style>
+</style>

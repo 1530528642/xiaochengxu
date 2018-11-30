@@ -1,0 +1,10 @@
+page{width: 100%;}
+  page>view{width: 100%;height: 100%;position: relative;background:#eee;}
+  .manage{width: 100%;height: 90rpx;line-height: 90rpx;}
+  .manage radio-group>view{width:100%;border-bottom: 1rpx solid #ccc;padding-right: 30rpx;padding-left: 30rpx;background: #fff;}
+  .manage view view{display: inline-block;}
+  .manage view text{font-size: 28rpx;color:#070707;}
+  .manage view image{float: right;width: 15rpx;height: 27rpx;margin-top: 30rpx;margin-right: 50rpx;}
+  .manage .contfix{position: absolute;bottom:0;width: 100%;height: 90rpx;}
+  .manage .contfix text{font-size: 28rpx;display: inline-block;text-align: center;height: 100%;width: 249rpx;background:#fff;}
+  .manage .contfix text:nth-child(2){border-left:1rpx solid #ccc;border-right:1rpx solid #ccc;}

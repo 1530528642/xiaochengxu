@@ -1,0 +1,42 @@
+page{
+    background: #fff;
+  }
+  .box {
+   padding-top:5%;
+  }
+  .box .wash{
+     width:99%;
+     height:100rpx;
+     padding-bottom:15rpx;
+     border:1rpx solid red;
+     margin-bottom:15rpx;
+   }
+  .box .ims_box{display:inline-block;
+        margin-left:2%;
+        height:240rpx;
+        }
+  .box .ims_box image{width:48rpx;
+        height:48rpx;
+        display:block;
+        margin-top:60%;
+        }
+  .box .wash .wash_img{width:80rpx;height:105rpx;}
+  .box .wash .wash_view{display:inline-block;}
+  .box .wash .wash_view .view_two text{font-size:26rpx;}
+  .tixian{font-size:20rpx;border:1rpx solid red;margin-bottom:15rpx;}
+  .input-wrap{
+        width:50%;
+        position: relative;
+        margin: 0 auto;
+        display: inline-block;
+        margin-top: 18%;
+        margin-left: 13%;
+    }
+  .input-wrap text{display:block;margin-bottom: 56rpx;} 
+  .my_txt{margin-bottom:40rpx;}
+  #login_btn{width:95%;height:85rpx;border-radius:20rpx;background: #E94A69;color: #fff;font-size: 40rpx;line-height: 85rpx;margin-top:60rpx;}
+  .box .ims_box .styg{margin-top:120%;}
+  .footManual{width:93%;margin:30rpx 0 0 30rpx;font-size:26rpx;}
+  .footManual .foot_one{font-size:28rpx;color:#353535;margin-bottom:20rpx;}
+  .footManual .foot_two{font-size:20rpx;color:#6c6b6b;line-height:30rpx;}
+  #setFont{font-size:60rpx;}

@@ -1,0 +1,201 @@
+<template>
+        <button bindtap="atives" class="alrt">提现申请</button>
+        <wxc-dialog class="wxc-dialog" confirm-text="确定" bindconfirm="onConfirm" bindcancel="onCancel"><text class="my_txt">您当前提现的金额为{{mony}}元</text></wxc-dialog>
+         <wxc-toast
+            is-show="{{$toast.show}}"
+            text="提交成功" 
+            icon="yes"
+            icon-color="#ff5777">
+          </wxc-toast>
+       <view wx:for="{{washnumber}}" wx:for-item="item" wx:key="uid" class="tixian">
+         <view class="tixian_one">{{item.createTime}}</view>
+         <view class="tixian_two">
+              <text style="{{item.withdrawalsType==1?'background:#2aac38;color:#fff;padding:5rpx;border-radius:10rpx;':'background:#009cff;color:#fff;padding:5rpx;border-radius:10rpx;'}}">{{item.withdrawalsType==1?"微信提现":"企业转账"}}</text>
+              <text class="aty">提现金额:{{item.money}}</text>
+              <text wx:if="{{item.auditStatus=='审核中'}}" style="color:#353535"> 状态:{{item.auditStatus}}</text>
+              <text wx:if="{{item.auditStatus=='转账中'}}" style="color:yellow"> 状态:{{item.auditStatus}}</text>
+              <text wx:if="{{item.auditStatus=='已完成'}}" style="color:#2aac38">状态:{{item.auditStatus}}</text>
+              <text wx:if="{{item.auditStatus=='未通过'}}" style="color:#E51010"> 状态:{{item.auditStatus}} {{item.auditStatus=="未通过"?"原因:金额额度不对":""}}</text>
+         </view>
+       </view>
+    </view>
+   </view>
+   <wxc-loadmore
+    text="正在努力加载中..."
+    icon="{{true}}"
+    wx:if="{{condition==1}}"
+  >
+  </wxc-loadmore>
+    <wxc-loadmore
+      is-end="{{true}}"
+      text="到底啦"
+      wx:if="{{condition==0}}"  
+    >
+    </wxc-loadmore>
+</template>
+
+<script>
+var apis =  require("../../utils/api.js")
+var dates =  require("../../utils/dateutils.js")
+var converts =  require("../../utils/convert.js")
+var estate = wx.getStorageSync("uid");
+// console.log(estate,777777)
+export default {
+  config: {
+    navigationBarTitleText: '我的收益',
+    usingComponents: {
+       'wxc-list': '@minui/wxc-list',
+       'wxc-loadmore': '@minui/wxc-loadmore',
+       'wxc-select': '@minui/wxc-select',
+       'wxc-input': '@minui/wxc-input',
+       'wxc-dialog': '@minui/wxc-dialog',
+       'wxc-toast': '@minui/wxc-toast'
+    }
+  },
+   paging:function(){
+      const _this = this;
+      this.setData({condition:1})
+    apis.withdrawalsLists({estateId:estate,offset:_this.data.offset,limit:_this.data.limit},1,successFa, null, null);
+    function successFa(data, sourceObj){
+         var datay = data.data
+         var datas;
+         for(var i =0;i<datay.length;i++){
+             datay[i].money = converts.huansuan( datay[i].money );
+             datay[i].createTime = dates.getDate( datay[i].createTime );
+             datay[i].auditStatus = converts.zhaungtai(datay[i].auditStatus);
+             _this.data.washnumber.push(data.data[i])
+         }
+          var lengths = data.data.length;
+          if(lengths < _this.data.limit){
+            _this.setData({condition:0})
+          }else{
+            _this.setData({condition:2})
+          }
+         _this.setData({washnumber:data.data})
+         }
+   },
+   onLoad:function(option){
+    this.paging()
+    },
+  data: {
+     washnumber:[],
+       items: [
+      {value: '2', title: '企业转账'},
+      {value: '1', title: '微信提现'},
+    ],
+     offset:0,
+     limit:10,
+     condition:2,
+     mony:"",
+     values:'2',
+     $toast: {
+        show: false
+      }
+   },
+   onPullDownRefresh:function(){
+     wx.stopPullDownRefresh()
+    },
+  onReachBottom: function () {
+      this.paging()
+  },
+  tipUrl:function(e){
+    var uid = e.currentTarget.dataset.uid;
+    console.log(uid,888888)
+    wx.navigateTo({
+         url:"../washtwo/washtwo?siteId="+uid
+                })
+  },
+  atives:function(){
+    wx.navigateTo({
+         url:"../myWidthdraw/myWidthdraw"
+                })
+  },
+   onBlur(e) {
+         this.setData({mony:e.detail.value}) 
+            },
+   onChange(e) {
+      const types = e.detail.value
+      this.setData({values:types})
+    },
+  adds:function(){ 
+    const newMony = parseInt(this.data.mony)+100;
+    this.setData({mony:newMony})
+  },
+  minus:function(){
+     if(this.data.mony>=100){
+       const newMony = parseInt(this.data.mony)-100;
+       this.setData({mony:newMony})
+     }else{
+      return this.data.mony;
+     }
+  },
+  temnneas:function(){
+    let dialogComponent = this.selectComponent('.wxc-dialog')
+      dialogComponent && dialogComponent.show();
+          },
+    hideDialog() {
+      let dialogComponent = this.selectComponent('.wxc-dialog')
+      dialogComponent && dialogComponent.hide();
+         },
+  onConfirm () {
+    const _this =this;
+    const money =  this.data.mony*100;
+
+    this.setData({
+          $toast: {
+            show: true
+          }
+        })
+        setTimeout(() => {
+          this.setData({
+          $toast: {
+            show: false
+          }
+        })
+      }, 1500)
+      
+    this.hideDialog()
+       apis.addWithdrawals({estateId:estate,money:money,withdrawalsType:this.data.values},1,successFa, null, null);
+        function successFa(data, sourceObj){
+            var datay = data.data
+            var datas;
+                datay.money = converts.huansuan( datay.money );
+                datay.createTime = dates.getDate( datay.createTime );
+                datay.auditStatus = converts.zhaungtai(datay.auditStatus);
+                _this.data.washnumber.push(datay)
+            _this.setData({washnumber:_this.data.washnumber})
+            }
+    },
+  
+}
+</script>
+
+<style>
+  page{
+    background: #eee;
+  }
+  .box .wash{
+     width:99%;
+     height:100rpx;
+     padding-bottom:15px;
+     border:1px solid red;
+     margin-bottom:15rpx;
+   }
+  .box .wash .wash_img{width:80rpx;height:105rpx;}
+  .box .wash .wash_view{display:inline-block;}
+  .box .wash .wash_view .view_two text{font-size:26rpx;}
+  .tixian{font-size:20rpx;padding: 22px 0 22px 0;margin-top: 6px;background: #fff;}
+  .tixian .tixian_one{font-size: 28rpx;margin-left: 30px;color:#686868}
+  .tixian .tixian_two text{margin-left: 35px;font-size: 28rpx;}
+  .txy{font-size: 50rpx;}
+  .input-wrap {
+        width:50%;
+        position: relative;
+        margin: 0 auto;
+        display: inline-block;
+    }
+  .my_txt{margin-bottom:40rpx;}
+  .aty{display: inline-block;width:200rpx;margin-left:40rpx;text-align: center;}
+  .alrt{width: 30%;height: 75rpx;background: #E94A69;border-radius: 10px;margin-bottom: 28rpx;color: #fff;line-height: 75rpx;margin-left: 65%;font-size:38rpx;
+}
+</style>

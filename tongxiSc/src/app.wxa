@@ -1,0 +1,244 @@
+<template>
+  <view>
+    <!--<layout-head></layout-head>-->
+
+    <!-- wxp template -->
+    <page></page>
+
+    <!--<layout-foot></layout-foot>-->
+  </view>
+</template>
+
+<script>
+const tip = require("utils/tip.js")
+const api = require("utils/api2.js")
+const cache = require("utils/cache.js")
+const navigator = require("utils/navigator.js")
+  export default {
+    config: {
+      usingComponents: {
+        // 'layout-head': 'layout/head',
+        // 'layout-foot': 'layout/foot'
+      }, 
+      pages: [ ],
+      window: {
+        backgroundTextStyle: 'dark',
+        backgroundColor: '#efefef',
+        navigationBarBackgroundColor: '#E94A69',
+        navigationBarTitleText: '商务端',
+        navigationBarTextStyle: '#fff',
+        "enablePullDownRefresh": true
+      },
+      tabBar: {
+        color: '#686868',
+        selectedColor: '#ec4468',
+        borderStyle: 'black',
+        backgroundColor: '#ffffff',
+        list: [
+          {
+            pagePath: 'pages/nameCar/nameCar',
+            iconPath: 'common/assets/tab/card_default.png',
+            selectedIconPath: 'common/assets/tab/card_focus.png',
+            text: '服务'
+          },
+          {
+            pagePath: 'pages/shoping/shoping',
+            iconPath: 'common/assets/tab/icon_mall_default.png',
+            selectedIconPath: 'common/assets/tab/icon_mall_focus.png',
+            text: '商城'
+          },
+          {
+            pagePath: 'pages/home/index',
+            iconPath: 'common/assets/tab/icon_dymamic_default.png',
+            selectedIconPath: 'common/assets/tab/icon_dymamic_focus.png',
+            text: '动态'
+          },
+          {
+            pagePath: 'pages/product/product',
+            iconPath: 'common/assets/tab/icon_product_default.png',
+            selectedIconPath: 'common/assets/tab/icon_product_focus.png',
+            text: '产品'
+          },
+          {
+            pagePath: 'pages/my/my',
+            iconPath: 'common/assets/tab/icon_my_default.png',
+            selectedIconPath: 'common/assets/tab/icon_my_focus.png',
+            text: '我的'
+          }
+        ]
+      },
+      networkTimeout: {
+        request: 10000
+      }
+    },
+    onLaunch: function () {
+      // console.log('App Launch')
+      let that = this;
+      //that.checkLoginStatus();
+      that.globalData.imgUrl=api.baseImgUrl;
+    },
+    onShow: function () {
+      // console.log('App Show')
+    },
+    onHide: function () {
+      // console.log('App Hide')
+    },
+    loading:function(){
+       wx.showLoading({
+        title: '数据加载中...',
+      })
+    },
+    hideLing:function(){
+       setTimeout(() => {
+          wx.hideLoading();
+        }, 100);
+    },
+    globalData: {
+      appgolble:4654,
+      loading:true,
+      token:'',
+      openId:'',
+      user:null,
+      loginFlag:false,
+      imgUrl:'',
+      appId:'wx69de4292a3b6b8b5',
+      mygropuList:[],
+      bchage:true,
+      newDataObj:{
+        state:false,
+        steaindex:''
+      }
+     },
+     // 检查本地 storage 中是否有登录态标识
+    checkLoginStatus: function () {
+      //wx.clearStorage()
+      //tip.showModal('警告','检查本地 storage 中是否有登录态标识');
+     //tip.showToast('检查本地 storage 中是否有登录态标识');
+      let that = this;
+      let loginFlag1 = cache.getSync('loginFlag');
+      let loginFlag2 = that.globalData.loginFlag;
+     console.log(loginFlag1,"loginFlag1")
+     console.log(loginFlag2,"loginFlag2")
+      if(!loginFlag2&&loginFlag1) {//已登录过
+         let userStorageInfo = cache.getSync('user');
+          if (userStorageInfo) {
+              that.globalData.openId=userStorageInfo.xcxOpenId;
+              that.globalData.loginFlag=true;
+              that.globalData.user = userStorageInfo;
+              console.log(that.globalData.user,'已登录')   
+          }
+        // 检查 session_key 是否过期
+            // wx.checkSession({
+            //     // session_key 有效(为过期)
+            //     success: function () {
+            //         // 直接从Storage中获取用户信息
+            //         let userStorageInfo = cache.getSync('user');
+            //         cache.setSync('loginFlag',true);
+            //         if (userStorageInfo) {
+            //             that.globalData.openId=userStorageInfo.xcxOpenId;
+            //             that.globalData.loginFlag=true;
+            //             that.globalData.user = userStorageInfo;
+            //             console.log(that.globalData.user,'已登录')   
+            //         } else {
+            //             that.showInfo('缓存信息缺失');
+            //             console.error('登录成功后将用户信息存在Storage的userStorageInfo字段中，该字段丢失');
+            //         }
+
+            //     },
+            //     // session_key 过期
+            //     fail: function () {
+            //         // session_key过期
+            //     }
+            // });
+      }else if(!loginFlag1){
+       // console.log('未登录')
+      that.hideLing();
+        tip.showModal('警告','请登录',function(){
+          //console.log(2331)
+          navigator.switchTab("../my/my",null)
+        });
+       // that.dologin();
+      }
+    },
+    // 检查用户信息授权设置
+    checkUserInfoPermission: function (callback = () => {}) {
+      console.log("ok")
+        wx.getSetting({
+            success: function (res) {
+                if (!res.authSetting['scope.userInfo']) {
+                    wx.openSetting({
+                        success: function (authSetting) {
+                            console.log(authSetting)
+                             callback();
+                        }
+                    });
+                } 
+            },
+            fail: function (error) {
+                console.log(error);
+            }
+        });
+    },
+    dologin:function(callback = () => {}, user){
+      let that = this;
+      console.log('登录....')
+      //console.log(callback)
+      if (user) {
+        //console.log(5466363)
+      wx.login({
+                success: function (loginRes) {
+                    if (loginRes.code) {
+                      console.log('登录....',loginRes.code)
+                        wx.request({
+                            url: api.getUser,
+                            header: {'Content-Type': 'application/x-www-form-urlencoded',devType:1,appId: that.globalData.appId},
+                            data: {
+                                code: loginRes.code,
+                                nickName: user.nickName,
+                                avatarUrl: user.avatarUrl,
+                                gender: user.gender,
+                                city: user.city,
+                                province: user.province,
+                                country: user.country,
+                                language: user.language
+                            },
+                            method: "POST",
+                            success: function (res) {
+                              console.log(res,6666)
+                                 cache.setSync('user',res.data.data);
+                                 cache.setSync('loginFlag',true);
+                                 that.globalData.openId=res.data.data.xcxOpenId;
+                                 that.globalData.loginFlag=true;
+                                 that.globalData.user = res.data.data;
+                                 callback()
+                            },
+                            error: function (err) {
+                                console.log(err);
+                            },
+                            fail: function (err) {
+                                wx.clearStorage();
+                                tip.showToast('貌似网络不好哦！请在网络顺畅的时候重新操作！');
+                            }
+                        });
+
+                    } else {
+                        // 获取 code 失败
+                        console.log('调用wx.login获取code失败');
+                    }
+                },
+
+                fail: function (error) {
+                    // 调用 wx.login 接口失败
+                    console.log('接口调用失败',error);
+                }
+            });
+          }
+    }
+
+  }
+</script>
+
+<style>
+  @import 'assets/style/reset.wxss';
+</style>
+

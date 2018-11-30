@@ -1,0 +1,256 @@
+<template>
+  <view class="comments">
+  <view class="b">
+    <view class="item" wx:for="{{comments}}" wx:key="id">
+      <view class="info">
+        <view class="user">
+          <image src="{{item.userInfo.headImg}}"></image>
+          <text>{{item.userInfo.nickName}}</text>
+        </view>
+        <view class="time">{{item.addTime}}</view>
+      </view>
+      <view class="comment">{{item.content}}</view>
+      <view class="imgs" wx:if="{{item.picList.length > 0}}">
+        <image class="img" wx:for="{{item.picList}}" wx:key="id" wx:for-item="pitem" src="{{url+pitem}}"></image>
+      </view>
+      <!--<view class="customer-service" wx:if="{{item.commentReplyVO}}">
+        <text class="u">小选回复：</text>
+        <text class="c">{{item.commentReplyVO.replyContent}}</text>
+      </view>-->
+    </view>
+
+  </view>
+</view>
+</template>
+
+<script>
+const daaty =  require("../../utils/api2.js")
+const tipy =  require("../../utils/tip.js")
+var crettime = require("../../utils/dateutils.js")
+const app = getApp()
+export default {
+  config: {
+    navigationBarTitleText: '更多评论',
+    usingComponents: {}
+  },
+   data: {
+    comments: [],
+    allCommentList: [],
+    picCommentList: [],
+    type: 0,
+    valueId: 0,
+    showType: 0,
+    allCount: 0,
+    hasPicCount: 0,
+    allPage: 1,
+    picPage: 1,
+    offset:0,
+    limit: 10
+  },
+  getCommentCount: function () {
+    let that = this;
+    daaty.CommentCount(that.data.valueId,that.data.type,null,null,null,successFay)
+      function successFay(res, sourceObj){
+         that.setData({
+          allCount: res.data.allCount,
+          hasPicCount: res.data.hasPicCount
+        });
+      }
+  },
+  getCommentList: function(){
+    let that = this;
+     daaty.CommentList(that.data.valueId,that.data.type,that.data.offset,that.data.limit,that.data.showType ,null,successFay)
+      function successFay(res, sourceObj){
+        that.data.offset = that.data.offset+that.data.limit
+        for(var i=0;i<res.data.data.length;i++){
+            res.data.data[i].addTime = crettime.getDate(res.data.data[i].addTime)
+          }
+        if(res.data.data.length == 0){
+            tipy.showToast("只有这么多内容哦")
+        }
+        if (that.data.showType == 0) {
+          that.setData({
+            allCommentList: that.data.allCommentList.concat(res.data.data),
+            allPage: res.data.currentPage,
+            comments: that.data.allCommentList.concat(res.data.data)
+          });
+        } else {
+          that.setData({
+            picCommentList: that.data.picCommentList.concat(res.data.data),
+            picPage: res.data.currentPage,
+            comments: that.data.picCommentList.concat(res.data.data)
+          });
+        }
+      }
+  },
+  onLoad: function (options) {
+    // 页面初始化 options为页面跳转所带来的参数
+    this.setData({
+      type: options.type,
+      valueId: options.valueId,
+      url: app.globalData.imgUrl
+    });
+    this.getCommentCount();
+    this.getCommentList();
+  },
+  onReady: function () {
+    // 页面渲染完成
+
+  },
+  onShow: function () {
+    // 页面显示
+
+  },
+  onHide: function () {
+    // 页面隐藏
+
+  },
+  onUnload: function () {
+    // 页面关闭
+
+  },
+  switchTab: function () {
+    this.setData({
+      showType: this.data.showType == 1 ? 0 :1
+    });
+
+    this.getCommentList();
+  },
+  onReachBottom: function(){
+    console.log('onPullDownRefresh');
+
+    // if ( this.data.showType == 0) {
+
+    //   if (this.data.allCount / this.data.size < this.data.allPage) {
+    //     return false;
+    //   }
+
+    //   this.setData({
+    //     'allPage' : this.data.allPage + 1
+    //   });
+    // } else {
+    //   if (this.data.hasPicCount / this.data.size < this.data.picPage) {
+    //     return false;
+    //   }
+
+    //   this.setData({
+    //     'picPage': this.data.picPage + 1
+    //   });
+    // }
+
+
+
+    this.getCommentList();
+  }
+}
+</script>
+
+<style>
+.comments{
+    width: 100%;
+    height: auto;
+    padding-left:30rpx;
+    background: #fff;
+    margin: 20rpx 0;
+}
+
+.comments .b{
+    height: auto;
+    width: 720rpx;
+}
+
+.comments .b.no-h{
+    margin-top: 0;
+}
+
+.comments .item{
+    height: auto;
+    width: 720rpx;
+    overflow: hidden;
+    border-bottom: 1px solid #d9d9d9;
+    padding-bottom: 25rpx;
+}
+
+.comments .info{
+    height: 80rpx;
+    width: 100%;
+}
+
+.comments .user{
+    float: left;
+    width: auto;
+    height: 67rpx;
+    line-height: 67rpx;
+    font-size: 0;
+}
+
+.comments .user image{
+    float: left;
+    width: 67rpx;
+    height: 67rpx;
+    margin-right: 17rpx;
+    border-radius: 50%;
+}
+
+.comments .user text{
+    display: inline-block;
+    width: auto;
+    height: 66rpx;
+    overflow: hidden;
+    font-size: 29rpx;
+    line-height: 66rpx;
+}
+
+.comments .time{
+    display: block;
+    float: right;
+    width: auto;
+    height: 67rpx;
+    line-height: 67rpx;
+    color: #7f7f7f;
+    font-size: 25rpx;
+    margin-right: 30rpx;
+}
+
+.comments .comment{
+    width: 720rpx;
+    padding-right: 30rpx;
+    line-height: 45.8rpx;
+    font-size: 29rpx;
+    margin-bottom: 16rpx;
+}
+
+.comments .imgs{
+    width: 720rpx;
+    height: 150rpx;
+    margin-bottom: 25rpx;
+}
+
+.comments .imgs .img{
+    height: 150rpx;
+    width: 150rpx;
+    margin-right: 28rpx;
+}
+
+.comments .customer-service{
+    width: 690rpx;
+    height: auto;
+    overflow: hidden;
+    margin-top: 23rpx;
+    background: rgba(0,0,0,.03);
+    padding: 21rpx;
+}
+
+
+.comments .customer-service .u{
+    font-size: 24rpx;
+    color: #333;
+    line-height: 37.5rpx;
+}
+
+.comments .customer-service .c{
+    font-size: 24rpx;
+    color: #999;
+    line-height: 37.5rpx;
+}
+</style>

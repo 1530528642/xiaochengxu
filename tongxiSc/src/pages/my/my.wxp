@@ -1,0 +1,191 @@
+<template>
+   <view class="mys">
+        <view class="contenf_top">
+          <view class="img_ig">
+              <image src="{{datay != ''?datay.headImg:'../../common/assets/tab/awlkh.png'}}"></image>
+              <view>
+                  <button type='primary' open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="bindGetUserInfo">{{loginFlag == true?datay.nickName:'立即登录'}}</button>
+                  <text>{{loginFlag == true?datay.nickName:'登录更精彩'}}</text>
+              </view>
+              <image wx:if={{loginFlag==false}} src="../../common/assets/tab/jianyouy.png" class="fuis"></image>
+          </view>
+          <viwe class="img_txt">
+              <text>可提现佣金:0.02元</text>
+              <button>提现</button>
+          </viwe>
+          <view class="contenf_moy">
+              <view>
+                <text>已提现金额</text>
+                <text>0元</text>
+              </view>
+              <view>
+                <text>已提现金额</text>
+                <text>0元</text>
+              </view>
+          </view>
+        </view>
+
+        <view class="contenf_btn">
+           <view class="minbox" bindtap="minbox">
+             <view>
+                <image src="../../common/assets/tab/mone.png"></image>
+                <text class="ac_txt">管理地址</text>
+                <text>0.00元</text>
+             </view>
+           </view>
+           <view class="minbox" bindtap="minboxinfo">
+              <view>
+                 <image src="../../common/assets/tab/dind.png"></image>
+                 <text class="ac_txt">我的收藏</text>
+                 <text>0.00元</text>
+              </view>
+            </view>
+            <view class="minbox" bindtap="minbofoot">
+                <view>
+                   <image src="../../common/assets/tab/ahjs.png"></image>
+                   <text class="ac_txt">我的足迹</text>
+                   <text>0.00元</text>
+                </view>
+              </view>
+              <view class="minbox" bindtap="minboxdb">
+                  <view>
+                     <image src="../../common/assets/tab/tuan.png"></image>
+                     <text class="ac_txt">我的订单</text>
+                     <text>0.00元</text>
+                  </view>
+                </view>
+                <view class="minbox">
+                    <view>
+                       <image src="../../common/assets/tab/erwm.png"></image>
+                       <text class="ac_txt">分销佣金</text>
+                       <text>0.00元</text>
+                    </view>
+                  </view>
+                  <view class="minbox">
+                      <view>
+                         <image src="../../common/assets/tab/set.png"></image>
+                         <text class="ac_txt">分销佣金</text>
+                         <text>0.00元</text>
+                      </view>
+                    </view>
+                    <view class="minbox">
+                        <view>
+                           <image src="../../common/assets/tab/fagui.png"></image>
+                           <text class="ac_txt">分销佣金</text>
+                           <text>0.00元</text>
+                        </view>
+                      </view>
+                      <view class="minbox">
+                          <view>
+                             <image src="../../common/assets/tab/about.png"></image>
+                             <text class="ac_txt">分销佣金</text>
+                             <text>0.00元</text>
+                          </view>
+                        </view>
+                        <view class="minbox">
+                            <view>
+                               <image src="../../common/assets/tab/jdhd.png"></image>
+                               <text class="ac_txt">分销佣金</text>
+                            </view>
+                          </view>
+        </view>
+   </view>
+</template>
+
+<script>
+// var apis =  require("../../utils/api.js")
+// var converts =  require("../../utils/convert.js")
+var navigator =  require("../../utils/navigator.js")
+var cache =  require("../../utils/cache.js")
+var app = getApp();
+export default {
+  config: {
+    navigationBarTitleText: '我的',
+    usingComponents: {
+      'wxc-list': '@minui/wxc-list',
+      'wxc-icon': '@minui/wxc-icon',
+      'wxc-avatar': '@minui/wxc-avatar'
+    }
+  },
+  data:{
+    loginFlag:'',
+    datay:""
+  },
+  onLoad:function(){
+    var loginFlag = cache.getSync('loginFlag');
+    // console.log(loginFlag,"loginFlag")
+    var user = cache.getSync('user');
+    // console.log(user,"user")
+    app.loading()
+    // this.setData({loginFlag:app.globalData.loginFlag})
+    if(loginFlag == true){
+      console.log(loginFlag)
+      this.setData({loginFlag:loginFlag,datay:user})
+    }
+    app.hideLing()
+  },
+  bindGetUserInfo:function(e){
+    var successy = this.successy
+    wx.showLoading({
+        title: '登陆中...',
+      })
+    app.dologin(successy,e.detail.userInfo)
+  },
+  successy:function(){
+    var user = app.globalData.user 
+    // console.log(user)
+    if(user != null){
+      // console.log(33666)
+      setTimeout(() => {
+          wx.hideLoading();
+        }, 100);
+        this.setData({loginFlag:app.globalData.loginFlag,datay:app.globalData.user})
+    }else{
+      console.log("登录失败")
+    }
+  },
+  minbox:function(){
+    var param={userId:this.data.datay.userId};
+    navigator.navigateTo('../address/address',param);
+  },
+  minboxinfo:function(){
+     navigator.navigateTo('../collect/collect');
+  },
+  minboxdb:function(){
+    navigator.navigateTo('../order/order');
+  },
+  minbofoot:function(){
+    navigator.navigateTo('../footprint/footprint');
+  }
+}
+</script>
+
+<style>
+  page{width: 100%;height: 100%;background: #eee;}
+  page>view{width: 100%;height: 100%;}
+  .mys{width: 100%;height: 100%;}
+  .mys .contenf_top{width: 100%;background: #e94a69;}
+  .mys .contenf_top>view{width: 95%;margin: 0 auto;color: #fff;}
+  .mys .contenf_top .img_ig{display: block;border-bottom:1px solid #fff;padding: 38rpx 0 26rpx 0;}
+  .mys .contenf_top .img_ig image{width: 100rpx;height: 100rpx;border-radius:50%;vertical-align: middle;margin-right: 68rpx;display: inline-block;}
+  .mys .contenf_top .img_ig .fuis{width: 21rpx;height: 31rpx;}
+  .mys .contenf_top .img_ig view{vertical-align: middle;font-size: 28rpx;display: inline-block;width: 60%;}
+  .mys .contenf_top .img_ig button{background:none;text-align: left;padding:0;}
+  .mys .contenf_top .img_ig button::after{border: none;}
+  .mys .contenf_top .img_ig view text{display: block;}
+  /* .mys .contenf_top{padding: 38rpx 0 38rpx 0;} */
+  .mys .contenf_top .img_txt{display: block;width: 95%;margin: 0 auto;padding: 38rpx 0 38rpx 0;}
+  .mys .contenf_top .img_txt text{color: #fff;}
+  .mys .contenf_top .img_txt button{width: 118rpx;height: 48rpx;line-height:48rpx;border-radius: 25rpx;display: inline-block;float: right;margin-right: 48rpx;font-size: 28rpx;margin-top: 0;padding: 0;background: none;border: 2rpx solid #fff;color: #fff;}
+  .mys .contenf_top .contenf_moy{width: 100%;padding: 30rpx 0 30rpx 0;background: #fff;}
+  .mys .contenf_top .contenf_moy view{width: 49%;text-align: center;display: inline-block;}
+  .mys .contenf_top .contenf_moy view text{display:block;width: 100%;height: 100%;font-size: 28rpx;color: #000;}
+  .mys .contenf_top .contenf_moy view text:nth-child(1){margin-bottom: 20rpx;color: #0ba004;}
+  .mys .contenf_btn{width: 100%;background: #fff;margin-top: 10rpx;}
+  .mys .contenf_btn .minbox{width: 33%;height: 220rpx;display: inline-flex;border-bottom:1px solid #eee;padding-top: 40rpx;}
+  .mys .contenf_btn view:nth-child(3n+2){border-right:1px solid #eee;border-left:1px solid #eee;}
+  .mys .contenf_btn .minbox view{margin: 0 auto;text-align: center;}
+  .mys .contenf_btn .minbox view image{width: 70rpx;height: 70rpx;display: block;margin-top: 40rpx;margin: 0 auto;}
+  .mys .contenf_btn .minbox view text{display: block;font-size: 28rpx;}
+  .mys .contenf_btn .minbox view .ac_txt{margin: 5rpx 0 10rpx 0;}
+</style>

@@ -1,0 +1,101 @@
+<template>
+        <view class="wa_box">
+          <view class="top_box">
+            <view class="box_txt"><input type="text" bindblur="tty" placeholder="请输入标题" name="txt1"></view>
+            <view class="box_xty">
+              <textarea bindblur="bindTextAreaBlur" placeholder="请输入要发布的内容" maxlength="10" name="txt2"/></view>
+              <view class="sc_img">
+                <image src="{{item}}" wx:for="{{src}}" wx:for-item="item" alt=""></image>
+              </view>
+              <view class="cyt_lui" bindtap="getImageInfo">
+                <image src="../../common/assets/tab/icon_add.png" alt=""></image>
+              </view>
+            </view>
+      </view>
+          <view class="ky_wz">
+            <image src="../../common/assets/tab/icon_address.png" alt=""></image><input type="text" placeholder="请输入地址">
+          </view>
+          <view class="botm_box">
+            <button bindtap="submit">确认发布</button>
+          </view>
+</template>
+
+<script>
+export default {
+  config: {
+    navigationBarTitleText: '发布',
+    usingComponents: {}
+  },
+  data: {
+    binty:'',
+    cotxt:'',
+    src:''
+  },
+   getImageInfo:function() {
+     console.log(666666)
+      var thyy = this;
+    wx.chooseImage({
+      count: 9, // 默认9
+      sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+      sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+      success: function (res) {
+        // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+        console.log(res)
+        var tempFilePaths = res.tempFilePaths;
+        thyy.setData({src:tempFilePaths})
+      }
+    })
+  },
+  bindTextAreaBlur: function(e) {
+    console.log(e.detail.value)
+    this.setData({binty:e.detail.value})
+  },
+  tty: function(e) {
+    this.setData({cotxt:e.detail.value})
+  },
+  submit:function submit(){
+    var uy = this;
+  setTimeout(function(){
+     var binty = uy.data.binty;
+     var cotxt = uy.data.cotxt
+      console.log(binty,cotxt,666)
+  },300)
+   
+  }
+}
+</script>
+
+<style>
+ page{
+    width: 100%;
+    background:#fofofo;
+  }
+  page>view{
+    width: 100%;
+  }
+  .wa_box{width: 100%;background: #fff;padding-top: 78rpx;}
+  .wa_box .top_box{
+    width: 95%;
+    margin: 0 auto;
+    /* margin-top: 78rpx; */
+  }
+  .wa_box .top_box .box_txt{
+  width: 100%;
+  height: 60rpx;
+  border-bottom:1rpx solid #ccc; 
+  }
+  /* .wa_box .top_box .box_txt input{
+    border-left:1rpx solid #e94a69;
+  } */
+  .wa_box .top_box .box_xty{margin-top: 46rpx;}
+  .wa_box .top_box .box_xty textarea{display:inline-block;width: 100%;height: 135rpx;}
+  .wa_box .top_box .box_xty .sc_img{width: 100%;margin-top: 180rpx;}
+  .wa_box .top_box .sc_img image{width: 22%;height: 160rpx;margin-right:15rpx;}
+  .wa_box .top_box .cyt_lui{margin-top: 20rpx;}
+  .wa_box .top_box .cyt_lui image{width: 100rpx;height: 100rpx;}
+ .ky_wz{width: 100%;height: 78rpx;background: #fff;margin-top: 20rpx;line-height: 78rpx;}
+ .ky_wz image{width: 24rpx;height: 31rpx;margin-left: 20rpx;margin-right: 20rpx;vertical-align: middle;}
+ .ky_wz input{width: 70%;height: 100%;display:inline-block;vertical-align: middle;}
+ .botm_box{width: 80%;height: 90rpx;line-height: 90rpx;text-align: center;font-size: 36rpx;color: #fff;margin: 0 auto;margin-top: 48rpx;}
+ .botm_box button{width:100%;height: 90rpx;border:none;background: #e94a69;color:#fff;}
+</style>

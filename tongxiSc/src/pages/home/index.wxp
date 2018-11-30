@@ -1,0 +1,243 @@
+<template>
+   <view class="faidel">
+    <text wx:for="{{topList}}" wx:for-item="infos" wx:key="uid" bindtap="topClick" style="background:{{infos.colors}};color:{{infos.texColor}}" data-i_bs="{{infos.I_b}}" data-bsh="{{infos.tagCode}}">{{infos.common}}</text>
+   </view>
+    <wxc-panel title=""  wx:for="{{washnumber}}" wx:key="uid" wx:for-item="item" id="txt_list">
+        <view bindtap="newty" data-zcoty="{{item}}">
+
+              <view class="title_user">
+                <image src="{{item.headImg}}" class="titie_img"></image><view class="tem_cotny {{item.productType == 5?'alwos':''}}">{{item.nickName}}<text>{{item.shortTime}}</text></view><text class="temble" catchtap="temble" data-number="{{item.userPhone}}">联系TA</text>
+              </view>
+
+              <!-- <view class="content" wx:if="{{item.infoType == 5}}"> -->
+                <view class="content">
+                <view class="hander_txt">
+                  <image wx:if="{{item.isHot == 1}}" src="../../common/assets/tab/hot.png"></image>
+                  <text wx:for="{{item.tagsList}}" wx:key="uid" bindtap="topClick" data-i_bs="{{tags.uid}}" data-bsh="{{tags.tagCode}}" style="display: inline-block;padding:0 10px 0 10px;height:33rpx;border:1px solid red;text-align:center;line-height:33rpx;border-radius:10rpx;font-family:'PingFang';font-size: 25rpx;" wx:for-item="tags">{{tags.tagName}}</text><text class="all_txt">{{item.productTitle}}</text>
+                </view>
+                  <wxc-elip line="2">{{item.productDesc}}</wxc-elip>
+                  <image wx:if="{{item.productType == 2}}" src="{{imgUrl}}{{item.cover}}" class="wx_img" catchtap="bigImg" data-src="{{imgUrl}}{{item.cover}}"></image>
+                  <image wx:if="{{item.productType == 4}}" src="{{imgUrl}}{{item.cover}}" class="wx_img"></image>
+                  <video wx:if="{{item.productType == 3}}" src="{{imgUrl}}{{item.cover}}" class="viidews" style="height: 392rpx;"></video>
+                  <view class="wx_btn">
+                    <view class="txt_one"><text>{{item.shortTime}}</text></view> <view class="txt_two"><image src="../../common/assets/tab/dianzan_icon_focus_@2x.png"></image><text class="zn">{{item.goods}}</text><image src="../../common/assets/tab/pinglun_icon_focus.png"></image><text>{{item.comments}}</text></view>
+                  </view>
+              </view>
+
+            <view class="mewcwe" wx:if="{{item.productType == 5}}" >
+                <view>
+                    <image src="{{item.custImg}}" class="titie_img"></image>
+                    <view>
+                        <view>腾讯董事会主席</view>
+                        <view><text>微信:</text>mahuateng</view>
+                        <view><text>电话:</text>15634165533</view>
+                    </view>
+                    <image src="../../common/assets/tab/ptdv.png" class="ky_dv"></image>
+                </view>
+               <view class="mewcwebox">
+                   <view><image src='../../common/assets/tab/kca1.png'></image><text>收藏</text><text>1.2万</text></view>
+                   <view><image src='../../common/assets/tab/akb1.png'></image><text>点赞</text><text>1.2万</text></view>
+               </view>
+            </view>
+
+            <!-- <view class="product">
+              <view class="productone">
+                  <image src="../../common/assets/tab/808949327007070460.png" class="titie_img"></image>
+              </view>
+             <!-- <view class="productbox">
+                 <view><image src='../../common/assets/tab/kca1.png'></image><text>收藏</text><text>1.2万</text></view>
+                 <view><image src='../../common/assets/tab/akb1.png'></image><text>点赞</text><text>1.2万</text></view>
+             </view> 
+          </view> -->
+
+        </view>
+    </wxc-panel>
+    <view class="costy" bindtap="costy"><image src="../../common/assets/tab/safds.png"></image></view>
+</template>
+<script>
+var apis =  require("../../utils/api2.js")
+var dates =  require("../../utils/dateutils.js")
+export default {
+  config: {
+    navigationBarTitleText: '资讯',
+    usingComponents: {
+       'wxc-list': '@minui/wxc-list',
+       'wxc-input': '@minui/wxc-input',
+       'wxc-elip': '@minui/wxc-elip',
+       'wxc-panel': '@minui/wxc-panel',
+       'wxc-abnor': '@minui/wxc-abnor'
+    }
+  },
+  data: {
+     washnumber:[],
+     offset:0,
+     limit:10,
+     topList:'',
+     num:1,
+     bshs:'',
+     imgUrl:''
+   },
+   paging:function(amge){
+    const _this = this;
+    apis.prolist(_this.data.bshs,1,'','',_this.data.limit,_this.data.offset,0, successFa) 
+   // apis.prolist({offset:_this.data.offset,limit:_this.data.limit,tagCode:_this.data.bshs},1,successFa, null, null);
+    function successFa(data, sourceObj){
+      console.log(data,8888)
+          const offsets = _this.data.offset+_this.data.limit;
+           for(var i=0;i<data.data.length;i++){
+             _this.data.washnumber.push(data.data[i])
+           }
+          _this.setData({washnumber:_this.data.washnumber,offset:offsets})
+         }
+   },
+   onLoad:function(option){
+        let app = getApp();
+        const theys = this;
+        let imgUrl=app.globalData.imgUrl;
+        console.log('imgUrl',imgUrl,app.globalData.imgUrl);
+        apis.taglist(1,1,0,successFa)
+        function successFa(data, sourceObj){
+          console.log(data,4444)
+                 var datass = data.data;
+                 var listss = []
+                 var datasss = {common:"全部",colors:"#E94A69",texColor:"#fff",I_b:0,tagCode:""}
+                 listss.push(datasss) 
+                 for(var i=0;i<datass.length;i++){
+                  // console.log(datass[i],2222)
+                  datass[i].colors = ""
+                  datass[i].texColor = "#E94A69"
+                  datass[i].I_b = datass[i].uid
+                  datass[i].common = datass[i].tagValue
+                  listss.push(datass[i]) 
+                 }
+                 theys.setData({topList:listss,imgUrl:imgUrl})
+         }
+    },
+   onShow:function(){
+     var listss = this.data.topList;
+       this.onPullDownRefresh()
+    },
+   onPullDownRefresh:function(){
+     this.setData({washnumber:[],offset:0})
+     this.paging()
+     wx.stopPullDownRefresh()
+    },
+  onReachBottom: function () {
+      this.paging()
+  },
+  bigImg:function(e){
+    var src = e.currentTarget.dataset.src;
+    var srcs = e.currentTarget.dataset.srcs;
+    var urls=srcs.fileList; 
+    var imgArr=[];
+     for(var i=0;i<urls.length;i++){
+           imgArr[i]=urls[i].fileUrl
+     }
+    wx.previewImage({
+        current: src, // 褰撳墠鏄剧ず鍥剧墖鐨刪ttp閾炬帴
+        urls: imgArr // 闇€瑕侀瑙堢殑鍥剧墖http閾炬帴鍒楄〃
+        })
+       },
+   topClick:function(e){
+        var listss = this.data.topList;
+        var I_bs = e.currentTarget.dataset.i_bs;
+        var bshs = e.currentTarget.dataset.bsh;
+        this.setData({bshs:bshs})
+        for(var i=0;i<listss.length; i++){
+            if(listss[i].I_b == I_bs){
+              listss[i].colors="#E94A69";
+              listss[i].texColor="#fff";
+            }else{
+              listss[i].colors="#FFF";
+              listss[i].texColor="#E94A69";
+            }
+        }
+       this.onPullDownRefresh()
+       this.setData({topList:listss})
+  },
+  newty:function newty(e){
+    var mewtimes = dates.getDate(e.currentTarget.dataset.zcoty.createTime)
+    if(e.currentTarget.dataset.zcoty.infoType == 4){
+    wx.navigateTo({
+     url: "../outPage/outpage?inur="+e.currentTarget.dataset.zcoty.webUrl+"&timew="+mewtimes
+    })
+    }else{
+            wx.navigateTo({
+            url: "../newsDetail/newsDetail?teeny="+e.currentTarget.dataset.zcoty
+        })
+    }
+  },
+  costy:function costy(){
+    wx.navigateTo({
+            url: "../release/release"
+        })
+  },
+  temble:function temble(e){
+      wx.makePhoneCall({
+      phoneNumber: e.currentTarget.dataset.number,
+    })
+  },
+   onShareAppMessage: function (){
+    return {
+      title: '洗车用同洗',
+      path: '/pages/home/index'
+    }
+  }
+  
+}
+</script>
+
+<style>
+/* page{
+  background:#fff;
+} */
+  .container {
+width: 100%;
+}
+.input-wrap {
+background: #fff;
+}
+.content {
+padding-left: 30rpx;
+padding-right: 30rpx;
+}
+.wx_img{width: 150rpx;height:130rpx;margin-top: 25rpx;margin-right: 15rpx;}
+.wx_btn .txt_one{display: inline-block;}
+.wx_btn .txt_two{display: inline-block;float:right;}
+.wx_btn .txt_two image{width: 30px;height: 30px;}
+.viidews{width:100%;margin-top: 22rpx;}
+.faidel{padding-top:30rpx;background:#fff;}
+.faidel text{display: inline-block;width:130rpx;height:43rpx;border:1px solid red;margin:0 0 30rpx 30rpx;text-align:center;line-height:43rpx;border-radius:10rpx;font-family:"PingFang";font-size: 28rpx;}
+.active{background:red;}
+#txt_list{padding-top: 30rpx;}
+.title_user{margin-top: 30rpx;font-size: 28rpx;color: #686868}
+.title_user .titie_img{width: 78rpx;height: 78rpx;border-radius:50%;margin-right: 20rpx;margin-left: 30rpx;margin-bottom: 20rpx;vertical-align:top;}
+.title_user .tem_cotny{display:inline-block;vertical-align:middle;}
+.title_user .tem_cotny text{display:block;width:100%;font-size:25rpx;}
+.title_user .alwos{margin-top: 19rpx;}
+.title_user .temble{float:right;margin-right:32rpx;display:inline-block;width:108rpx;height:44rpx;text-align:center;line-height: 44rpx;border:1px solid #E94A69;border-radius:10rpx;color: #E94A69;}
+.content .wx_btn{margin: 20rpx 0 60rpx 0;font-size: 28rpx;color:rgb(105, 103, 103);}
+.content .wx_img{height: 210rpx;width: 210rpx;} 
+.hander_txt{margin-bottom: 22rpx;}
+.hander_txt .all_txt{font-weight: bold;margin-left: 10rpx;font-family:"PingFang"}
+.hander_txt .titie_txt{font-size: 25rpx;margin-top:30rpx;border:1px solid #E94A69;height: 28rpx;}
+.hander_txt image{width: 22rpx;height: 22rpx;margin-right: 15rpx;}
+.content .wx_btn{color: #000;font-family: 'PingFang'} 
+.content .wx_btn .zn{margin-right: 22rpx;}
+.content .wx_btn image{margin-right: 12rpx;width: 34rpx;height: 34rpx;vertical-align: top;}
+.mewcwe{width: 100%;border: 1px solid #ccc;width: 90%;margin: 0 auto;border-radius: 15rpx;padding: 15rpx 0 15rpx 0;}
+.mewcwe view view{display: inline-block;width: 450rpx;}
+.mewcwe view view view{margin-bottom: 20rpx;font-size: 24rpx;color: #070707;display: block;}
+.mewcwe view .titie_img{width: 78rpx;height: 78rpx;border-radius:50%;margin-right: 20rpx;margin-left: 30rpx;margin-bottom: 20rpx;vertical-align:top;}
+.mewcwe view .ky_dv{width: 42rpx;height: 36rpx;vertical-align:top;margin-top: 20rpx;}
+.mewcwe .mewcwebox{width: 100%;margin-left: 0;}
+.mewcwe .mewcwebox view{margin: 0;width: 49%;height: 60rpx;line-height: 60rpx;text-align: center;display: inline-block;font-size: }
+.mewcwe .mewcwebox view image{width: 34rpx;height: 32rpx;margin-right: 12rpx;vertical-align: middle;}
+.mewcwe .mewcwebox view text{margin-right: 12rpx;vertical-align: middle;}
+.product{width: 100%;background: red;}
+.product .productone{width: 100%;}
+.product .productone image{width: 100%;height: 207rpx;}
+.costy{position: fixed;top:850rpx;right: 60rpx;border-radius:50%;box-shadow: 0 15rpx 20rpx rgba(233,74,105,0.4);width:98rpx;height:98rpx;}
+.costy image{width: 98rpx;height: 98rpx;}
+/* .content .wx_btn */
+</style>

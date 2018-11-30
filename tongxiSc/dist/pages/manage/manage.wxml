@@ -1,0 +1,38 @@
+<view>
+    <!--<layout-head></layout-head>-->
+
+    <!-- wxp template -->
+    <view class="manage">
+        <radio-group name="radio-group">
+            <view wx:for="{{dasylist}}" wx:for-item="item" wx:key="index" bindtap="listclik">
+                <label>
+                    <radio value="" data-uids="{{item.uid}}" catchtap="radiocliovk"></radio>
+                </label>
+                <text>{{item.groupName}}(22人)</text>
+                <image src="../../common/assets/tab/icon_riarrow.png"></image>
+            </view>
+            <view>
+                <label>
+                    <radio value="radio1"></radio>
+                </label>
+                <text>分组1(22人)</text>
+                <image src="../../common/assets/tab/icon_riarrow.png"></image>
+            </view>
+            <view>
+                <label>
+                    <radio value="radio1"></radio>
+                </label>
+                <text>分组1(22人)</text>
+                <image src="../../common/assets/tab/icon_riarrow.png"></image>
+            </view>
+        </radio-group>
+
+        <view class="contfix">
+            <text bindtap="delete">删除</text>
+            <text bindtap="ubdata">更改组名</text>
+            <text bindtap="add">新建分组</text>
+        </view>
+    </view>
+
+    <!--<layout-foot></layout-foot>-->
+</view>

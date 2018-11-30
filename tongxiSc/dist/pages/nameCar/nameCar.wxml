@@ -1,0 +1,81 @@
+<view>
+    <!--<layout-head></layout-head>-->
+
+    <!-- wxp template -->
+    <image src="../../common/assets/tab/10952838806364001.png" class="actong"></image>
+    <image src="../../common/assets/tab/319345615748806790.png" class="addig" bindtap="addig"></image>
+    <view class="bigbox">
+        <scroll-view scroll-x="{{sttre}}">
+            <view wx:for="{{datas}}" wx:key="index" wx:for-item="item" class="tioscll {{index == newClass?'btony':''}}" data-dey="{{index}}-{{item.name}}-{{item.cardTitle}}-{{item.cardPhone}}-{{item.wxNo}}-{{item.company}}-{{item.fileList}}-{{item.uid}}" bindtap="comceny">名片{{index+1}}</view>
+        </scroll-view>
+
+        <contebt-mode class="iscopomet" bindtap="iscopomet">
+            <view class="anthing">
+                <view class="skstop">
+                    <image src="{{imgs != ''?url+imgs:'../../common/assets/tab/img_head.png'}}"></image>
+                    <view class="lsonter">
+                        <view>{{appglok.name}}</view>
+                        <view>{{appglok.cardTitle}}</view>
+                    </view>
+                    <image src="../../common/assets/tab/img_V.png" style="display:{{datas == ''?'none':''}}" class="imfsv"></image>
+                </view>
+                <view class="btncont" wx:if="{{datas}}">
+                    <view>
+                        <image src="../../common/assets/tab/img_phone.png"></image>
+                        <text>{{appglok.cardPhone}}</text>
+                    </view>
+                    <view>
+                        <image src="../../common/assets/tab/837174180791381241.png"></image>
+                        <text>{{appglok.wxNo}}</text>
+                    </view>
+                    <view>
+                        <image src="../../common/assets/tab/662159958125178627.png"></image>
+                        <text>{{appglok.company}}</text>
+                    </view>
+                </view>
+                <view class="btnconttwo" wx:else="">
+                    <view class="longy">
+                        <image src="../../common/assets/tab/293487230991327380.png" bindtap="btnconttwo"></image>
+                    </view>
+                </view>
+            </view>
+        </contebt-mode>
+    </view>
+    <view class="btomcomtent">
+        <view class="nunmone">
+            <view bindtap="list1">
+                <image src="../../common/assets/tab/icon_leida.png"></image>
+                <text>互动雷达</text>
+            </view>
+            <view bindtap="cvarly">
+                <image src="../../common/assets/tab/icon_mpj.png"></image>
+                <text>名片夹</text>
+            </view>
+            <view>
+                <image src="../../common/assets/tab/icon_schb.png"></image>
+                <text>生成海报</text>
+            </view>
+        </view>
+        <view class="numtwo">
+            <view bindtap="list2">
+                <image src="../../common/assets/tab/icon_beizhuanfa.png"></image>
+                <text>被转发</text>
+            </view>
+            <view bindtap="list3">
+                <image src="../../common/assets/tab/icon_beishoucang.png"></image>
+                <text>被收藏</text>
+            </view>
+            <view bindtap="list4">
+                <image src="../../common/assets/tab/icon_liulan.png"></image>
+                <text>被浏览</text>
+            </view>
+        </view>
+        <view class="ficcar" style="display:{{datas == ''?'none':''}}">
+            <button open-type="share">
+                <image src="../../common/assets/tab/icon_famp.png"></image>
+            </button>
+        </view>
+    </view>
+
+    <!--<layout-foot></layout-foot>-->
+</view>

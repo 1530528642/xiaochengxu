@@ -1,0 +1,52 @@
+/* page{
+  background:#fff;
+} */
+  .container {
+width: 100%;
+}
+.input-wrap {
+background: #fff;
+}
+.content {
+padding-left: 30rpx;
+padding-right: 30rpx;
+}
+.wx_img{width: 150rpx;height:130rpx;margin-top: 25rpx;margin-right: 15rpx;}
+.wx_btn .txt_one{display: inline-block;}
+.wx_btn .txt_two{display: inline-block;float:right;}
+.wx_btn .txt_two image{width: 30rpx;height: 30rpx;}
+.viidews{width:100%;margin-top: 22rpx;}
+.faidel{padding-top:30rpx;background:#fff;}
+.faidel text{display: inline-block;width:130rpx;height:43rpx;border:1rpx solid red;margin:0 0 30rpx 30rpx;text-align:center;line-height:43rpx;border-radius:10rpx;font-family:"PingFang";font-size: 28rpx;}
+.active{background:red;}
+#txt_list{padding-top: 30rpx;}
+.title_user{margin-top: 30rpx;font-size: 28rpx;color: #686868}
+.title_user .titie_img{width: 78rpx;height: 78rpx;border-radius:50%;margin-right: 20rpx;margin-left: 30rpx;margin-bottom: 20rpx;vertical-align:top;}
+.title_user .tem_cotny{display:inline-block;vertical-align:middle;}
+.title_user .tem_cotny text{display:block;width:100%;font-size:25rpx;}
+.title_user .alwos{margin-top: 19rpx;}
+.title_user .temble{float:right;margin-right:32rpx;display:inline-block;width:108rpx;height:44rpx;text-align:center;line-height: 44rpx;border:1rpx solid #E94A69;border-radius:10rpx;color: #E94A69;}
+.content .wx_btn{margin: 20rpx 0 60rpx 0;font-size: 28rpx;color:rgb(105, 103, 103);}
+.content .wx_img{height: 210rpx;width: 210rpx;} 
+.hander_txt{margin-bottom: 22rpx;}
+.hander_txt .all_txt{font-weight: bold;margin-left: 10rpx;font-family:"PingFang"}
+.hander_txt .titie_txt{font-size: 25rpx;margin-top:30rpx;border:1rpx solid #E94A69;height: 28rpx;}
+.hander_txt image{width: 22rpx;height: 22rpx;margin-right: 15rpx;}
+.content .wx_btn{color: #000;font-family: 'PingFang'} 
+.content .wx_btn .zn{margin-right: 22rpx;}
+.content .wx_btn image{margin-right: 12rpx;width: 34rpx;height: 34rpx;vertical-align: top;}
+.mewcwe{width: 100%;border: 1rpx solid #ccc;width: 90%;margin: 0 auto;border-radius: 15rpx;padding: 15rpx 0 15rpx 0;}
+.mewcwe view view{display: inline-block;width: 450rpx;}
+.mewcwe view view view{margin-bottom: 20rpx;font-size: 24rpx;color: #070707;display: block;}
+.mewcwe view .titie_img{width: 78rpx;height: 78rpx;border-radius:50%;margin-right: 20rpx;margin-left: 30rpx;margin-bottom: 20rpx;vertical-align:top;}
+.mewcwe view .ky_dv{width: 42rpx;height: 36rpx;vertical-align:top;margin-top: 20rpx;}
+.mewcwe .mewcwebox{width: 100%;margin-left: 0;}
+.mewcwe .mewcwebox view{margin: 0;width: 49%;height: 60rpx;line-height: 60rpx;text-align: center;display: inline-block;font-size: }
+.mewcwe .mewcwebox view image{width: 34rpx;height: 32rpx;margin-right: 12rpx;vertical-align: middle;}
+.mewcwe .mewcwebox view text{margin-right: 12rpx;vertical-align: middle;}
+.product{width: 100%;background: red;}
+.product .productone{width: 100%;}
+.product .productone image{width: 100%;height: 207rpx;}
+.costy{position: fixed;top:850rpx;right: 60rpx;border-radius:50%;box-shadow: 0 15rpx 20rpx rgba(233,74,105,0.4);width:98rpx;height:98rpx;}
+.costy image{width: 98rpx;height: 98rpx;}
+/* .content .wx_btn */

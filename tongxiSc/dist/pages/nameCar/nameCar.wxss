@@ -1,0 +1,39 @@
+page{position: relative;}
+  page>view .actong{width: 100%;height: 419rpx;}
+  page>view .addig{width: 42rpx;height: 42rpx;position: absolute;top: 58rpx;right: 45rpx;}
+  .bigbox{padding:50rpx 0 0 50rpx;position: absolute;top: 0;left: 0;}
+  scroll-view{
+    white-space: nowrap;
+    width: 610rpx;
+    height: 70rpx;
+    /* margin-left: 50rpx;
+    margin-top: 50rpx; */
+  }
+  .tioscll{width: 82rpx;height: 65rpx;line-height: 65rpx;text-align: center;display: inline-block;margin-right:52rpx;font-size: 28rpx;color: #fff;}
+  .btony{border-bottom: 6rpx solid red;}
+  .iscopomet{display:inline-block;position:absolute;top: 150rpx;left: 50%;width:685rpx;height:425rpx;margin-left: -298rpx;background: #fff;border-radius:25rpx;box-shadow: 0rpx 35rpx 50rpx rgba(0,0,0,.1)}
+  .iscopomet .anthing{margin: 26rpx 0 0 34rpx;}
+  .iscopomet .anthing .skstop image{width: 120rpx;height: 120rpx;border-radius:50%;}
+  .iscopomet .anthing .skstop{margin-bottom: 45rpx;}
+  .iscopomet .anthing .skstop .imfsv{width: 49rpx;height: 42rpx;vertical-align: top;margin-top: 5rpx;}
+  .iscopomet .anthing .skstop .lsonter{display: inline-block;width: 350rpx;margin: 0 48rpx 0 48rpx;}
+  .iscopomet .anthing .skstop .lsonter view:nth-child(1){font-size: 38rpx;color: #070707;}
+  .iscopomet .anthing .skstop .lsonter view:nth-child(2){font-size: 28rpx;color: #070707;}
+  .iscopomet .anthing .btncont,.btnconttwo{padding-left: 35rpx;}
+  .iscopomet .anthing .btncont view{margin-bottom: 30rpx;columns: #808080;font-size: 24rpx;}
+  .iscopomet .anthing .btncont view image{vertical-align: middle;margin-right: 52rpx;}
+  .iscopomet .anthing .btncont view:nth-child(1) image{width: 38rpx;height: 38rpx;}
+  .iscopomet .anthing .btncont view:nth-child(2) image{width: 40rpx;height: 31rpx;}
+  .iscopomet .anthing .btncont view:nth-child(3) image{width: 35rpx;height: 44rpx;}
+  .iscopomet .anthing .btnconttwo .longy{width: 320rpx;height: 120rpx;border-radius: 15rpx;background: #e94a69;margin-left:100rpx;}
+  .iscopomet .anthing .btnconttwo image{width: 100%;height: 100%;}
+  .btomcomtent{width:685rpx;height:50rpx;margin:0 auto;margin-top: 200rpx;}
+  .btomcomtent>view{width: 100%;text-align: center;}
+  .btomcomtent view view{display: inline-block;text-align:center;width: 120rpx;font-size: 28rpx;margin-bottom: 38rpx;}
+  .btomcomtent view view image{width: 80rpx;height: 70rpx;display: block;margin: 0 auto;}
+  .btomcomtent view view text{display: inline-block;margin-top: 35rpx;color:#070707}
+  .btomcomtent view view:nth-child(2){margin:0 120rpx 0 120rpx;}
+  .btomcomtent .ficcar{text-align: center;}
+  .btomcomtent .ficcar button{margin-top:20rpx;width:196rpx;padding:0;line-height:0;}
+  .btomcomtent .ficcar button::after{border:none;}
+  .btomcomtent .ficcar button image{width: 196rpx;height: 68rpx;}

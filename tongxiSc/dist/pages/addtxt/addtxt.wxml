@@ -1,0 +1,18 @@
+<view>
+    <!--<layout-head></layout-head>-->
+
+    <!-- wxp template -->
+    <form bindsubmit="formSubmit">
+        <view class="conts">
+            <textarea class="areas" name="txtrea" placeholder="{{placeholder}}" minlength="{{min}}" maxlength="{{max}}" bindinput="inputs" value="{{val}}">
+                <text class="currentWordNumber">{{currentWordNumber|0}}/{{max}}</text>
+                <text class="hint">{{texts}}</text>
+            </textarea>
+        </view>
+        <view class="bkens">
+            <button formType="submit">保存</button>
+        </view>
+    </form>
+
+    <!--<layout-foot></layout-foot>-->
+</view>

@@ -1,0 +1,148 @@
+<template>
+   <!-- <view class="box">
+        <view class="wash" wx:for="{{washnumber}}" wx:key="id" wx:for-item="item" bindtap="tipUrl" data-uid="{{item.uid}}">
+        <view class="wash_view">
+            <view class="view_one">
+              <text>站点:{{item.machineName}}</text>
+            </view>
+            <view class="view_two">
+               <text>地址:{{item.province}} {{item.city}} {{item.area}} {{item.street}}</text>
+            </view> 
+        </view>
+    </view>
+   </view> -->
+   
+    <!-- <view class="wash" wx:for="{{washnumber}}" wx:key="id" wx:for-item="item" bindtap="tipUrl" data-uid="{{item.uid}}"> -->
+        <wxc-cc class="demo" wx:for="{{washnumber}}" wx:key="id" wx:for-item="item" bindtap="tipUrl" data-uid="{{item.uid}}">
+          <view class="demo__wrapper" bindtap="tipUrl" data-uid="{{item.uid}}">
+            <image class="demo__pic" src="{{item.qrPath}}" mode="aspectFit"></image>
+            <view class="demo__text text_one"><text class="yt">设备名称:{{item.machineName}}</text><text class="ends">设备编码:{{item.machineCode}}</text></view>
+            <view class="demo__text text_one"><text class="yt">洗车次数:{{item.allCount}}</text><text class="ends">洗车收入:{{item.allMoney/100}}</text></view>
+            <view class="demo__text text_two"><text>地址:{{item.province}} {{item.city}} {{item.area}} {{item.street}}</text></view>
+          </view>
+        </wxc-cc>
+    <!-- </view> -->
+    <wxc-loadmore
+    text="正在努力加载中..."
+    icon="{{true}}"
+    wx:if="{{condition==1}}"
+  >
+  </wxc-loadmore>
+    <wxc-loadmore
+      is-end="{{true}}"
+      text="到底啦"
+      wx:if="{{condition==0}}"
+    >
+    </wxc-loadmore>
+</template>
+
+<script>
+var apis =  require("../../utils/api.js")
+var dates =  require("../../utils/dateutils.js")
+var converts =  require("../../utils/convert.js")
+var imgUrls =  require("../../utils/util.js")
+// var tmp = 0;
+export default {
+  config: {
+    navigationBarTitleText: '我的机器',
+    usingComponents: {
+       'wxc-list': '@minui/wxc-list',
+       'wxc-loadmore': '@minui/wxc-loadmore',
+       'wxc-cc': '@minui/wxc-cc'
+    }
+  },
+   paging:function(){
+      const _this = this;
+      this.setData({condition:1})
+      var estate = wx.getStorageSync("uid")
+    apis.machineLists({estateId:estate,offset:_this.data.offset,limit:_this.data.limit},1,successFa, null, null);
+    function successFa(data, sourceObj){
+      // console.log(data,55555)
+          const offsets = _this.data.offset+_this.data.limit;
+          var datas;
+           for(var i=0;i<data.data.length;i++){
+              data.data[i].qrPath = imgUrls.imgUrl(data.data[i].qrPath);
+              datas = new Date(data.data[i].createTime);
+              data.data[i].createTime=dates.getDate(data.data[i].createTime);
+              data.data[i].allMoney = converts.huansuan(data.data[i].allMoney);
+             _this.data.washnumber.push(data.data[i])
+           }
+          _this.setData({washnumber:_this.data.washnumber,offset:offsets,apiss:apis.domain})
+          // console.log(_this.offset,_this.limit)
+          var lengths = data.data.length;
+          if(lengths < _this.data.limit){
+            _this.setData({condition:0})
+          }else{
+            _this.setData({condition:2})
+          }
+          // console.log(_this.data.condition)
+         }
+   },
+   onLoad:function(option){
+    this.paging()
+    },
+  data: {
+     washnumber:[],
+     offset:0,
+     limit:10,
+     condition:2,
+     apiss:""
+   },
+ onPullDownRefresh:function(){
+     this.setData({washnumber:[],offset:0})
+     this.paging()
+     wx.stopPullDownRefresh()
+    },
+  onReachBottom: function () {
+      this.paging()
+  },
+  tipUrl:function(e){
+    // console.log(e)
+    var uid = e.currentTarget.dataset.uid;
+    wx.navigateTo({
+                    url:"../washtwo/washtwo?machineId="+uid
+                })
+  }
+  
+}
+</script>
+
+<style>
+page{
+  background:#F0F0F0;
+}
+  .box .wash{
+     width:99%;
+     height:100rpx;
+     padding-bottom:15px;
+     border:1px solid red;
+     margin-bottom:15rpx;
+   }
+  .box .wash .wash_img{width:80rpx;height:105rpx;}
+  .box .wash .wash_view{display:inline-block;}
+  .box .wash .wash_view .view_two text{font-size:26rpx;}
+   .demo {
+    display: block;
+    width: 99%;
+    height: 400rpx;
+    background:#fff;
+    border: 1px solid #B5B5B5;
+    margin-bottom:6rpx;
+  }
+  .demo__wrapper{text-align: center;width: 80%;}
+  .demo__pic {
+    width: 200rpx;
+    height: 200rpx;
+    margin: 15rpx;
+  }
+  .demo__text {
+    text-align: center;
+  }
+  .text_one{
+    text-align: left;
+  }
+  .yt{width: 240rpx;display:inline-block;}
+  .ends{margin-left: 20rpx;}
+  text{font-size: 20rpx;text-align:left;}
+  .text_two{text-align:left}
+</style>

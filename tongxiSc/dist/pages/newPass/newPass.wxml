@@ -1,0 +1,44 @@
+<view>
+    <!--<layout-head></layout-head>-->
+
+    <!-- wxp template -->
+    <view class="bocx">
+        <view class="bocx_vonmty">
+            <form bindsubmit="formSubmit" bindreset="formReset">
+                <view class="newboc">
+                    <input type="" placeholder="原始密码" value="{{oldPassword}}" auto-focus class="intone" name="input"></input>
+                </view>
+                <view class="newboc">
+                    <input type="password" placeholder="输入新密码" value="{{newPassword}}" auto-focus class="inttwo" name="input1" wx-if="{{imgone != 1}}"></input>
+                    <view class="ig" catchtap="imageLoad">
+                        <!-- <image src="../../common/assets/tab/ereyu.png"/> -->
+                    </view>
+                </view>
+                <view class="newboc">
+                    <input type="" placeholder="确认新密码" value="{{newPassword}}" auto-focus class="intthere" name="input2"></input>
+                    <!-- <input type="password" placeholder="输入新密码"  value="{{newPassword}}" auto-focus  class="inttwo" name="input2" wx-if="{{imgtwo != 1}}"/> -->
+                    <view class="ig" catchtap="imageLoadTwo">
+                        <!-- <image src="../../common/assets/tab/ereyu.png"/> -->
+                    </view>
+                </view>
+                <button formType="submit" class="overy">完成</button>
+            </form>
+        </view>
+    </view>
+    <view class="zhaoy" wx:if="{{stauds}}">
+        <view class="zhay_ty" wx:if="{{frtxt == ''}}">
+            <view class="info_ty">
+                <view>
+                    <image src="../../common/assets/tab/√.png"></image>
+                </view>
+                <text>成功修改密码</text>
+            </view>
+            <text class="txt"></text>
+            <view class="coning" bindtap="coning">确认</view>
+        </view>
+
+        <view class="infoly" wx:if="{{frtxt != ''}}">{{frtxt}}</view>
+    </view>
+
+    <!--<layout-foot></layout-foot>-->
+</view>

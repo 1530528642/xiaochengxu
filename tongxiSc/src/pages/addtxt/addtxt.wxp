@@ -1,0 +1,125 @@
+<template>
+    <form bindsubmit="formSubmit" >
+        <view class="conts">
+          <textarea class="areas" name="txtrea" placeholder='{{placeholder}}' minlength="{{min}}" maxlength="{{max}}" bindinput="inputs" value="{{val}}"> 
+              <text class="currentWordNumber">{{currentWordNumber|0}}/{{max}}</text>
+              <text class="hint">{{texts}}</text>
+          </textarea>
+        </view>
+        <view class="bkens">
+          <button formType="submit">保存</button>
+        </view>
+  </form>
+</template>
+
+<script>
+var pathds =  require("../../utils/navigator.js")
+var app = getApp();
+export default {
+  config: {
+    navigationBarTitleText: '编辑文本',
+    usingComponents: {}
+  },
+  data: {
+    texts:"至少5个字",
+    min:5,//最少字数
+    max: 30, //最多字数 (根据自己需求改变) 
+    val:''
+  },
+  onLoad:function(options){
+    // console.log(decodeURIComponent(options.emy))
+    var num = decodeURIComponent(options.emy)
+    if(num == 1){
+        this.setData({placeholder:"请输入您的个性签名"})
+    }else{
+      this.setData({placeholder:"请输入标签"})
+    }
+    this.setData({ales:num})
+  },
+  //字数限制  
+  inputs: function (e) {
+    // 获取输入框的内容
+    var value = e.detail.value;
+    // 获取输入框内容的长度
+    var len = parseInt(value.length);
+ 
+    //最少字数限制
+    if(len <= this.data.min) 
+        this.setData({
+          texts: "加油，够5个字可以得20积分哦"
+        })
+    else if(len > this.data.min)
+    this.setData({
+      texts: " "
+    })
+ 
+    //最多字数限制
+    if(len > this.data.max) return;
+        // 当输入框内容的长度大于最大长度限制（max)时，终止setData()的执行
+        this.setData({
+           currentWordNumber: len //当前字数  
+        });
+  },
+ 
+  formSubmit: function(e) {
+      // console.log(e.detail.value)
+      if(this.data.ales == 1){
+        app.globalData.txt = e.detail.value.txtrea+"--1"
+      }else{
+        app.globalData.txt = e.detail.value.txtrea+"--2"
+      }
+      pathds.navigateBack(1)
+    }
+}
+</script>
+
+<style>
+  textarea {
+width:95%;
+height:150px;
+display:block;
+position:relative;
+}
+
+  .conts{
+  width: 750rpx;
+  height: auto;
+  border: 1rpx soldi red;
+  margin-top: 30rpx;
+}
+.areas{
+  height:152rpx;
+  font-size: 30rpx;
+  text-indent: 28rpx;
+  border: 1rpx solid gainsboro;
+  padding-top: 30rpx;
+  margin: 0 auto;
+  overflow: hidden;   
+  position: relative; 
+}
+.currentWordNumber{
+  font-size: 28rpx;
+  color: gray;
+  position: absolute;
+  left: 593rpx;
+  top: -6rpx;
+}
+.hint{
+   font-size: 28rpx;
+   position: absolute;
+   top: 120rpx;
+   left: 30rpx;
+   color: #FF6600;
+}
+.bkens{
+  width: 686rpx;
+  height: 85rpx;
+  line-height: 85rpx;
+  text-align: center;
+  position: fixed;
+  bottom: 50rpx;
+  left: 50%;
+  margin-left: -342rpx;
+}
+.bkens button{width: 100%;height: 100%;background: #e94a69;margin: 0;color:#fff;}
+</style>

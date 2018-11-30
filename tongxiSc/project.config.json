@@ -1,0 +1,138 @@
+{
+	"miniprogramRoot": "dist/",
+	"description": "项目配置文件。",
+	"compileType": "miniprogram",
+	"libVersion": "1.9.1",
+	"appid": "wx69de4292a3b6b8b5",
+	"projectname": "%E5%90%8C%E6%B4%97%E5%95%86%E5%9F%8Edb3",
+	"setting": {
+		"urlCheck": true,
+		"es6": false,
+		"postcss": true,
+		"minified": true,
+		"newFeature": true
+	},
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"list": []
+		},
+		"miniprogram": {
+			"current": 16,
+			"list": [
+				{
+					"id": -1,
+					"name": "我的",
+					"pathName": "pages/my/my",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "修改密码",
+					"pathName": "pages/newPass/newPass",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "名片详情",
+					"pathName": "pages/details/details",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "名片",
+					"pathName": "pages/nameCar/nameCar",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "编辑名片",
+					"pathName": "pages/editor/editor",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "咨询",
+					"pathName": "pages/home/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "名片夹",
+					"pathName": "pages/Business/Business",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "管理分组",
+					"pathName": "pages/manage/manage",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "新建分组",
+					"pathName": "pages/newfil/newfil",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "编辑文本",
+					"pathName": "pages/addtxt/addtxt",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "互动雷达",
+					"pathName": "pages/Business/Businesslist",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "商城",
+					"pathName": "pages/shoping/shoping",
+					"query": ""
+				},
+				{
+					"id": 12,
+					"name": "编辑地址",
+					"pathName": "pages/addressAdd/addressAdd",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "选择地址",
+					"pathName": "pages/address/address",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "填写订单",
+					"pathName": "pages/checkout/checkout",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "评论详情",
+					"pathName": "pages/comment/comment",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "编辑评论",
+					"pathName": "pages/topicCommentPost/topicCommentPost"
+				}
+			]
+		}
+	}
+}

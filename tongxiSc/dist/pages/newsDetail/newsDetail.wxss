@@ -1,0 +1,45 @@
+page{
+    width: 100%;
+    position: relative;
+  }
+  scroll-view{
+    height: 100%;
+  }
+  page>view{
+    width: 100%;
+    height: 100%;
+  }
+  .wboxy{
+    width: 95%;
+    height: 100%;
+    margin: 0 auto;
+    margin-top: 32rpx;
+  }
+  .wboxy .topcontengt .titie_img{width: 80rpx;height: 100rpx;border-radius:100%;vertical-align: middle;margin-right: 20rpx;}
+  .wboxy .topcontengt .box_xq{display: inline-block;width: 75%;vertical-align: top;}
+  .wboxy .topcontengt .box_xq text{display: block;font-size: 28rpx;color: #686868;}
+  .wboxy .topcontengt .box_xq .nung{font-size: 28rpx;color: #afafaf;}
+  .wboxy .midiie_conteng{margin-top: 56rpx;}
+  .wboxy .midiie_conteng text{font-size: 36rpx;color: #070707;font-weight: bold;display: inline-block;width: 100%;text-align: center;margin-bottom: 28rpx;}
+  .wboxy .midiie_conteng .z_conty{text-indent: 50rpx;}
+  .wboxy .conten_img{margin-top: 15rpx;}
+  .wboxy .conten_img image{width: 32%;height: 210rpx;border: 1rpx solid red;}
+  .wboxy .conten_img :nth-child(2){margin: 0 8rpx 0 8rpx;}
+  .wboxy .conten_vd .conty_vd{width: 100%;height: 346rpx;display: none;}
+  .wboxy .cin_z{width: 98%;margin: 0 auto;padding-left: 5rpx;margin-top: 35rpx;}
+  .wboxy .cin_z image{width: 58rpx;height: 58rpx;border-radius:50%;margin-right: 10rpx;}
+  .wboxy .csy_p{margin: 50rpx 0 120rpx 0;}
+  .wboxy .csy_p .ty_l{font-size: 24rpx;color: #686868;margin-bottom: 30rpx;}
+  .wboxy .csy_p .hy_conty{margin-top: 40rpx;}
+  .wboxy .csy_p .hy_conty image{width: 58rpx;height: 58rpx;border-radius:50%;vertical-align: top;}
+  .wboxy .csy_p .hy_conty .hy_jt{display: inline-block;width: 85%;margin-left: 30rpx;}
+  .wboxy .csy_p .hy_conty .hy_jt text{color: #686868;font-size: 24rpx;}
+  .wboxy .csy_p .hy_conty .hy_jt view{font-size: 28rpx;color: #272727;line-height: 40rpx;}
+  .bom_gd{position:fixed;bottom:0;width: 100%;height: 98rpx;background: #fff;border-top:1rpx solid #bfbfbf;border-bottom:1rpx solid #bfbfbf;}
+  .bom_gd view{display: inline-block;width: 20.67%;height: 100%;text-align: center;vertical-align: top;font-size: 22rpx;}
+  .bom_gd .last_cy{width: 38%;height: 98rpx;line-height: 98rpx;background: #e94a69;color: #fff;float: right;margin: 0;font-size: 32rpx;}
+  .bom_gd view image{width:46rpx;height: 46rpx;display: block;margin: 0 auto;margin-top:8rpx;}
+  .almey{width: 100%;height: 100%;position: fixed;top: 0;left: 0;background: rgba(0, 0, 0, .2)}
+  .conyu{width: 100%;height: 300rpx;background: #ccc;margin-top: 70%;position: fixed;bottom:100rpx;left: 0;}
+  .conyu textarea{width: 80%;height: 170rpx;margin: 0 auto;margin-top: 35rpx;background: #fff;}
+  .conyu .btnly{float:right;width: 100rpx;height: 50rpx;text-align: center;line-height: 50rpx;background: red;margin-top: 30rpx;margin-right: 80rpx;border-radius:5rpx;color: #fff;}

@@ -1,0 +1,314 @@
+<html>
+<head>
+<template>
+  <image src='../../common/assets/tab/10952838806364001.png' class="actong"></image>
+  <image src='../../common/assets/tab/319345615748806790.png' class="addig" bindtap="addig"></image>
+    <view class="bigbox">
+      <scroll-view scroll-x="{{sttre}}">
+         <view wx:for="{{datas}}" wx:key="index" wx:for-item="item" class="tioscll {{index == newClass?'btony':''}}" data-dey={{index}}-{{item.name}}-{{item.cardTitle}}-{{item.cardPhone}}-{{item.wxNo}}-{{item.company}}-{{item.fileList}}-{{item.uid}} bindtap="comceny">名片{{index+1}}</view> 
+      </scroll-view>
+
+      <contebt-mode class="iscopomet" bindtap="iscopomet">
+          <view class="anthing">
+              <view class="skstop">
+                  <image src="{{imgs != ''?url+imgs:'../../common/assets/tab/img_head.png'}}"></image>
+                  <view class="lsonter">
+                      <view>{{appglok.name}}</view>
+                      <view>{{appglok.cardTitle}}</view>
+                  </view>
+                  <image src='../../common/assets/tab/img_V.png' style="display:{{datas == ''?'none':''}}"  class ="imfsv"></image>
+              </view>
+              <view class="btncont" wx:if={{datas}}>
+                  <view><image src='../../common/assets/tab/img_phone.png'></image><text>{{appglok.cardPhone}}</text></view>
+                  <view><image src='../../common/assets/tab/837174180791381241.png'></image><text>{{appglok.wxNo}}</text></view>
+                  <view><image src='../../common/assets/tab/662159958125178627.png'></image><text>{{appglok.company}}</text></view>
+              </view>
+                <view class="btnconttwo" wx:else>
+                  <view class="longy"><image src="../../common/assets/tab/293487230991327380.png" bindtap="btnconttwo"></image></view>
+              </view>
+          </view>
+       </contebt-mode>
+    </view>
+    <view class="btomcomtent">
+        <view class="nunmone">
+            <view bindtap="list1"><image src="../../common/assets/tab/icon_leida.png"></image><text>互动雷达</text></view>
+            <view bindtap="cvarly"><image src="../../common/assets/tab/icon_mpj.png"></image><text>名片夹</text></view>
+            <view><image src="../../common/assets/tab/icon_schb.png"></image><text>生成海报</text></view>
+        </view>
+        <view class="numtwo">
+            <view bindtap="list2"><image src="../../common/assets/tab/icon_beizhuanfa.png"></image><text>被转发</text></view>
+            <view bindtap="list3"><image src="../../common/assets/tab/icon_beishoucang.png"></image><text>被收藏</text></view>
+            <view bindtap="list4"><image src="../../common/assets/tab/icon_liulan.png"></image><text>被浏览</text></view>
+        </view>
+        <view class="ficcar" style="display:{{datas == ''?'none':''}}">
+            <button open-type='share'><image src="../../common/assets/tab/icon_famp.png"></image></button>
+        </view>
+    </view>
+</template>
+
+<script>
+var navigator =  require("../../utils/navigator.js")
+var daaty =  require("../../utils/api2.js")
+var cache =  require("../../utils/cache.js")
+var app = getApp();
+export default {
+  config: {
+    navigationBarTitleText: '我的名片',
+    usingComponents: {
+       'wxc-list': '@minui/wxc-list',
+       'wxc-loadmore': '@minui/wxc-loadmore',
+    //    'contebt-mode':'../contentmode/contentmode'
+    }
+  },
+  data:{
+    datas:"",
+    sttre:true,
+    newClass:0,
+    actoinfo:'',
+    appglok:''
+  },
+
+  onLoad:function(){
+    app.checkLoginStatus();
+    var time = new Date()
+    // console.log(app.globalData.bchage,66666)
+    var thery = this;
+    var uese = app.globalData.user;
+    thery.setData({uese:uese,url:app.globalData.imgUrl})
+    daaty.myCardList(uese.userId,0,100,null,successFay)
+    function successFay(data, sourceObj){
+        var fstata = data.data
+         thery.listsoft(fstata,1)
+    }
+
+     daaty.industryList(null,successFals)
+        function successFals(data, sourceObj){
+           app.globalData.strylist = data.data;
+        }
+  },
+
+  onShow:function(){
+    var thery = this;
+    var uese = app.globalData.user;
+    thery.setData({uese:uese})
+    daaty.myCardList(this.data.uese.userId,0,100,null,successFay)
+    function successFay(data, sourceObj){
+            var fstata = data.data
+             thery.listsoft(fstata,2)
+    }
+  },
+  
+  listsoft:function(fstata,m){     //排序  m=1时为onload加载 m=2时为onshow加载
+    var thery = this 
+    if(fstata != undefined){   //检查是否存有卡片 当fstata!=undefind时说明存在卡片 否则不存在卡片
+        function compare(ajuo){
+                return function(a,b){
+                    var value1 = a[ajuo];
+                    var value2 = b[ajuo];
+                    return value1 - value2;
+               }
+        }
+        var ty = fstata.sort(compare('uid')) 
+        if(m == 1){
+            var dadty = ty[0]
+            thery.setData({datas:ty,appglok:dadty})
+            thery.pepolmg(dadty.fileList,1)
+        }else{
+             if(ty.length == 1){  //    
+                    thery.setData({appglok:ty[0],datas:ty,newClass:0})
+                    thery.pepolmg(ty[0].fileList,1)
+               }else{
+                   console.log(ty,"ty")
+                    thery.setData({datas:ty})
+                    console.log(app.globalData.newDataObj.steaindex,556556666)
+                    if(app.globalData.newDataObj.steaindex != ''&&app.globalData.newDataObj.steaindex != undefined){
+                        var newindex =parseInt(app.globalData.newDataObj.steaindex)
+                        if(newindex == ty.length){
+                             newindex--
+                        }
+                        console.log(ty[newindex],99999999911111)
+                      thery.setData({appglok:ty[newindex],newClass:newindex})
+                      thery.pepolmg(ty[newindex].uid,2)
+                    }
+                    if( app.globalData.newDataObj != undefined&&app.globalData.newDataObj.state == true&&app.globalData.newDataObj != ''){
+                       
+                        var newevec = app.globalData.newDataObj
+                        thery.comceny(newevec,2)
+                    }
+               }
+        }
+    }else{  //当不存在卡片时将当前data内的dataappglok,imgs,datas清空（如果不清空会导致删除最后有一张卡片只有table刷新了，但名片上信息还会取data的数据）
+        thery.setData({appglok:'',imgs:'',datas:''})  
+    }
+  },
+
+  comceny:function(e,ny){  //点击tab栏卡片 e分别代表为二种状态 当ny=2时e取得值为编辑后改变的新缓存newDataObj此时是编辑页面回到本页面自动执行的comceny点击事件，否则代表用户自己点击拿去的值并非缓存的值
+//   console.log(e,ny)
+  let deys;
+  let sdd;
+  let tg;
+  app.globalData.newDataObj.steaindex = ''
+    if(ny == 2){
+        deys = e
+        this.setData({newClass:app.globalData.newDataObj.index,appglok:deys})
+        this.pepolmg(app.globalData.newDataObj.uid,2)
+    }else{
+        deys = e.currentTarget.dataset.dey
+        sdd = deys.split('-')
+        tg = {idex:sdd[0],name:sdd[1],cardTitle:sdd[2],cardPhone:sdd[3],wxNo:sdd[4],company:sdd[5],uid:sdd[7]}
+        app.globalData.appgolble = tg
+        this.setData({newClass:sdd[0],appglok:tg})
+        this.pepolmg(sdd[7],2)
+    }
+  },
+
+  iscopomet:function(){         //点击卡片
+  app.globalData.newDataObj.steaindex = ''
+      if(this.data.datas != ""){
+            var datys = this.data.datas
+            var uid = this.data.appglok.uid
+            for(var i=0;i<datys.length;i++){
+                if(datys[i].uid == uid){
+                    app.globalData.dataObj = datys[i]   //点击时缓存被点击卡片的信息 在编辑页面是取该缓存  名片详情没取该缓存而是用接口是因为可能从分享进入导致无法取到缓存
+                    break
+                }
+            }
+
+            // var imgsy = this.data.imgs
+            // app.globalData.newDataObj = ''
+            console.log(this.data.newClass,1111111)
+            var param={uid:uid,index:this.data.newClass};
+            navigator.navigateTo('../details/details',param);
+      }else{
+          return false
+      }
+  
+  },
+  
+//nu等于1时dasts是所有列表数据 等于2时dasts是被点击的uid  主要为初始化时(nu=1)拿出用户头像 点击时nu=2 通过uid后做对比
+  pepolmg:function(dasts,nu){   
+     if(nu == 2){
+       var dajson = this.data.datas //所有数据列表
+       for(var k=0;k<dajson.length;k++){
+          if(dajson[k].uid == dasts){
+              if(dajson[k].fileList != ''){
+                      for(var i=0;i<dajson[k].fileList.length;i++){
+                          if(dajson[k].fileList[i].scoureType == 11){
+                            this.setData({imgs:dajson[k].fileList[i].fileUrl})
+                      }
+                  }
+              }else{
+                 this.setData({imgs:''})
+              }
+          }
+       }
+     }else{
+       for(var i=0;i<dasts.length;i++){
+                    if(dasts[i].scoureType == 11){
+                      this.setData({imgs:dasts[i].fileUrl})
+                }
+            }
+     }
+     
+  },
+  onShareAppMessage: function (e) {
+      var uids = this.data.appglok.uid
+      var userid = this.data.uese.userId
+      var name = cache.getSync("user")
+      var time = app.globalData.imgUrl+'/upload/card/user/'+uids+'.jpg?'+new Date().getTime()
+        return {
+            title: '这是我的['+name.nickName+']电子名片,望惠存',
+            // desc: '分享页面的内容',
+            imageUrl:time,
+            path: 'pages/details/details?uid='+uids,// 路径，传递参数到指定页面。
+                success: (res) => {
+                console.log("转发成功", res);
+                daaty.operationList(userid,uids,null,successFa)
+                  function successFa(data, sourceObj){
+
+                  }
+                },
+                fail: (res) => {
+                console.log("转发失败", res);
+                }
+        }
+    },
+  addig:function(){
+    var param={type:2};
+      navigator.navigateTo('../editor/editor',param);
+  },
+  cvarly:function(){
+      wx.navigateTo({
+      url:'../Business/Business'
+    })
+  },
+  list1:function(){
+      var param={type:1};
+      navigator.navigateTo('../Business/Businesslist',param);
+  },
+  list2:function(){
+     var param={type:2};
+      navigator.navigateTo('../Business/Businesslist',param);
+  },
+  list3:function(){
+     var param={type:3};
+      navigator.navigateTo('../Business/Businesslist',param);
+  },
+  list4:function(){
+     var param={type:4};
+      navigator.navigateTo('../Business/Businesslist',param);
+  },
+  numtwo:function(){
+    app.checkLoginStatus()
+  },
+  changeData:function(){
+       this.onLoad();//最好是只写需要刷新的区域的代码，onload也可，效率低，有点low
+   },
+   btnconttwo:function(){
+        this.addig()
+   }
+}
+</script>
+
+<style>
+  page{position: relative;}
+  page>view .actong{width: 100%;height: 419rpx;}
+  page>view .addig{width: 42rpx;height: 42rpx;position: absolute;top: 58rpx;right: 45rpx;}
+  .bigbox{padding:50rpx 0 0 50rpx;position: absolute;top: 0;left: 0;}
+  scroll-view{
+    white-space: nowrap;
+    width: 610rpx;
+    height: 70rpx;
+    /* margin-left: 50rpx;
+    margin-top: 50rpx; */
+  }
+  .tioscll{width: 82rpx;height: 65rpx;line-height: 65rpx;text-align: center;display: inline-block;margin-right:52rpx;font-size: 28rpx;color: #fff;}
+  .btony{border-bottom: 6px solid red;}
+  .iscopomet{display:inline-block;position:absolute;top: 150rpx;left: 50%;width:685rpx;height:425rpx;margin-left: -298rpx;background: #fff;border-radius:25rpx;box-shadow: 0rpx 35rpx 50rpx rgba(0,0,0,.1)}
+  .iscopomet .anthing{margin: 26rpx 0 0 34rpx;}
+  .iscopomet .anthing .skstop image{width: 120px;height: 120rpx;border-radius:50%;}
+  .iscopomet .anthing .skstop{margin-bottom: 45rpx;}
+  .iscopomet .anthing .skstop .imfsv{width: 49rpx;height: 42rpx;vertical-align: top;margin-top: 5rpx;}
+  .iscopomet .anthing .skstop .lsonter{display: inline-block;width: 350rpx;margin: 0 48rpx 0 48rpx;}
+  .iscopomet .anthing .skstop .lsonter view:nth-child(1){font-size: 38rpx;color: #070707;}
+  .iscopomet .anthing .skstop .lsonter view:nth-child(2){font-size: 28rpx;color: #070707;}
+  .iscopomet .anthing .btncont,.btnconttwo{padding-left: 35rpx;}
+  .iscopomet .anthing .btncont view{margin-bottom: 30rpx;columns: #808080;font-size: 24rpx;}
+  .iscopomet .anthing .btncont view image{vertical-align: middle;margin-right: 52rpx;}
+  .iscopomet .anthing .btncont view:nth-child(1) image{width: 38rpx;height: 38rpx;}
+  .iscopomet .anthing .btncont view:nth-child(2) image{width: 40rpx;height: 31rpx;}
+  .iscopomet .anthing .btncont view:nth-child(3) image{width: 35rpx;height: 44rpx;}
+  .iscopomet .anthing .btnconttwo .longy{width: 320rpx;height: 120rpx;border-radius: 15rpx;background: #e94a69;margin-left:100rpx;}
+  .iscopomet .anthing .btnconttwo image{width: 100%;height: 100%;}
+  .btomcomtent{width:685rpx;height:50rpx;margin:0 auto;margin-top: 200rpx;}
+  .btomcomtent>view{width: 100%;text-align: center;}
+  .btomcomtent view view{display: inline-block;text-align:center;width: 120rpx;font-size: 28rpx;margin-bottom: 38rpx;}
+  .btomcomtent view view image{width: 80rpx;height: 70rpx;display: block;margin: 0 auto;}
+  .btomcomtent view view text{display: inline-block;margin-top: 35rpx;color:#070707}
+  .btomcomtent view view:nth-child(2){margin:0 120rpx 0 120rpx;}
+  .btomcomtent .ficcar{text-align: center;}
+  .btomcomtent .ficcar button{margin-top:20rpx;width:196rpx;padding:0;line-height:0;}
+  .btomcomtent .ficcar button::after{border:none;}
+  .btomcomtent .ficcar button image{width: 196rpx;height: 68rpx;}
+
+</style>

@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "wxc-list": "../../packages/@minui/wxc-list/dist/index",
+    "wxc-input": "../../packages/@minui/wxc-input/dist/index",
+    "wxc-elip": "../../packages/@minui/wxc-elip/dist/index",
+    "wxc-panel": "../../packages/@minui/wxc-panel/dist/index",
+    "wxc-abnor": "../../packages/@minui/wxc-abnor/dist/index"
+  },
+  "navigationBarTitleText": "资讯"
+}

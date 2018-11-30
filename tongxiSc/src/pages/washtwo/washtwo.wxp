@@ -1,0 +1,142 @@
+<template>
+   <view class="box">
+        <view class="wash" wx:for="{{washnumber}}" wx:key="id" wx:for-item="item">
+        <image src="{{item.custImg}}" class="wash_img"></image>
+        
+        <view class="wash_view" wx:if="{{typsy == 0}}">
+            <view class="view_one">
+                      <text>{{item.custNname}}</text> <text>{{item.createTime}}</text>
+             </view>
+            <view class="view_two">
+                    <text>消费:{{item.money>20?item.money/100+'￥':item.money}}</text><text class="any_infy">地点:{{item.machineName}}</text><text class="any_sy">{{item.logType}}</text>
+             </view> 
+        </view>
+
+         <view class="wash_view" wx:if="{{typsy == 1}}">
+           <view class="view_one">
+                      <text>{{item.custNname}}</text> <text>{{item.createTime}}</text>
+            </view>
+            <view class="view_two">
+                    <text class="ayt_one">金额:{{item.money/100}}￥</text><text>充值</text>
+           </view> 
+        </view>
+
+         <view class="wash_view" wx:if="{{typsy == 2}}">
+            <view class="view_one">
+                      <text>{{item.custNname}}</text> <text>{{item.createTime}}</text>
+            </view>
+            <view class="view_two">
+                      <text>金额:{{item.money>20?item.money/100+'￥':item.money}}</text> <text class="any_infy">地点:{{item.machineName}}</text> <text class="any_sy">{{item.logType}}</text>
+             </view> 
+        </view>
+    </view>
+   </view>
+   <wxc-loadmore
+    text="正在努力加载中..."
+    icon="{{true}}"
+    wx:if="{{condition==1}}"
+  >
+  </wxc-loadmore>
+    <wxc-loadmore
+      is-end="{{true}}"
+      text="到底啦"
+      wx:if="{{condition==0}}"
+    >
+    </wxc-loadmore>
+</template>
+
+<script>
+var apis =  require("../../utils/api.js")
+var dates =  require("../../utils/dateutils.js")
+var nename =  require("../../utils/util.js")
+var hss =  require("../../utils/convert.js")
+export default {
+  config: {
+    navigationBarTitleText: '洗车',
+    usingComponents: {
+       'wxc-list': '@minui/wxc-list',
+       'wxc-loadmore': '@minui/wxc-loadmore'
+    }
+  },
+   paging:function(){
+      const _this = this;
+      var estate = wx.getStorageSync("uid")
+      this.setData({condition:1})
+    apis.washList({estateId:estate,offset:_this.data.offset,limit:_this.data.limit,siteId:_this.data.siteId,machineId:_this.data.machineId,type:_this.data.typsy},1,successFa, null, null);
+    function successFa(data, sourceObj){
+          // console.log(data,333333)
+          const offsets = _this.data.offset+_this.data.limit;
+          var datas;
+           for(var i=0;i<data.data.length;i++){
+              data.data[i].custNname=nename.filderName(data.data[i].custNname)
+              datas = new Date(data.data[i].createTime);
+              data.data[i].createTime=dates.getDate(data.data[i].createTime);
+              data.data[i].logType=nename.washType(data.data[i].logType);
+             _this.data.washnumber.push(data.data[i])
+           }
+            var lengths = data.data.length;
+           if(lengths < _this.data.limit){
+            _this.setData({condition:0})
+          }else{
+            _this.setData({condition:2})
+          }
+          _this.setData({washnumber:_this.data.washnumber,offset:offsets})
+         }
+   },
+   onLoad:function(option){
+    //  console.log(option.type,66666)
+     this.setData({typsy:option.type})
+     if(option.siteId!=null&&option.siteId!=undefined){
+       this.setData({siteId:option.siteId})
+     }
+     if(option.machineId!=null&&option.machineId!=undefined){
+       this.setData({machineId:option.machineId})
+     }
+    this.paging()
+    },
+    onShow(){
+    },
+  data: {
+     washnumber:[],
+     offset:0,
+     limit:10,
+     condition:0,
+     siteId:"",
+     machineId:"",
+     typsy:''
+   },
+  onReachBottom: function () {
+      this.paging()
+  },
+   onPullDownRefresh:function(){
+     this.setData({washnumber:[],offset:0})
+     this.paging()
+     wx.stopPullDownRefresh()
+    },
+}
+</script>
+
+<style>
+   .box{
+    background: #eee;
+  }
+  .box .wash{
+     width:95%;
+     height:100rpx;
+     padding-bottom:15px;
+     margin: 0 auto;
+     margin-bottom:15rpx;
+     margin-top: 30rpx;
+     height: 120rpx;
+     background: #fff;
+     border-radius:20rpx; 
+   }
+  .box .wash .wash_img{width:90rpx;height:90rpx;border-radius:50%;margin:0 20rpx 0 12rpx;vertical-align:middle;}
+  .box .wash .wash_view{display:inline-block;margin-top: 12rpx;vertical-align: bottom;}
+  .box .wash .wash_view .view_one text{font-size: 28rpx;color: #686868;}
+  .box .wash .wash_view .view_one text:nth-child(1){display:inline-block;width:240px;}
+  .box .wash .wash_view .view_two text{display:inline-block;font-size:26rpx;width:170rpx;}
+  .box .wash .wash_view .view_two .any_infy{width:245px;}
+  .box .wash .wash_view .view_two .any_sy{display:inline;}
+  .box .wash .wash_view .ayt_one{margin-right:14%;}
+</style>

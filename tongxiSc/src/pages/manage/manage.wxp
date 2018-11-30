@@ -1,0 +1,90 @@
+<template>
+  <view class="manage">
+      <radio-group name="radio-group">
+        <view wx:for={{dasylist}} wx:for-item='item' wx:key="index" bindtap="listclik">
+            <label><radio value="" data-uids={{item.uid}} catchtap="radiocliovk"/></label>
+            <text>{{item.groupName}}(22人)</text>  <image src="../../common/assets/tab/icon_riarrow.png"></image>
+        </view>
+        <view>
+            <label><radio value="radio1"/></label>
+            <text>分组1(22人)</text>  <image src="../../common/assets/tab/icon_riarrow.png"></image>
+        </view>
+        <view>
+            <label><radio value="radio1"/></label>
+            <text>分组1(22人)</text>  <image src="../../common/assets/tab/icon_riarrow.png"></image>
+        </view>
+    </radio-group>
+
+    <view class="contfix">
+        <text bindtap="delete">删除</text> <text bindtap="ubdata">更改组名</text> <text bindtap="add">新建分组</text>
+    </view>
+  </view>
+</template>
+
+<script>
+  var daaty =  require("../../utils/api2.js")
+  var tip = require("../../utils/tip.js")
+  // data-uids={{item.uid}}
+export default {
+  config: {
+    navigationBarTitleText: '管理',
+    usingComponents: {}
+  },
+  data: {
+    dasylist:'',//所有数据
+    uids:''  //删除返回列表uid
+  },
+  onShow:function(){
+    var thery = this
+    daaty.groupList(5,0,successFa)
+    function successFa(data, sourceObj){
+      // console.log(data,1232)
+      thery.setData({dasylist:data.data})
+    }
+  },
+  delete:function(){   //删除
+    var thiy = this;
+    if(thiy.data.uids == ''){
+      // console.log(88555)
+       return false
+    }
+    // tip.showModal("确认删除该分组")
+    daaty.delGroup(thiy.data.uids,5,0,successFa)
+    function successFa(data, sourceObj){
+      // console.log(data,8799)
+      thery.setData({dasylist:data.data})
+    }
+  },
+  listclik:function(){
+      // console.log(e)
+      // console.log(1111)
+  },
+  add:function(){  //添加
+   wx.navigateTo({
+      url:'../newfil/newfil?a=1'
+    })
+  },
+  ubdata:function(){
+     wx.navigateTo({
+      url:'../newfil/newfil?a=2'+"&uisy="+this.data.uids
+    })
+  },
+  radiocliovk:function(e){
+    this.setData({uids:e.currentTarget.dataset.uids})
+    // console.log(e.currentTarget.dataset.uids)
+  }
+}
+</script>
+
+<style>
+  page{width: 100%;}
+  page>view{width: 100%;height: 100%;position: relative;background:#eee;}
+  .manage{width: 100%;height: 90rpx;line-height: 90rpx;}
+  .manage radio-group>view{width:100%;border-bottom: 1px solid #ccc;padding-right: 30rpx;padding-left: 30rpx;background: #fff;}
+  .manage view view{display: inline-block;}
+  .manage view text{font-size: 28rpx;color:#070707;}
+  .manage view image{float: right;width: 15rpx;height: 27rpx;margin-top: 30rpx;margin-right: 50rpx;}
+  .manage .contfix{position: absolute;bottom:0;width: 100%;height: 90rpx;}
+  .manage .contfix text{font-size: 28rpx;display: inline-block;text-align: center;height: 100%;width: 249rpx;background:#fff;}
+  .manage .contfix text:nth-child(2){border-left:1px solid #ccc;border-right:1px solid #ccc;}
+</style>

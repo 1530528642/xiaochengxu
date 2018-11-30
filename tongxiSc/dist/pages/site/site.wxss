@@ -1,0 +1,12 @@
+.box .wash{
+     width:99%;
+     height:100rpx;
+     padding:20rpx 0 15rpx 0;
+     border-bottom:6rpx solid #f0f0f0;
+     background: #fff;
+   }
+  .box .wash .wash_img{width:80rpx;height:105rpx;}
+  .box .wash .wash_view{display:inline-block;}
+  .box .wash .wash_view .view_one image{width:30rpx;height:58rpx;vertical-align: middle;margin: 5rpx 18rpx 0 42rpx;}
+  .box .wash .wash_view .view_two{padding-left: 50rpx;}
+  .box .wash .wash_view .view_two text{font-size:26rpx;display:inline-block;}

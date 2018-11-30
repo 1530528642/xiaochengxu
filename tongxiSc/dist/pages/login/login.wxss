@@ -1,0 +1,30 @@
+.input-wrap {
+        position: relative;
+        margin: 20rpx 10rpx 0 10rpx;
+    }
+    .input__form{
+       font-size:35rpx;
+    }
+    .tips {
+        display: flex;
+        position: absolute;
+        top: 50%;
+        right: 0;
+        font-size: 0;
+        transform: translate(0, -50%);
+        -webkit-transform: -webkit-translate(0, -50%);
+        z-index: 100;
+    }
+    .clear-wrap {
+        display: flex;
+        width: 40rpx;
+        height:104rpx;
+        align-items:center;
+        justify-content: flex-end;
+    }
+    .warn-tip {
+        line-height: 104rpx;
+        font-size: 28rpx;
+        color: #ff5777;
+    }
+    #login_btn{width:90%;height:85rpx;border-radius:20rpx;background: #E94A69;color: #fff;font-size: 40rpx;line-height: 85rpx;}

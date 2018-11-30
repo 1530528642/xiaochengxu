@@ -1,0 +1,138 @@
+<template>
+  <view class="container">
+          <view class="table">
+                <view class="tr">
+                <view class="th">月份</view>
+                <view class="th">月度收入</view>
+                <view class="th">积分</view>
+                <view class="th">会员</view>
+                <view class="th">非会员</view>
+          </view>
+            <view class="tr" wx:for="{{washnumber}}" wx:key="id">
+              <view class='td'> {{item.dateStr}} </view>
+              <view class="td"> {{item.total/100}}￥ </view>
+              <view class="td"> {{item.scoreWash}}</view>
+              <view class="td"> {{item.balanceWash}}￥ </view>
+              <view class="td"> {{item.payWash}}￥ </view>
+         </view>
+      </view>
+</view>
+</template>
+
+<script>
+var apis =  require("../../utils/api.js")
+var dates =  require("../../utils/dateutils.js")
+var utilu =  require("../../utils/util.js")
+export default {
+  config: {
+    navigationBarTitleText: '我的收益',
+    usingComponents: {
+       'wxc-list': '@minui/wxc-list',
+       'wxc-loadmore': '@minui/wxc-loadmore',
+       'wxc-cc': '@minui/wxc-cc'
+    }
+  },
+   paging:function(){
+      const _this = this;
+      this.setData({condition:1})
+      var estate = wx.getStorageSync("uid")
+    apis.statistics({estateId:estate},1,successFa, null, null);
+    function successFa(data, sourceObj){
+      // console.log(data)
+      _this.setData({washnumber:data.data})
+          // const offsets = _this.data.offset+_this.data.limit;
+          // var datas;
+          //  for(var i=0;i<data.data.length;i++){
+          //     datas = new Date(data.data[i].createTime);
+          //     data.data[i].createTime=dates.getDate(data.data[i].createTime);
+          //    _this.data.washnumber.push(data.data[i])
+          //  }
+          // _this.setData({washnumber:_this.data.washnumber,offset:offsets})
+          var lengths = data.data.length;
+          if(lengths < _this.data.limit){
+            _this.setData({condition:0})
+          }else{
+            _this.setData({condition:2})
+          }
+         }
+   },
+   onLoad:function(option){
+    this.paging()
+    },
+  data: {
+     washnumber:[],
+     offset:0,
+     limit:10,
+     condition:2,
+     mony:"",
+   },
+  onReachBottom: function () {
+      this.paging()
+  },
+  tipUrl:function(e){
+    var uid = e.currentTarget.dataset.uid;
+    wx.navigateTo({
+                    url:"../washtwo/washtwo?siteId="+uid
+                })
+  }
+}
+</script>
+
+<style>
+  .box .wash{
+     width:99%;
+     height:100rpx;
+     padding-bottom:15px;
+     margin-bottom:15rpx;
+   }
+  .box .wash .wash_img{width:80rpx;height:105rpx;}
+  .box .wash .wash_view{display:inline-block;}
+  .box .wash .wash_view .view_two text{font-size:26rpx;}
+  .demo__text {
+    text-align: center;
+  }
+  .demo__wrapper{text-align: center;width: 99%;border:1px solid red;}
+  .text_one{
+    text-align: left;
+  }
+  .yt{width: 240rpx;display:inline-block;}
+  .ends{margin-left: 20rpx;}
+   text{font-size: 20rpx;text-align:left;}
+  .text_two{text-align:left}
+  .table {
+        border-right: 0;
+        border-bottom: 0;
+        width: 95%;
+        margin:0 auto;
+        border-top:1px solid #000;
+        border-left:1px solid #000;
+        border-right:1px solid #000;
+        font-size:26rpx;
+        margin-top: 5%;
+        }
+
+  .tr {
+        width: 100%;
+        height:100rpx;
+        line-height: 100rpx;
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #000;
+        }
+
+   .th{
+        padding: 10px;
+        border-bottom: 1px solid #dadada;
+        border-right: 1px solid #dadada;
+        text-align: center;
+        width: 100%;
+        font-weight: 600;
+        background-color: #dadada;
+        }     
+    .td{
+          text-align: center;
+          width: 100%;
+          background: #fff;
+        }   
+      
+</style>

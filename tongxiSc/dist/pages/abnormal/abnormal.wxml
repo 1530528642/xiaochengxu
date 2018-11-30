@@ -1,0 +1,8 @@
+<view>
+    <!--<layout-head></layout-head>-->
+
+    <!-- wxp template -->
+    <wxc-abnor type="REQUEST_ERROR" image="{{image}}" title="{{title}}" tip="{{tip}}" button="{{button}}" bind:="" abnortap="onAbnorTap" _pid="{{_pid}}"></wxc-abnor>
+
+    <!--<layout-foot></layout-foot>-->
+</view>

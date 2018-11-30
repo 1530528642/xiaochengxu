@@ -1,0 +1,98 @@
+<view>
+    <!--<layout-head></layout-head>-->
+
+    <!-- wxp template -->
+    <view class="mys">
+        <view class="contenf_top">
+            <view class="img_ig">
+                <image src="{{datay != ''?datay.headImg:'../../common/assets/tab/awlkh.png'}}"></image>
+                <view>
+                    <button type="primary" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="bindGetUserInfo">{{loginFlag == true?datay.nickName:'立即登录'}}</button>
+                    <text>{{loginFlag == true?datay.nickName:'登录更精彩'}}</text>
+                </view>
+                <image wx:if="{{loginFlag==false}}" src="../../common/assets/tab/jianyouy.png" class="fuis"></image>
+            </view>
+            <viwe class="img_txt">
+                <text>可提现佣金:0.02元</text>
+                <button>提现</button>
+            </viwe>
+            <view class="contenf_moy">
+                <view>
+                    <text>已提现金额</text>
+                    <text>0元</text>
+                </view>
+                <view>
+                    <text>已提现金额</text>
+                    <text>0元</text>
+                </view>
+            </view>
+        </view>
+
+        <view class="contenf_btn">
+            <view class="minbox" bindtap="minbox">
+                <view>
+                    <image src="../../common/assets/tab/mone.png"></image>
+                    <text class="ac_txt">管理地址</text>
+                    <text>0.00元</text>
+                </view>
+            </view>
+            <view class="minbox" bindtap="minboxinfo">
+                <view>
+                    <image src="../../common/assets/tab/dind.png"></image>
+                    <text class="ac_txt">我的收藏</text>
+                    <text>0.00元</text>
+                </view>
+            </view>
+            <view class="minbox" bindtap="minbofoot">
+                <view>
+                    <image src="../../common/assets/tab/ahjs.png"></image>
+                    <text class="ac_txt">我的足迹</text>
+                    <text>0.00元</text>
+                </view>
+            </view>
+            <view class="minbox" bindtap="minboxdb">
+                <view>
+                    <image src="../../common/assets/tab/tuan.png"></image>
+                    <text class="ac_txt">我的订单</text>
+                    <text>0.00元</text>
+                </view>
+            </view>
+            <view class="minbox">
+                <view>
+                    <image src="../../common/assets/tab/erwm.png"></image>
+                    <text class="ac_txt">分销佣金</text>
+                    <text>0.00元</text>
+                </view>
+            </view>
+            <view class="minbox">
+                <view>
+                    <image src="../../common/assets/tab/set.png"></image>
+                    <text class="ac_txt">分销佣金</text>
+                    <text>0.00元</text>
+                </view>
+            </view>
+            <view class="minbox">
+                <view>
+                    <image src="../../common/assets/tab/fagui.png"></image>
+                    <text class="ac_txt">分销佣金</text>
+                    <text>0.00元</text>
+                </view>
+            </view>
+            <view class="minbox">
+                <view>
+                    <image src="../../common/assets/tab/about.png"></image>
+                    <text class="ac_txt">分销佣金</text>
+                    <text>0.00元</text>
+                </view>
+            </view>
+            <view class="minbox">
+                <view>
+                    <image src="../../common/assets/tab/jdhd.png"></image>
+                    <text class="ac_txt">分销佣金</text>
+                </view>
+            </view>
+        </view>
+    </view>
+
+    <!--<layout-foot></layout-foot>-->
+</view>

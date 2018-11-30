@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "wxc-label": "../../packages/@minui/wxc-label/dist/index",
+    "wxc-icon": "../../packages/@minui/wxc-icon/dist/index"
+  },
+  "navigationBarTitleText": "编辑名片"
+}

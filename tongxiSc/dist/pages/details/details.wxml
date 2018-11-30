@@ -1,0 +1,123 @@
+<view>
+    <!--<layout-head></layout-head>-->
+
+    <!-- wxp template -->
+    <view class="ksbox">
+        <view class="top_ig">
+            <image wx:if="{{typeimg==''}}" src="../../common/assets/tab/img_head.png"></image>
+            <image wx:else="" src="{{url}}{{typeimg}}"></image>
+        </view>
+
+        <contebt-mode class="iscopomet" bindtap="iscopomet">
+            <view class="anthing">
+                <image src="../../common/assets/tab/img_bag1.png"></image>
+                <view class="vloly">
+                    <view class="skstop">
+                        <view class="lsonter">
+                            <view>{{sloabloState.name}}</view>
+                            <view>{{sloabloState.cardTitle}}</view>
+                        </view>
+                        <image src="../../common/assets/tab/img_V.png" class="imfsv"></image>
+                    </view>
+                    <view class="btncont">
+                        <view>
+                            <image src="../../common/assets/tab/img_phone.png"></image>
+                            <text>{{sloabloState.cardPhone}}</text>
+                        </view>
+                        <view>
+                            <image src="../../common/assets/tab/837174180791381241.png"></image>
+                            <text>{{sloabloState.wxNo}}</text>
+                        </view>
+                        <view>
+                            <image src="../../common/assets/tab/662159958125178627.png"></image>
+                            <text>{{sloabloState.company}}</text>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </contebt-mode>
+
+        <view class="midlld_content">
+            <view>
+                <text>标签</text>
+                <view class="flgy">
+                    <text>{{sloabloState.tags}}</text>
+                </view>
+            </view>
+            <view>
+                <text>网址</text>
+                <view>
+                    <text>{{sloabloState.website1}}</text>
+                </view>
+            </view>
+            <view>
+                <text>微官网</text>
+                <view>
+                    <text>查看 ></text>
+                </view>
+            </view>
+            <view>
+                <text>公司电话</text>
+                <view>
+                    <text>{{sloabloState.companyTel}}</text>
+                </view>
+            </view>
+            <view>
+                <text>微信号</text>
+                <view>
+                    <text>{{sloabloState.wxNo}}</text>
+                </view>
+            </view>
+            <view>
+                <text>行业</text>
+                <view>
+                    <text>{{stry}}</text>
+                </view>
+            </view>
+        </view>
+
+        <view class="contxt">
+            <view class="contxt_box">
+                <view>公司主要业务</view>
+                <view>{{sloabloState.businessText}}</view>
+            </view>
+        </view>
+
+        <view class="contxt_btom">
+            <view>
+                <text>产品展示</text>
+                <image src="../../common/assets/tab/icon_thearrow.png" class="bt_top_ig"></image>
+            </view>
+            <view class="aklo_ig">
+                <image bindtap="imgYu" mode="widthFix" data-list="{{sloabloState.fileList}}" data-src="{{url+item.fileUrl}}" wx:for="{{sloabloState.fileList}}" wx:for-item="item" wx:key="index" style="width:100%;display:{{item.scoureType == 12||item.scoureType == 11?'none':''}}" src="{{url+item.fileUrl}}"></image>
+                <!-- <image wx:for="{{sloabloState.fileList}}" wx:for-item="item" wx:key="index" style="display:{{item.scoureType == 12||item.scoureType == 11?'none':''}}" src="{{url+item.fileUrl}}"></image> -->
+            </view>
+        </view>
+
+        <view class="btom_fex" wx:if="{{diong}}">
+            <text bindtap="aldelete">删除</text>
+            <text bindtap="aclosey">编辑</text>
+            <button open-type="share">发名片</button>
+        </view>
+
+        <view class="btom_fexdb" wx:else="">
+            <view class="acmis">
+                <image src="../../common/assets/tab/akb1.png" wx:if="{{sloabloState.isGood == 0}}" data-cars="{{sloabloState.uid}}" bindtap="decans"></image>
+                <image src="../../common/assets/tab/dianzan_icon_default@2x.png" data-cars="{{sloabloState.uid}}" wx:else="" bindtap="decans"></image>
+                <text>点赞({{sloabloState.goods}})</text>
+            </view>
+            <view class="acmis">
+                <image src="../../common/assets/tab/kca1.png" wx:if="{{sloabloState.isCollections == 0}}" data-cars="{{sloabloState.uid}}" bindtap="wler"></image>
+                <image src="../../common/assets/tab/844090894838752016.png" wx:else="" data-cars="{{sloabloState.uid}}" bindtap="wler"></image>
+                <text>收藏({{sloabloState.isCollections}})</text>
+            </view>
+            <view class="acmis">
+                <image src="../../common/assets/tab/827038361353388711.png"></image>
+                <button open-type="share">发名片</button>
+            </view>
+        </view>
+
+    </view>
+
+    <!--<layout-foot></layout-foot>-->
+</view>

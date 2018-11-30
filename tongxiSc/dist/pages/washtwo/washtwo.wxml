@@ -1,0 +1,51 @@
+<view>
+    <!--<layout-head></layout-head>-->
+
+    <!-- wxp template -->
+    <view class="box">
+        <view class="wash" wx:for="{{washnumber}}" wx:key="id" wx:for-item="item">
+            <image src="{{item.custImg}}" class="wash_img"></image>
+
+            <view class="wash_view" wx:if="{{typsy == 0}}">
+                <view class="view_one">
+                    <text>{{item.custNname}}</text>
+                    <text>{{item.createTime}}</text>
+                </view>
+                <view class="view_two">
+                    <text>消费:{{item.money>20?item.money/100+'￥':item.money}}</text>
+                    <text class="any_infy">地点:{{item.machineName}}</text>
+                    <text class="any_sy">{{item.logType}}</text>
+                </view>
+            </view>
+
+            <view class="wash_view" wx:if="{{typsy == 1}}">
+                <view class="view_one">
+                    <text>{{item.custNname}}</text>
+                    <text>{{item.createTime}}</text>
+                </view>
+                <view class="view_two">
+                    <text class="ayt_one">金额:{{item.money/100}}￥</text>
+                    <text>充值</text>
+                </view>
+            </view>
+
+            <view class="wash_view" wx:if="{{typsy == 2}}">
+                <view class="view_one">
+                    <text>{{item.custNname}}</text>
+                    <text>{{item.createTime}}</text>
+                </view>
+                <view class="view_two">
+                    <text>金额:{{item.money>20?item.money/100+'￥':item.money}}</text>
+                    <text class="any_infy">地点:{{item.machineName}}</text>
+                    <text class="any_sy">{{item.logType}}</text>
+                </view>
+            </view>
+        </view>
+    </view>
+    <wxc-loadmore text="正在努力加载中..." icon="{{true}}" wx:if="{{condition==1}}" _pid="{{_pid}}">
+    </wxc-loadmore>
+    <wxc-loadmore is-end="{{true}}" text="到底啦" wx:if="{{condition==0}}" _pid="{{_pid}}">
+    </wxc-loadmore>
+
+    <!--<layout-foot></layout-foot>-->
+</view>

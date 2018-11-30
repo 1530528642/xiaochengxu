@@ -1,0 +1,30 @@
+<view>
+    <!--<layout-head></layout-head>-->
+
+    <!-- wxp template -->
+    <button bindtap="atives" class="alrt">提现申请</button>
+    <wxc-dialog class="wxc-dialog" confirm-text="确定" bindconfirm="onConfirm" bindcancel="onCancel" _pid="{{_pid}}">
+        <text class="my_txt">您当前提现的金额为{{mony}}元</text>
+    </wxc-dialog>
+    <wxc-toast is-show="{{$toast.show}}" text="提交成功" icon="yes" icon-color="#ff5777" _pid="{{_pid}}">
+    </wxc-toast>
+    <view wx:for="{{washnumber}}" wx:for-item="item" wx:key="uid" class="tixian">
+        <view class="tixian_one">{{item.createTime}}</view>
+        <view class="tixian_two">
+            <text style="{{item.withdrawalsType==1?'background:#2aac38;color:#fff;padding:5rpx;border-radius:10rpx;':'background:#009cff;color:#fff;padding:5rpx;border-radius:10rpx;'}}">{{item.withdrawalsType==1?"微信提现":"企业转账"}}</text>
+            <text class="aty">提现金额:{{item.money}}</text>
+            <text wx:if="{{item.auditStatus=='审核中'}}" style="color:#353535"> 状态:{{item.auditStatus}}</text>
+            <text wx:if="{{item.auditStatus=='转账中'}}" style="color:yellow"> 状态:{{item.auditStatus}}</text>
+            <text wx:if="{{item.auditStatus=='已完成'}}" style="color:#2aac38">状态:{{item.auditStatus}}</text>
+            <text wx:if="{{item.auditStatus=='未通过'}}" style="color:#E51010"> 状态:{{item.auditStatus}} {{item.auditStatus=="未通过"?"原因:金额额度不对":""}}</text>
+        </view>
+    </view>
+
+
+    <wxc-loadmore text="正在努力加载中..." icon="{{true}}" wx:if="{{condition==1}}" _pid="{{_pid}}">
+    </wxc-loadmore>
+    <wxc-loadmore is-end="{{true}}" text="到底啦" wx:if="{{condition==0}}" _pid="{{_pid}}">
+    </wxc-loadmore>
+
+    <!--<layout-foot></layout-foot>-->
+</view>

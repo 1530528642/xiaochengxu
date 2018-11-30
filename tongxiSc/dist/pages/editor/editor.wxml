@@ -1,0 +1,102 @@
+<view>
+    <!--<layout-head></layout-head>-->
+
+    <!-- wxp template -->
+    <view class="Editor">
+        <form bindsubmit="formSubmit" bindreset="formReset">
+            <view class="lsrr">
+                <view class="lsrr_box">
+                    <image src="{{upimg !=''?upimg:(bcontent == ''?imgy:url+imgsy)}}" bindtap="update"></image>
+                    <image src="../../common/assets/tab/icon_camera.png" class="mbig"></image>
+                    <view class="min_box">
+                        <input name="input" placeholder="*姓名(必填项)" value="{{bcontent.name}}"></input>
+                        <input name="input1" placeholder="*手机(必填项)" value="{{bcontent.cardPhone}}"></input>
+                    </view>
+                    <view class="topflex">
+                        <text>图片过大点击重新上传</text>
+                        <!-- <text></text> -->
+                    </view>
+                </view>
+            </view>
+
+            <view class="lsrr lsrrdb">
+                <view class="lsrr_box">
+                    <image src="{{upimgtwo != ''?upimgtwo:(bcontent == ''?'../../common/assets/tab/icon_uploalogo.png':url+imgsdb)}}" bindtap="updatetwo"></image>
+                    <image src="../../common/assets/tab/icon_camera.png" class="mbig"></image>
+                    <view class="min_box">
+                        <input name="input2" placeholder="*公司(必填项)" value="{{bcontent.company}}"></input>
+                        <input name="input3" placeholder="*职务(必填项)" value="{{bcontent.cardTitle}}"></input>
+                    </view>
+                </view>
+                <view class="any_box">
+                    <input name="input4" disabled="disabled" placeholder="行业(必填项)" value="{{hlist}}" bindtap="anyBox"></input>
+                </view>
+            </view>
+
+            <view class="antipm">
+                <view class="antipmone">
+                    <text>名片名称</text>
+                    <input name="input5" type="text" placeholder="请输入名片名称" value="{{bcontent.cardTitle}}"></input>
+                </view>
+                <view class="antipmtwo">
+                    <text>公司电话</text>
+                    <input name="input9" type="text" placeholder="请输入公司电话" value="{{bcontent.companyTel}}"></input>
+                </view>
+                <view class="antipmtwo">
+                    <text>地址</text>
+                    <input name="input6" type="text" placeholder="请输入地址"></input>
+                </view>
+                <view class="antipmtwo">
+                    <text>网址</text>
+                    <input name="input7" type="text" placeholder="请输入网址" value="{{bcontent.website1}}"></input>
+                </view>
+                <view class="antipmtwo">
+                    <text>微信</text>
+                    <input name="input8" type="text" placeholder="请输入微信(必填项)" value="{{bcontent.wxNo}}"></input>
+                </view>
+                <view class="antipmtwo anmetion">
+                    <text>业务介绍</text>
+                    <view bindtap="inputning">
+                        <input name="input10" disabled="disabled" type="text" value="{{iptxt1}}" placeholder="{{bcontent == ''?'请输入业务介绍':bcontent.businessText}}"></input>
+                        <image src="../../common/assets/tab/icon_riarrow.png"></image>
+                    </view>
+                </view>
+                <!-- <view class="antipmtwo anmetion">
+                <text>印象标签</text><view bindtap="inputten"><input name="input11" disabled="disabled" type="text" value="{{iptxt2}}" placeholder="{{bcontent == ''?'请输入个性签名':bcontent.tags}}" ><image src="../../common/assets/tab/icon_riarrow.png"></image></view>
+            </view> -->
+                <view class="antipmtwo anmetion">
+                    <text>图片风采</text>
+                    <view bindtap="inputimg">
+                        <input disabled="disabled" type="text" placeholder="点击上传图片"></input>
+                        <image src="../../common/assets/tab/icon_riarrow.png"></image>
+                    </view>
+                </view>
+                <view class="antipmone antipmonetwo">
+                    <view>选择标签</view>
+                    <view>
+                        <text class="{{txtuid == item.uid?'label':''}}" wx:for="{{taglist}}" wx:key="index" wx:for-item="item" data-uid="{{item.uid}}" data-txt="{{item.tagValue}}" bindtap="label">{{item.tagValue}}</text>
+                    </view>
+                    <input type="text" name="input18" value="{{txtTy}}" style="display:none"></input>
+                </view>
+            </view>
+
+            <view class="eycomte">
+                <text>允许别人分享我的名片</text>
+                <switch name="input12"></switch>
+            </view>
+
+            <view class="submit">
+                <button formType="submit" class="btnmie">保存</button>
+            </view>
+
+            <view class="achplus" wx:if="{{hkstate}}">
+                <view class="viey">
+                    <view wx:for="{{hking}}" wx:for-item="item" wx:key="index" data-name="{{item.name}}" data-uid="{{item.uid}}" bindtap="achplus">{{item.name}}</view>
+                    <image src="../../common/assets/tab/223264645530621479.png" class="errimg" bindtap="errimg"></image>
+                </view>
+            </view>
+        </form>
+    </view>
+
+    <!--<layout-foot></layout-foot>-->
+</view>

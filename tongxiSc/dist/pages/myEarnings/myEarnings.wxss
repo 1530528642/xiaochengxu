@@ -1,0 +1,55 @@
+.box .wash{
+     width:99%;
+     height:100rpx;
+     padding-bottom:15rpx;
+     margin-bottom:15rpx;
+   }
+  .box .wash .wash_img{width:80rpx;height:105rpx;}
+  .box .wash .wash_view{display:inline-block;}
+  .box .wash .wash_view .view_two text{font-size:26rpx;}
+  .demo__text {
+    text-align: center;
+  }
+  .demo__wrapper{text-align: center;width: 99%;border:1rpx solid red;}
+  .text_one{
+    text-align: left;
+  }
+  .yt{width: 240rpx;display:inline-block;}
+  .ends{margin-left: 20rpx;}
+   text{font-size: 20rpx;text-align:left;}
+  .text_two{text-align:left}
+  .table {
+        border-right: 0;
+        border-bottom: 0;
+        width: 95%;
+        margin:0 auto;
+        border-top:1rpx solid #000;
+        border-left:1rpx solid #000;
+        border-right:1rpx solid #000;
+        font-size:26rpx;
+        margin-top: 5%;
+        }
+
+  .tr {
+        width: 100%;
+        height:100rpx;
+        line-height: 100rpx;
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1rpx solid #000;
+        }
+
+   .th{
+        padding: 10rpx;
+        border-bottom: 1rpx solid #dadada;
+        border-right: 1rpx solid #dadada;
+        text-align: center;
+        width: 100%;
+        font-weight: 600;
+        background-color: #dadada;
+        }     
+    .td{
+          text-align: center;
+          width: 100%;
+          background: #fff;
+        }

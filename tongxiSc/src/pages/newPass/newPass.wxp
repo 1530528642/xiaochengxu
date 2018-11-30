@@ -1,0 +1,158 @@
+<template class="ky">
+  <view class="bocx">
+  <view class="bocx_vonmty">
+    <form bindsubmit="formSubmit" bindreset="formReset">
+        <view class="newboc"><input type="" placeholder="原始密码"  value="{{oldPassword}}" auto-focus  class="intone" name="input"/></view>
+        <view class="newboc">
+                            <input type="password" placeholder="输入新密码"  value="{{newPassword}}" auto-focus  class="inttwo" name="input1" wx-if="{{imgone != 1}}"/>
+          <view class="ig" catchtap="imageLoad">
+          <!-- <image src="../../common/assets/tab/ereyu.png"/> -->
+        </view></view>
+        <view class="newboc">
+          <input type="" placeholder="确认新密码"  value="{{newPassword}}" auto-focus  class="intthere" name="input2"/>
+          <!-- <input type="password" placeholder="输入新密码"  value="{{newPassword}}" auto-focus  class="inttwo" name="input2" wx-if="{{imgtwo != 1}}"/> -->
+          <view class="ig" catchtap="imageLoadTwo">
+            <!-- <image src="../../common/assets/tab/ereyu.png"/> -->
+          </view></view>
+       <button formType="submit" class="overy">完成</button>
+    </form>
+  </view>
+  </view>
+   <view class="zhaoy" wx:if="{{stauds}}">
+       <view class="zhay_ty"  wx:if="{{frtxt == ''}}">
+        <view class="info_ty"><view><image src="../../common/assets/tab/√.png"/></view><text>成功修改密码</text></view>
+          <text class="txt"></text>
+          <view class="coning" bindtap="coning">确认</view>
+       </view>
+       
+       <view class="infoly" wx:if="{{frtxt != ''}}">{{frtxt}}</view>
+    </view>
+</template>
+
+<script> 
+var apis =  require("../../utils/api.js")
+var utils =  require("../../utils/util.js")
+export default {
+  config: {
+    navigationBarTitleText: '修改密码',
+    usingComponents: {} 
+  },
+   data: {
+    oldPassword:'',//旧密码
+    newPassword:'',//新密码
+    stauds:false, //点击完成弹框状态
+    // imgone:1,//第一个新密码点击图片时明文状态和图片更换
+    // imgtwo:1,//第二个新密码点击图片时明文状态和图片更换
+    benstus:true,//点击完成后禁用按钮 防止多次点击 初始为true点击后为false
+    frtxt:"" //二次新密码不一致时弹框内容
+  },
+   formSubmit: function(e) {
+    if(this.data.benstus == true){
+        var thy = this;
+        var conty = e.detail.value
+        if(conty.input1 === conty.input2){
+              var estateId = wx.getStorageSync("uid");
+              var oldPassword =utils.hexMD5(conty.input);
+              var newPassword = utils.hexMD5(conty.input1);
+              apis.updatePasswords({oldPassword:oldPassword,newPassword:newPassword,estateId:estateId},1,successFa)
+              function successFa(data, sourceObj){
+                if(data.msg == "success"){
+                    thy.setData({benstus:false})
+                    thy.setData({stauds:true}) 
+                }
+              }
+        }else{
+          thy.setData({frtxt:"新密码输入不一致",stauds:true}) 
+          setTimeout(function(){
+            thy.setData({stauds:false})
+          },2000)
+        }
+    }
+  },
+  coning:function(){
+    this.setData({stauds:false})
+    wx.navigateBack({
+                          delta: 1//默认值是1，返回的页面数，如果 delta 大于现有页面数，则返回到首页。
+                    })
+  }
+  // imageLoad:function(){
+  //   if(this.data.imgone == 1){
+  //     this.setData({imgone:2})
+  //   }else{
+  //     this.setData({imgone:1})
+  //   }
+  // },
+  // imageLoadTwo:function(){
+  //   if(this.data.imgtwo == 1){
+  //     this.setData({imgtwo:2})
+  //   }else{
+  //     this.setData({imgtwo:1})
+  //   }
+  // }
+
+  // overy:function overy(){
+  //   console.log(11111)
+  //   function formSubmit(e) {
+  //   console.log(e.detail.value)
+  // }
+    // var thty = this;
+    // var estateId = wx.getStorageSync("uid");
+    // var oldPassword = thty.data.oldPassword;
+    // var newPassword = thty.data.newPassword;
+    // console.log(oldPassword,newPassword,estateId)
+    // apis.updatePasswords({oldPassword:oldPassword,newPassword:newPassword,estateId:estateId},1,successFa)
+    // function successFa(data, sourceObj){
+    //   console.log(data)
+    // }
+  // }
+}
+</script>
+
+<style>
+page{
+  width:100%;
+  height:100%;
+  position:relative;
+}
+.bocx .bocx_vonmty{
+   color:#A6A6A6;
+   font-size:26rpx;
+}
+.bocx .bocx_vonmty{
+  width:90%;
+  margin:0 auto;
+}
+.bocx .bocx_vonmty input{
+  height:100rpx;
+  width: 90%;
+  /* border-bottom:2rpx solid #ebebeb; */
+}
+.bocx .bocx_vonmty .newboc{display:line-block;position:relative;border-bottom:2rpx solid #ebebeb;height:105rpx;}
+.bocx .bocx_vonmty .newboc .ig{display: inline-block;}
+.bocx .bocx_vonmty .newboc .ig image{width:36rpx;height:24rpx;position: absolute;top:35rpx;right:20rpx;}
+.bocx .bocx_vonmty .overy{width:85%;height:75rpx;line-height:75rpx;font-size:36rpx;text-align: center;color:#fff;background:#e94a69;margin:0 auto;margin-top:100rpx;border-radius: 20rpx;}
+.zhaoy{position:absolute;top:0;left:0;background:rgba(0,0,0,0.5);width: 100%;height: 100%;}
+.zhaoy .zhay_ty{width: 502rpx;height: 212rpx;background: #fff;margin:0 auto;margin-top:508rpx;text-align: center;}
+.zhaoy .zhay_ty view{display: inline-block;}
+.zhaoy .zhay_ty image{width: 40rpx;height: 40rpx;vertical-align: top;}
+.zhaoy .zhay_ty image text{vertical-align: top;}
+.zhaoy .zhay_ty .txt{display:inline-block;width: 470rpx;height: 2rpx;background: #ebebeb;}
+.zhaoy .zhay_ty .info_ty{height: 80rpx;line-height: 100rpx;font-size: 24rpx;color: #070707;display: block;}
+.zhaoy .zhay_ty .info_ty view{margin-top: 36rpx;vertical-align:middle;margin-right: 24rpx;margin-bottom:-22rpx;}
+.zhaoy .zhay_ty .coning{font-size:36rpx;
+      color:#e94a69;
+      width:100%;
+      height:80rpx;
+      line-height:80rpx;
+      }
+.zhaoy .infoly{
+      width:502rpx;
+      height:60rpx;
+      margin:0 auto;
+      background:#fff;
+      text-align:center;
+      font-size:26rpx;
+      line-height:60rpx;
+      margin-top: 560rpx;
+    }
+</style>

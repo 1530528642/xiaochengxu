@@ -1,0 +1,18 @@
+<view>
+    <!--<layout-head></layout-head>-->
+
+    <!-- wxp template -->
+    <form bindsubmit="formSubmit" bindreset="formReset">
+        <view class="vewfil">
+            <view class="vewfilone">{{bts == 1?"新建分组":"更改组名"}}</view>
+            <view class="vewfiltwo">
+                <input type="text" name="infos" placeholder="请输入组名"></input>
+            </view>
+            <view class="vewfilthee">
+                <button formType="submit">保存</button>
+            </view>
+        </view>
+    </form>
+
+    <!--<layout-foot></layout-foot>-->
+</view>

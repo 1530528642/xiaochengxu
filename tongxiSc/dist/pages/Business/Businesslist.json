@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "wxc-loadmore": "../../packages/@minui/wxc-loadmore/dist/index",
+    "wxc-icon": "../../packages/@minui/wxc-icon/dist/index",
+    "wxc-search": "../../packages/@minui/wxc-search/dist/index"
+  },
+  "navigationBarTitleText": ""
+}

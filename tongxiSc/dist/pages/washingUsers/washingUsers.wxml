@@ -1,0 +1,23 @@
+<view>
+    <!--<layout-head></layout-head>-->
+
+    <!-- wxp template -->
+    <view class="box">
+        <view class="wash" wx:for="{{washnumber}}" wx:key="id" wx:for-item="item">
+            <image src="{{item.custImg}}" class="wash_img"></image>
+            <view class="wash_view">
+                <text class="wash_ex">{{item.custNname}}</text>
+                <view class="wash_view_one">
+                    <image src="../../common/assets/tab/xiche_icon_@2x.png"></image>洗车次数:
+                    <text class="two_txt">{{item.count}}</text>
+                </view>
+            </view>
+        </view>
+        <wxc-loadmore text="正在努力加载中..." icon="{{true}}" wx:if="{{condition==1}}" _pid="{{_pid}}">
+        </wxc-loadmore>
+        <wxc-loadmore is-end="{{true}}" text="到底啦" wx:if="{{condition==0}}" _pid="{{_pid}}">
+        </wxc-loadmore>
+    </view>
+
+    <!--<layout-foot></layout-foot>-->
+</view>

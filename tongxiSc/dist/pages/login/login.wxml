@@ -1,0 +1,31 @@
+<view>
+    <!--<layout-head></layout-head>-->
+
+    <!-- wxp template -->
+    <view class="input-wrap">
+        <wxc-input type="number" src="https://www.tongxikj.com/wxfile/shdImg/login_phone_icon@2x.png" value="{{mobileNumber}}" placeholder="请输入充值手机号码" maxlength="11" data-type="mobile" bind:input="onInput" bind:blur="onBlur" _pid="{{_pid}}">
+        </wxc-input>
+        <view class="tips">
+            <text wx:if="{{mobileTip}}" class="warn-tip">请输入正确的手机号码</text>
+            <view wx:if="{{mobileNumber && mobileNumber.length}}" class="clear-wrap" data-type="mobile" bindtap="clearInput">
+                <icon type="clear" size="14" color="#ccc">
+                </icon>
+            </view>
+        </view>
+    </view>
+    <view class="input-wrap">
+        <wxc-input type="number" src="https://www.tongxikj.com/wxfile/shdImg/login_password_icon@2x.png" value="{{qqNumber}}" placeholder="请输入正确密码" maxlength="11" data-type="qq" bind:input="onInput" bind:blur="onBlur" password="true" _pid="{{_pid}}">
+        </wxc-input>
+        <view class="tips">
+            <text wx:if="{{qqTip}}" class="warn-tip">请输入正确密码</text>
+            <view wx:if="{{qqNumber && qqNumber.length}}" class="clear-wrap" data-type="qq" bindtap="clearInput">
+                <icon type="clear" size="14" color="#ccc">
+                </icon>
+            </view>
+        </view>
+    </view>
+    <button type="default" bindtap="clickLogin" id="login_btn">登 录</button>
+    <!--<button wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">授权登录</button>-->
+
+    <!--<layout-foot></layout-foot>-->
+</view>

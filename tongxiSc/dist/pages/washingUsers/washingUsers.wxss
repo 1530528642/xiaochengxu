@@ -1,0 +1,15 @@
+.box .wash{
+     width:99%;
+     height:100rpx;
+     line-height: 100rpx;
+     padding-bottom:15rpx;
+     border-bottom:5rpx solid #ccc;
+     margin-bottom:15rpx;
+     vertical-align: middle
+   }
+  .box .wash .wash_img{width:80rpx;height:81rpx;border-radius:50%;margin:0 20rpx 0 36rpx;vertical-align: middle;}
+  .box .wash .wash_view{display:inline-block;width:75%;}
+  .box .wash .wash_view image{width: 52rpx;height: 42rpx;margin: 0 20rpx 0 0rpx;}
+  .box .wash .wash_view .two_txt{color: #E94A69;}
+  .box .wash .wash_view .wash_ex{display:inline-block;width:280rpx;}
+  .box .wash .wash_view .wash_view_one{display:inline-block; text-align:lefe;}

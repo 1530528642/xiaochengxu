@@ -1,0 +1,30 @@
+<view>
+    <!--<layout-head></layout-head>-->
+
+    <!-- wxp template -->
+    <view class="index-hd">
+        <image class="index-logo" src="https://www.tongxikj.com/img/log.png"></image>
+        <view class="index-desc">同洗科技 - 洗车就用同洗</view>
+    </view>
+
+    <view class="title--h2">
+        <text></text>关于我们</view>
+
+    <view class="section section__poetry">
+        <view class="section__p">用最前沿的技术,开发最时尚的产品。</view>
+        <view class="section__p">处在科技与人文的交汇,做现实的理想主义者。</view>
+
+        <view class="section__p">写 Web,也玩 Node;搞 Hybrid，还有小程序。</view>
+        <view class="section__p">他处憧憬的全栈,是这里团队的标配。</view>
+
+        <view class="section__p">一起疯,一起浪,一起狂,一起扛。</view>
+        <view class="section__p">快乐工作,享受生活。</view>
+        <view class="section__p">很高兴结识您,这里是同洗,我们是这里的 F2er~</view>
+    </view>
+
+    <view class="title--h2 title--h2_two">
+        <text></text>简历投递</view>
+    <view class="section__p section__p_two">leikai-leikai@163.com</view>
+
+    <!--<layout-foot></layout-foot>-->
+</view>

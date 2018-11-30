@@ -1,0 +1,16 @@
+<template>
+  <view>Product Page</view>
+</template>
+
+<script>
+export default {
+  config: {
+    navigationBarTitleText: '产品',
+    usingComponents: {}
+  },
+  data: {}
+}
+</script>
+
+<style>
+</style>

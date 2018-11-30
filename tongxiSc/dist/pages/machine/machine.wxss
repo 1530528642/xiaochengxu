@@ -1,0 +1,37 @@
+page{
+  background:#F0F0F0;
+}
+  .box .wash{
+     width:99%;
+     height:100rpx;
+     padding-bottom:15rpx;
+     border:1rpx solid red;
+     margin-bottom:15rpx;
+   }
+  .box .wash .wash_img{width:80rpx;height:105rpx;}
+  .box .wash .wash_view{display:inline-block;}
+  .box .wash .wash_view .view_two text{font-size:26rpx;}
+   .demo {
+    display: block;
+    width: 99%;
+    height: 400rpx;
+    background:#fff;
+    border: 1rpx solid #B5B5B5;
+    margin-bottom:6rpx;
+  }
+  .demo__wrapper{text-align: center;width: 80%;}
+  .demo__pic {
+    width: 200rpx;
+    height: 200rpx;
+    margin: 15rpx;
+  }
+  .demo__text {
+    text-align: center;
+  }
+  .text_one{
+    text-align: left;
+  }
+  .yt{width: 240rpx;display:inline-block;}
+  .ends{margin-left: 20rpx;}
+  text{font-size: 20rpx;text-align:left;}
+  .text_two{text-align:left}

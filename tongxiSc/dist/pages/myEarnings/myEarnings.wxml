@@ -1,0 +1,25 @@
+<view>
+    <!--<layout-head></layout-head>-->
+
+    <!-- wxp template -->
+    <view class="container">
+        <view class="table">
+            <view class="tr">
+                <view class="th">月份</view>
+                <view class="th">月度收入</view>
+                <view class="th">积分</view>
+                <view class="th">会员</view>
+                <view class="th">非会员</view>
+            </view>
+            <view class="tr" wx:for="{{washnumber}}" wx:key="id">
+                <view class="td"> {{item.dateStr}} </view>
+                <view class="td"> {{item.total/100}}￥ </view>
+                <view class="td"> {{item.scoreWash}}</view>
+                <view class="td"> {{item.balanceWash}}￥ </view>
+                <view class="td"> {{item.payWash}}￥ </view>
+            </view>
+        </view>
+    </view>
+
+    <!--<layout-foot></layout-foot>-->
+</view>

@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "wxc-input": "../../packages/@minui/wxc-input/dist/index"
+  }
+}

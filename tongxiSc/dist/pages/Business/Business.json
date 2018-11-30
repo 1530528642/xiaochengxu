@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "wxc-tab": "../../packages/@minui/wxc-tab/dist/index",
+    "wxc-tab-panel": "../../packages/@minui/wxc-tab/dist/panel",
+    "wxc-loadmore": "../../packages/@minui/wxc-loadmore/dist/index",
+    "wxc-icon": "../../packages/@minui/wxc-icon/dist/index",
+    "wxc-search": "../../packages/@minui/wxc-search/dist/index"
+  },
+  "navigationBarTitleText": "名片夹"
+}

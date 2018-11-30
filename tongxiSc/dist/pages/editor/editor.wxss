@@ -1,0 +1,37 @@
+page{width: 100%;height: 100%;}
+  page>view{width: 100%;height: 100%;}
+  .Editor{width: 100%;height: 100%;background: #eee;position: relative;}
+  .Editor .lsrr{width: 100%;background: #fff;margin-top: 20rpx;}
+  .Editor .lsrr .lsrr_box{width: 100%;height: 136rpx;margin: 0 auto;padding: 18rpx 0 18rpx 0;position: relative;}
+  .Editor .lsrr .lsrr_box image{width: 136rpx;height: 136rpx;vertical-align: middle;margin-right: 62rpx;margin-left: 32rpx;}
+  .Editor .lsrr .lsrr_box .mbig{width: 48rpx;height: 41rpx;position: absolute;bottom: 30rpx;left: 80rpx;}
+  .Editor .lsrr .lsrr_box view{display: inline-block;vertical-align: middle;width: 480rpx;}
+  .Editor .lsrr .lsrr_box view input{color: #000;height: 68rpx;}
+  .Editor .lsrr .lsrr_box view input:nth-child(1){border-bottom: 1rpx solid #eee;}
+  .Editor .lsrr .lsrr_box .topflex{width: 136rpx;height: 136rpx;background: rgba(0, 0, 0, 0.2);position: absolute;top: 18rpx;left: 45rpx;font-size: 28rpx;color: #fff;display: flex;justify-content: center;align-items: center;display:none;}
+  .Editor .lsrr .lsrr_box .topflex text{display: block;}
+  .Editor .lsrrdb{margin-top: 20rpx;}
+  .Editor .lsrrdb .lsrr_box{border-bottom: 1rpx solid #eee;}
+  .Editor .lsrrdb .any_box{height: 88rpx;padding-top: 25rpx;}
+  .Editor .lsrrdb .any_box input{margin-left: 32rpx;}
+  .Editor .antipm{width: 100%;}
+  .Editor .antipm view{width: 100%;color: #686868;font-size: 32rpx;}
+  .Editor .antipm view text{display: block;height: 64rpx;line-height: 64rpx;padding-left: 32rpx;}
+  .Editor .antipm view input{width: 100%;background: #fff;height: 88rpx;padding-left: 32rpx;}
+  .Editor .antipm .anmetion view{width: 100%;background: #fff;}
+  .Editor .antipm .anmetion view input{width:85%;display: inline-block;}
+  .Editor .antipm .anmetion view image{width:15rpx;height:27rpx;vertical-align: top;margin-top:40rpx;}
+  .Editor .antipm .antipmonetwo{width: 100%;height: 150rpx;background: #eee;}
+  .Editor .antipm .antipmonetwo view{height: 40rpx;}
+  .Editor .antipm .antipmonetwo view:nth-child(1){background: #eee;height: 64rpx;line-height: 64rpx;margin-left: 20rpx;}
+  .Editor .antipm .antipmonetwo view:nth-child(2){padding: 15rpx 20rpx 15rpx 20rpx;background: #fff;}
+  .Editor .antipm .antipmonetwo view text{padding: 5rpx 10rpx;border:1rpx solid #e94a69;display: inline-block;height: 30rpx;width: 67rpx;font-size: 25rpx;line-height:30rpx;margin-left: 15rpx;}
+  .Editor .antipm .antipmonetwo view .label{border: 1rpx solid red;color: red;}
+  .Editor .submit{position: fixed;bottom:0;width: 100%;height: 106rpx;text-align: center;background: #fff;display: flex;align-items:center;z-index:10;}
+  .Editor .submit .btnmie{width: 686rpx;height: 76rpx;border-radius: 10rpx;background: #e94a69;line-height: 76rpx;color: #fff;}
+  .Editor .eycomte{width: 100%;height: 88rpx;display: flex;align-items: center;font-size: 30rpx;background: #fff;margin-top: 100rpx;}
+  .Editor .eycomte text{margin-left: 32rpx;margin-right:35%;}
+  .Editor .achplus{position: fixed;top:0;left:0;width: 100%;height: 100%;background:rgba(0,0,0,.3);z-index: 15;display:flex;justify-content:center;}
+  .Editor .achplus .viey{width: 80%;height: 80%;background: #fff;position: relative;margin-top: 50rpx;}
+  .Editor .achplus .viey view{height: 82rpx;line-height: 82rpx;width:572rpx;margin: 0 auto;border-bottom:1rpx solid #dcdcdc;text-align: center;}
+  .Editor .achplus .viey image{width: 72rpx;height:72rpx;position: absolute;top:102%;left: 50%;margin-left: -36rpx;}
